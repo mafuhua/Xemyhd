@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="titlebar_bg">#FEBB24</color>
+    <color name="bg">#6A5749</color>
+    <color name="text_line">#55330000</color>
+    <color name="grey_line">#66848484</color>
+    <color name="greyff">#44848484</color>
+    <color name="grey">#0A9A9B</color>
+    <color name="yuan_line">#16777216</color>
+    <color name="chaoshi">#2FCB7C</color>
+    <color name="color_text_selected">#FEBB24</color>
+    <color name="color_text_normal">#44000000</color>
+</resources>

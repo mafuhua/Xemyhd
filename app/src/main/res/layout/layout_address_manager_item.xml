@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/tv_address_list_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:padding="5dp"
+        android:text="小虾米"/>
+
+    <TextView
+        android:id="@+id/tv_address_list_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:text="15136105241"/>
+    <TextView
+        android:id="@+id/tv_address_list_type"
+        android:layout_below="@id/tv_address_list_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:padding="5dp"
+        android:text="[默认]"/>
+    <TextView
+        android:id="@+id/tv_address_list_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_below="@id/tv_address_list_username"
+        android:layout_toRightOf="@id/tv_address_list_username"
+        android:layout_marginRight="10dp"
+        android:text="收货地址:上海嘉定南翔正哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"/>
+    <ImageView
+        android:background="@drawable/jiantou3x"
+        android:layout_width="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_height="20dp"/>
+
+</RelativeLayout>

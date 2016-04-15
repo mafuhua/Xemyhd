@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    package="com.yuen.xemyhd"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--添加可以向外拨打电话的权限  -->
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <application
+        android:name=".utils.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".activity.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.EditMyInfomationActivity"/>
+        <activity android:name=".activity.MyInfomationActivity"/>
+        <activity android:name=".activity.SettingActivity"/>
+        <activity android:name=".activity.SettingOurActivity"/>
+        <activity android:name=".activity.SettingOpinionEditActivity"/>
+        <activity
+            android:name=".activity.AddressManagerActivity"
+            android:label="@string/title_activity_address_manager"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+        <activity android:name=".activity.AddressManagerDecActivity">
+        </activity>
+        <activity android:name=".activity.WoOftenGetActivity">
+        </activity>
+        <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.RigesterActivity">
+        </activity>
+        <activity android:name=".activity.RigesterPswActivity">
+        </activity>
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
+        <activity android:name=".activity.HomeMarketActivity"/>
+        <activity android:name="xlkd.provinceslinkage.ProvinceLinkActivity">
+        </activity>
+    </application>
+
+</manifest>

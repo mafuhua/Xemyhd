@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_homepage_dec"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+
+        <LinearLayout
+            android:id="@+id/ll_point_group"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@id/vp_homepage_dec"
+            android:background="@color/grey_line"
+            android:gravity="center"
+            android:orientation="horizontal">
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rl_home_market"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/csk3x">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="30dp"
+                android:src="@drawable/cs3x"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:padding="5dp"
+                android:text="超市"
+                android:textColor="@color/chaoshi"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_home_world"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/hlk3x">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="30dp"
+                android:src="@drawable/hlsj3x"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:padding="5dp"
+                android:text="互联世界"
+                android:textColor="@android:color/holo_red_light"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rc_home_horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:scrollbars="none"/>
+        <Button
+            android:id="@+id/btn_home_addicon"
+            android:background="@drawable/jia3x"
+            android:layout_width="55dp"
+            android:layout_height="55dp"/>
+        <ImageView
+            android:src="@drawable/iconfontjiantou113x"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/iv_btn_home_love"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/yq32x"/>
+    </LinearLayout>
+</LinearLayout>

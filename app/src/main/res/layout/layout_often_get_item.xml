@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:orientation="vertical">
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="15dp"
+        android:background="@color/greyff"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_often_img_type"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/gouwu3x"/>
+
+        <TextView
+            android:id="@+id/tv_order_list_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_often_img_type"
+            android:padding="10dp"
+            android:text="互联世界"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/grey_line"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_order_shop_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/gwccp3x"/>
+
+
+        <TextView
+            android:id="@+id/tv_often_list_shopname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_order_shop_image"
+            android:padding="5dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:text="互联世界互联世界互联世界互联世界"/>
+
+        <TextView
+            android:id="@+id/tv_often_list_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/tv_often_list_shopname"
+            android:layout_below="@id/tv_often_list_shopname"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:paddingRight="10dp"
+            android:text="$140.00"/>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
