@@ -2,48 +2,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:descendantFocusability="blocksDescendants"
               android:background="@android:color/white"
+              android:descendantFocusability="blocksDescendants"
               android:orientation="vertical">
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="15dp"
-        android:background="@color/greyff"/>
-
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_gowuche_item_title"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <CheckBox
-            android:id="@+id/cb_gouwuche_item_all"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/gouwuchecheck"
-            android:button="@null"/>
+        <View
+            android:id="@+id/view_top_line"
+            android:layout_width="fill_parent"
+            android:layout_height="15dp"
+            android:background="@color/greyff"/>
 
-        <ImageView
-            android:id="@+id/iv_gouwuche_img_type"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:layout_toRightOf="@id/cb_gouwuche_item_all"
-            android:background="@drawable/gouwu3x"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_gouwuche_list_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/iv_gouwuche_img_type"
-            android:padding="10dp"
-            android:text="互联世界"/>
 
-    </RelativeLayout>
+            <CheckBox
+                android:id="@+id/cb_gouwuche_item_all"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/gouwuchecheck"
+                android:button="@null"/>
+
+            <ImageView
+                android:id="@+id/iv_gouwuche_img_type"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@id/cb_gouwuche_item_all"
+                android:background="@drawable/gouwu3x"/>
+
+            <TextView
+                android:id="@+id/tv_gouwuche_list_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/iv_gouwuche_img_type"
+                android:padding="10dp"
+                android:text="互联世界"/>
+        </RelativeLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="fill_parent"
@@ -87,9 +94,9 @@
             android:id="@+id/tv_often_list_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/tv_often_list_shopname"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="5dp"
             android:padding="5dp"
             android:paddingRight="10dp"
@@ -106,27 +113,27 @@
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:background="@drawable/jian3x"
-            android:layout_toLeftOf="@+id/tv_gouwuche_item_shuliang"/>
+            android:layout_toLeftOf="@+id/tv_gouwuche_item_shuliang"
+            android:background="@drawable/jian3x"/>
 
         <Button
             android:id="@+id/btn_gouwuche_item_jia"
             android:layout_width="40dp"
             android:layout_height="30dp"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/jia3x"
             android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"/>
+            android:background="@drawable/jia3x"/>
 
         <TextView
             android:id="@+id/tv_gouwuche_item_shuliang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1"
-            android:textSize="18sp"
-            android:layout_margin="10dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/btn_gouwuche_item_jia"/>
+            android:layout_margin="10dp"
+            android:layout_toLeftOf="@id/btn_gouwuche_item_jia"
+            android:text="1"
+            android:textSize="18sp"/>
 
     </RelativeLayout>
 

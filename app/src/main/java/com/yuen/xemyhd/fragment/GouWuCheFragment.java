@@ -1,20 +1,28 @@
 package com.yuen.xemyhd.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.base.BaseHolder;
 import com.yuen.xemyhd.base.DefaultAdapter;
+import com.yuen.xemyhd.bean.TestGouwuche;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,13 +32,61 @@ import java.util.List;
  * Created by Administrator on 2016/4/7.
  */
 public class GouWuCheFragment extends BaseFragment implements View.OnClickListener {
+    private static ListView mLvGouwucheList;
+    private static MyAdapter myAdapter;
+    private static List<TestGouwuche.DataBean> dataBeanList;
+    private static List<TestGouwuche.DataBean.ProBean> proBeanList;
+    private static List<String> typenameList = new ArrayList<>();
+    private static List<String> shopnameList = new ArrayList<>();
+    private static Context context;
+    private static int typepos = 0;
+    private static List<Integer> typeposList = new ArrayList<>();
     private List settingString = new ArrayList(Arrays.asList("意见反馈", "检查更新", "清除缓存", "帮助中心", "关于我们", "退出"));
-    private ListView mLvGouwucheList;
     private CheckBox mCbGouwuche;
     private Button mBtnGouWuCheJieSuan;
     private TextView mTvGouWuCheZongJia;
-    private Context context;
-    private MyAdapter myAdapter;
+
+    public static void getdata() {
+        final RequestParams params = new RequestParams("http://192.168.2.120/xiaoermei/shopapi/test");
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", "shopapi/test========" + result);
+                Gson gson = new Gson();
+                TestGouwuche testGouwuche = gson.fromJson(result, TestGouwuche.class);
+                dataBeanList = testGouwuche.data;
+                typeposList.add(typepos);
+                for (int i = 0; i < dataBeanList.size(); i++) {
+                    String typename = dataBeanList.get(i).name;
+                    GouWuCheFragment.proBeanList = dataBeanList.get(i).pro;
+                    typepos = typepos + proBeanList.size();
+                    typeposList.add(typepos);
+                    for (int i1 = 0; i1 < GouWuCheFragment.proBeanList.size(); i1++) {
+                        shopnameList.add(GouWuCheFragment.proBeanList.get(i1).pro_name);
+                    }
+                    typenameList.add(typename);
+                }
+                Log.d("mafuhua", "typeposList:" + typeposList);
+                myAdapter = new MyAdapter(shopnameList);
+                mLvGouwucheList.setAdapter(myAdapter);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("mafuhua", "shopapi/test========" + isOnCallback);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                Log.d("mafuhua", "shopapi/test========" + cex);
+            }
+
+            @Override
+            public void onFinished() {
+                Log.d("mafuhua", "shopapi/test========" + "onFinished");
+            }
+        });
+    }
 
     private void assignViews(View view) {
         context = getActivity();
@@ -38,8 +94,8 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
         mCbGouwuche = (CheckBox) view.findViewById(R.id.cb_gouwuche_all);
         mTvGouWuCheZongJia = (TextView) view.findViewById(R.id.tv_gouwuche_zongjia);
         mBtnGouWuCheJieSuan = (Button) view.findViewById(R.id.btn_gouwuche_jiesuan);
-        myAdapter = new MyAdapter(settingString);
-        mLvGouwucheList.setAdapter(myAdapter);
+        mBtnGouWuCheJieSuan.setTextColor(Color.WHITE);
+
         mLvGouwucheList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -47,7 +103,6 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
             }
         });
     }
-
 
     @Override
     public View initView() {
@@ -77,7 +132,8 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    class MyAdapter extends DefaultAdapter {
+    static class MyAdapter extends DefaultAdapter {
+
         public MyAdapter(List datas) {
             super(datas);
         }
@@ -92,6 +148,15 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
+            //  viewHolder.tvgouwuchelisttype.setText(dataBeanList.get(position).name);
+            if (typeposList.contains(position)) {
+                int indexOf = typeposList.indexOf(position);
+                viewHolder.tvgouwuchelisttype.setText(dataBeanList.get(indexOf).name);
+                viewHolder.rlgowucheitemtitle.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.rlgowucheitemtitle.setVisibility(View.GONE);
+            }
+            viewHolder.tvoftenlistshopname.setText(shopnameList.get(position));
             viewHolder.btngouwucheitemjia.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -101,6 +166,7 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
             viewHolder.btngouwucheitemjian.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                   // viewHolder.tvgouwucheitemshuliang.setText();
                     Toast.makeText(context, "我是" + position + "条" + "---", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -138,7 +204,7 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
             public final Button btngouwucheitemjian;
             public final Button btngouwucheitemjia;
             public final TextView tvgouwucheitemshuliang;
-            public final RelativeLayout rlgowucheitemtitle;
+            public final LinearLayout rlgowucheitemtitle;
             public final View root;
 
             public ViewHolder(View root) {
@@ -153,7 +219,7 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
                 btngouwucheitemjian = (Button) root.findViewById(R.id.btn_gouwuche_item_jian);
                 btngouwucheitemjia = (Button) root.findViewById(R.id.btn_gouwuche_item_jia);
                 tvgouwucheitemshuliang = (TextView) root.findViewById(R.id.tv_gouwuche_item_shuliang);
-                rlgowucheitemtitle = (RelativeLayout) root.findViewById(R.id.rl_gowuche_item_title);
+                rlgowucheitemtitle = (LinearLayout) root.findViewById(R.id.rl_gowuche_item_title);
             }
         }
     }

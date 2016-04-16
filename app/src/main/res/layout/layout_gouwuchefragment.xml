@@ -49,8 +49,7 @@
             android:layout_alignParentRight="true"
             android:layout_margin="5dp"
             android:background="@android:color/holo_red_light"
-            android:text="结算"
-            android:textColor="@android:color/white"/>
+            android:text="结算"/>
     </RelativeLayout>
 
 </LinearLayout>
