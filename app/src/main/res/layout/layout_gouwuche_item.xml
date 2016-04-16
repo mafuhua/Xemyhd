@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:descendantFocusability="blocksDescendants"
               android:background="@android:color/white"
               android:orientation="vertical">
 
@@ -11,6 +12,7 @@
         android:background="@color/greyff"/>
 
     <RelativeLayout
+        android:id="@+id/rl_gowuche_item_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
@@ -29,7 +31,7 @@
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:layout_toRightOf="@id/cb_gouwuche_all"
+            android:layout_toRightOf="@id/cb_gouwuche_item_all"
             android:background="@drawable/gouwu3x"/>
 
         <TextView
