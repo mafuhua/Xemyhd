@@ -38,6 +38,11 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
     private static List<TestGouwuche.DataBean.ProBean> proBeanList;
     private static List<String> typenameList = new ArrayList<>();
     private static List<String> shopnameList = new ArrayList<>();
+    private static List<String> shoppriceList = new ArrayList<>();
+    private static List<Integer> shopnumList = new ArrayList<>();
+    private static List<Integer> shopinventList = new ArrayList<>();
+    private static List<Boolean> shopcheckchildList = new ArrayList<>();
+    private static List<Boolean> shopcheckparentList = new ArrayList<>();
     private static Context context;
     private static int typepos = 0;
     private static List<Integer> typeposList = new ArrayList<>();
@@ -47,7 +52,18 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
     private TextView mTvGouWuCheZongJia;
 
     public static void getdata() {
-        final RequestParams params = new RequestParams("http://192.168.2.120/xiaoermei/shopapi/test");
+        if (dataBeanList != null) {
+            dataBeanList.clear();
+            shopnameList.clear();
+            shopcheckparentList.clear();
+            shopcheckchildList.clear();
+            shopinventList.clear();
+            shopnumList.clear();
+            typeposList.clear();
+            typenameList.clear();
+            shoppriceList.clear();
+        }
+        final RequestParams params = new RequestParams("http://192.168.56.1:8080/buycar.json");
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -55,14 +71,20 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
                 Gson gson = new Gson();
                 TestGouwuche testGouwuche = gson.fromJson(result, TestGouwuche.class);
                 dataBeanList = testGouwuche.data;
+                typepos = 0;
                 typeposList.add(typepos);
                 for (int i = 0; i < dataBeanList.size(); i++) {
                     String typename = dataBeanList.get(i).name;
+                    shopcheckparentList.add(false);
                     GouWuCheFragment.proBeanList = dataBeanList.get(i).pro;
                     typepos = typepos + proBeanList.size();
                     typeposList.add(typepos);
                     for (int i1 = 0; i1 < GouWuCheFragment.proBeanList.size(); i1++) {
                         shopnameList.add(GouWuCheFragment.proBeanList.get(i1).pro_name);
+                        shopnumList.add(GouWuCheFragment.proBeanList.get(i1).num);
+                        shopinventList.add(Integer.parseInt(GouWuCheFragment.proBeanList.get(i1).pro_inventory));
+                        shoppriceList.add(GouWuCheFragment.proBeanList.get(i1).price);
+                        shopcheckchildList.add(false);
                     }
                     typenameList.add(typename);
                 }
@@ -95,7 +117,8 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
         mTvGouWuCheZongJia = (TextView) view.findViewById(R.id.tv_gouwuche_zongjia);
         mBtnGouWuCheJieSuan = (Button) view.findViewById(R.id.btn_gouwuche_jiesuan);
         mBtnGouWuCheJieSuan.setTextColor(Color.WHITE);
-
+        mCbGouwuche.setOnClickListener(this);
+        mBtnGouWuCheJieSuan.setOnClickListener(this);
         mLvGouwucheList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -120,19 +143,39 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.btn_gouwuche_item_jia:
-                break;
-            case R.id.btn_gouwuche_item_jian:
-                break;
             case R.id.btn_gouwuche_jiesuan:
                 break;
             case R.id.cb_gouwuche_all:
+                if (!mCbGouwuche.isChecked()) {
+                    shopcheckchildList.clear();
+                    shopcheckparentList.clear();
+                    for (int i = 0; i < shopnameList.size(); i++) {
+                        shopcheckchildList.add(false);
+                    }
+                    for (int i = 0; i < dataBeanList.size(); i++) {
+                        shopcheckparentList.add(false);
+                    }
+                    myAdapter.notifyDataSetChanged();
+                } else {
+                    shopcheckchildList.clear();
+                    shopcheckparentList.clear();
+                    for (int i = 0; i < shopnameList.size(); i++) {
+                        shopcheckchildList.add(true);
+                    }
+                    for (int i = 0; i < dataBeanList.size(); i++) {
+                        shopcheckparentList.add(true);
+                    }
+                    myAdapter.notifyDataSetChanged();
+                }
+
                 break;
 
         }
     }
 
     static class MyAdapter extends DefaultAdapter {
+
+        private int numValue;
 
         public MyAdapter(List datas) {
             super(datas);
@@ -149,25 +192,52 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
                 viewHolder = (ViewHolder) convertView.getTag();
             }
             //  viewHolder.tvgouwuchelisttype.setText(dataBeanList.get(position).name);
+            Log.d("mafuhua", "typeposList:" + typeposList);
             if (typeposList.contains(position)) {
                 int indexOf = typeposList.indexOf(position);
+                Log.d("mafuhua", "shopcheckparentList.get(indexOf):" + shopcheckparentList.get(indexOf));
+                viewHolder.cbgouwucheitemall.setChecked(shopcheckparentList.get(indexOf));
                 viewHolder.tvgouwuchelisttype.setText(dataBeanList.get(indexOf).name);
                 viewHolder.rlgowucheitemtitle.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.rlgowucheitemtitle.setVisibility(View.GONE);
             }
+            final Integer shulaing = shopnumList.get(position);
+            numValue = shulaing.intValue();
+            viewHolder.tvgouwucheitemshuliang.setText(numValue + "");
+            viewHolder.tvoftenlistprice.setText(shoppriceList.get(position));
             viewHolder.tvoftenlistshopname.setText(shopnameList.get(position));
+            viewHolder.cbgouwucheitem.setChecked(shopcheckchildList.get(position));
+
             viewHolder.btngouwucheitemjia.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "我是" + position + "条" + "+++", Toast.LENGTH_SHORT).show();
+                    numValue = numValue + 1;
+                    int maxInvent = shopinventList.get(position);
+                    if (numValue > maxInvent) {
+                        numValue = maxInvent;
+                        viewHolder.tvgouwucheitemshuliang.setText(numValue + "");
+                        Toast.makeText(context, "我是" + position + "条" + "---", Toast.LENGTH_SHORT).show();
+                    } else {
+                        viewHolder.tvgouwucheitemshuliang.setText(numValue + "");
+                        Toast.makeText(context, "我是" + position + "条" + "---", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             });
             viewHolder.btngouwucheitemjian.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   // viewHolder.tvgouwucheitemshuliang.setText();
-                    Toast.makeText(context, "我是" + position + "条" + "---", Toast.LENGTH_SHORT).show();
+                    // viewHolder.tvgouwucheitemshuliang.setText();
+                    numValue = numValue - 1;
+                    if (numValue < 1) {
+                        numValue = 1;
+                        viewHolder.tvgouwucheitemshuliang.setText(1 + "");
+                        Toast.makeText(context, "我是" + position + "条" + "---", Toast.LENGTH_SHORT).show();
+                    } else {
+                        viewHolder.tvgouwucheitemshuliang.setText(numValue + "");
+                        Toast.makeText(context, "我是" + position + "条" + "---", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
             viewHolder.cbgouwucheitem.setOnClickListener(new View.OnClickListener() {
