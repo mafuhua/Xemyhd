@@ -31,7 +31,7 @@ public class FragmentFractory {
             } else if (position == 1) {//应用
                 fragment = new KuaiDiFragment();
             } else if (position == 2) {//游戏
-                fragment = new GouWuCheFragment();
+                fragment = new GouWuCheFragment2();
             } else if (position == 3) {//专题
                 fragment = new WoDeFragment();
             }

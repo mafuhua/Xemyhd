@@ -16,8 +16,10 @@ import android.widget.TextView;
 
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.fragment.FragmentFractory;
-import com.yuen.xemyhd.fragment.GouWuCheFragment;
+import com.yuen.xemyhd.fragment.GouWuCheFragment2;
 import com.yuen.xemyhd.utils.MyUtils;
+
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private RadioButton mRbHomeShouye;
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.rb_home_gouwuche:
                 mTvTitleDec.setText("购物车");
-                GouWuCheFragment.getdata();
+                GouWuCheFragment2.getdata();
                 switchContent(currentFragment, gouWuCheFragment);
                 currentFragment = gouWuCheFragment;
                 break;

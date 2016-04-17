@@ -32,6 +32,7 @@ import java.util.List;
  * Created by Administrator on 2016/4/7.
  */
 public class GouWuCheFragment extends BaseFragment implements View.OnClickListener {
+
     private static ListView mLvGouwucheList;
     private static MyAdapter myAdapter;
     private static List<TestGouwuche.DataBean> dataBeanList;
@@ -63,7 +64,7 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
             typenameList.clear();
             shoppriceList.clear();
         }
-        final RequestParams params = new RequestParams("http://192.168.56.1:8080/buycar.json");
+        final RequestParams params = new RequestParams("http://192.168.0.121:8080/buycar.json");
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -293,6 +294,5 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
             }
         }
     }
-
 
 }
