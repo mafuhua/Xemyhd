@@ -35,12 +35,12 @@
             android:text="全选"/>
 
         <TextView
+            android:text="合计:0.0"
             android:id="@+id/tv_gouwuche_zongjia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="5dp"
-            android:text="合计:143.00"/>
+            android:layout_marginLeft="5dp"/>
 
         <Button
             android:id="@+id/btn_gouwuche_jiesuan"

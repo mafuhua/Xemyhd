@@ -20,7 +20,6 @@ import com.yuen.xemyhd.fragment.GouWuCheFragment2;
 import com.yuen.xemyhd.utils.MyUtils;
 
 
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private RadioButton mRbHomeShouye;
     private RadioButton mRbHomeKuaidi;
@@ -96,26 +95,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         transaction = supportFragmentManager.beginTransaction();
         switch (v.getId()) {
             case R.id.rb_home_shouye:
+                GouWuCheFragment2.checkalltype = false;
+                GouWuCheFragment2.mCbGouwuche.setChecked(GouWuCheFragment2.checkalltype);
+                GouWuCheFragment2.mTvGouWuCheZongJia.setText("合计:0.0");
+                GouWuCheFragment2.mBtnGouWuCheJieSuan.setText("结算");
                 mTvTitleDec.setText("首页");
-                if (currentFragment!=homeFragment){
-                    switchContent(currentFragment,homeFragment);
+                if (currentFragment != homeFragment) {
+                    switchContent(currentFragment, homeFragment);
                     currentFragment = homeFragment;
                 }
                 break;
             case R.id.rb_home_kuaidi:
+                GouWuCheFragment2.checkalltype = false;
+                GouWuCheFragment2.mCbGouwuche.setChecked(GouWuCheFragment2.checkalltype);
+                GouWuCheFragment2.mTvGouWuCheZongJia.setText("合计:0.0");
+                GouWuCheFragment2.mBtnGouWuCheJieSuan.setText("结算");
                 mTvTitleDec.setText("快递");
-                switchContent(currentFragment,kuaiDiFragment);
+                switchContent(currentFragment, kuaiDiFragment);
                 currentFragment = kuaiDiFragment;
                 break;
             case R.id.rb_home_gouwuche:
                 mTvTitleDec.setText("购物车");
+                GouWuCheFragment2.checkalltype = false;
+                GouWuCheFragment2.mCbGouwuche.setChecked(GouWuCheFragment2.checkalltype);
+                GouWuCheFragment2.mTvGouWuCheZongJia.setText("合计:0.0");
+                GouWuCheFragment2.mBtnGouWuCheJieSuan.setText("结算");
                 GouWuCheFragment2.getdata();
                 switchContent(currentFragment, gouWuCheFragment);
                 currentFragment = gouWuCheFragment;
                 break;
             case R.id.rb_home_wode:
+
+                GouWuCheFragment2.checkalltype = false;
+                GouWuCheFragment2.mCbGouwuche.setChecked(GouWuCheFragment2.checkalltype);
+                GouWuCheFragment2.mTvGouWuCheZongJia.setText("合计:0.0");
+                GouWuCheFragment2.mBtnGouWuCheJieSuan.setText("结算");
+                // GouWuCheFragment2.totalprice = 0;
+                // GouWuCheFragment2.MyAdapter.totalprice = 0;
+
                 mTvTitleDec.setText("个人中心");
-                switchContent(currentFragment,woDeFragment);
+                switchContent(currentFragment, woDeFragment);
                 currentFragment = woDeFragment;
                 break;
         }
