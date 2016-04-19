@@ -19,10 +19,9 @@
 
         <CheckBox
             android:id="@+id/cb_gouwuche_all"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:background="@drawable/gouwuchecheck"
             android:button="@null"/>
 
