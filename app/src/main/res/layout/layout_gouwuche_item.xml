@@ -24,7 +24,6 @@
 
 
             <CheckBox
-                android:layout_marginLeft="5dp"
                 android:id="@+id/cb_gouwuche_item_all"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -58,10 +57,8 @@
         android:background="@color/grey_line"/>
 
     <RelativeLayout
-        android:padding="5dp"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="120dp">
 
 
         <CheckBox
@@ -73,70 +70,67 @@
             android:button="@null"/>
 
 
-    <ImageView
-        android:id="@+id/iv_order_shop_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/cb_gouwuche_item"
-        android:background="@drawable/gwccp3x"/>
+        <ImageView
+            android:id="@+id/iv_order_shop_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/cb_gouwuche_item"
+            android:background="@drawable/gwccp3x"/>
 
 
-    <TextView
-        android:id="@+id/tv_often_list_shopname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/iv_order_shop_image"
-        android:padding="15dp"
-        android:paddingRight="10dp"
-        android:singleLine="true"
-        android:text="互联世界互联世界互联世界互联世界"/>
+        <TextView
+            android:id="@+id/tv_often_list_shopname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_order_shop_image"
+            android:padding="15dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:text="互联世界互联世界互联世界互联世界"/>
 
-    <TextView
-        android:id="@+id/tv_often_list_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/tv_often_list_shopname"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"
-        android:padding="5dp"
-        android:paddingRight="10dp"
-        android:text="$140.00"/>
+        <TextView
+            android:id="@+id/tv_often_list_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tv_often_list_shopname"
+            android:layout_marginRight="35dp"
+            android:padding="5dp"
+            android:paddingRight="10dp"
+            android:text="$140.00"/>
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/btn_gouwuche_item_jian"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="8dp"
+            android:layout_toLeftOf="@+id/tv_gouwuche_item_shuliang"
+            android:background="@drawable/jian3x"/>
 
-<RelativeLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_gouwuche_item_jia"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="8dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/jia3x"/>
 
-<Button
-    android:id="@+id/btn_gouwuche_item_jian"
-    android:layout_width="40dp"
-    android:layout_height="30dp"
-    android:layout_centerVertical="true"
-    android:layout_toLeftOf="@+id/tv_gouwuche_item_shuliang"
-    android:background="@drawable/jian3x"/>
+        <TextView
+            android:id="@+id/tv_gouwuche_item_shuliang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="8dp"
+            android:layout_toLeftOf="@id/btn_gouwuche_item_jia"
+            android:text="1"
+            android:textSize="18sp"/>
 
-<Button
-    android:id="@+id/btn_gouwuche_item_jia"
-    android:layout_width="40dp"
-    android:layout_height="30dp"
-    android:layout_alignParentRight="true"
-    android:layout_centerVertical="true"
-    android:layout_marginRight="20dp"
-    android:background="@drawable/jia3x"/>
+    </RelativeLayout>
 
-<TextView
-    android:id="@+id/tv_gouwuche_item_shuliang"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerVertical="true"
-    android:layout_margin="8dp"
-    android:layout_toLeftOf="@id/btn_gouwuche_item_jia"
-    android:text="1"
-    android:textSize="18sp"/>
 
-</RelativeLayout>
-
-    </LinearLayout>
+</LinearLayout>

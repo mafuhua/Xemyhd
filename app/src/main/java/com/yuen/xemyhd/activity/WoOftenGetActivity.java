@@ -56,11 +56,11 @@ public class WoOftenGetActivity extends AppCompatActivity {
 
         @Override
         public BaseHolder getHolder() {
-            return new ViewHolder();
+            return new WoOftenGetHolder();
         }
     }
 
-    public class ViewHolder extends BaseHolder<String> {
+    class WoOftenGetHolder extends BaseHolder<String> {
         public ImageView ivoftenimgtype;
         public TextView tvorderlisttype;
         public ImageView ivordershopimage;

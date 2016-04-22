@@ -79,11 +79,10 @@ public class AddressManagerActivity extends AppCompatActivity {
 
         @Override
         public BaseHolder getHolder() {
-            return new ViewHolder();
+            return new AddressManagerHolder();
         }
     }
-
-    public class ViewHolder extends BaseHolder<String> {
+    class AddressManagerHolder extends BaseHolder<String> {
         TextView tvaddresslistusername;
         TextView tvaddresslistphone;
         TextView tvaddresslisttype;
@@ -104,4 +103,5 @@ public class AddressManagerActivity extends AppCompatActivity {
             tvaddresslistusername.setText(data);
         }
     }
+
 }

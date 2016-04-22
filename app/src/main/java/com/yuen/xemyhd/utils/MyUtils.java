@@ -1,11 +1,13 @@
 package com.yuen.xemyhd.utils;
 
 import android.content.Context;
+import android.widget.Toast;
 
 /**
  * Created by Administrator on 2016/4/12.
  */
 public class MyUtils {
+    private static Toast toast = null;
     /**
      * 根据手机的分辨率从 dip 的单位 转成为 px(像素)
      */
@@ -19,5 +21,18 @@ public class MyUtils {
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+    }
+    /**
+     * @param context   内容器实体
+     * @param msg 提示文字所在资源id
+     * @param duration  提示时间
+     */
+    public static void toastShow(Context context, String msg, int duration) {
+        if (toast == null) {
+            toast = Toast.makeText(context, msg, duration);
+        } else {
+            toast.setText(msg);
+        }
+        toast.show();
     }
 }

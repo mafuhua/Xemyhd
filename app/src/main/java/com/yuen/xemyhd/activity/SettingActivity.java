@@ -181,10 +181,10 @@ public class SettingActivity extends BaseActivity {
 
         @Override
         public BaseHolder getHolder() {
-            return new ViewHolder();
+            return new SettingHolder();
         }
     }
-    class  ViewHolder extends BaseHolder<String>{
+    class  SettingHolder extends BaseHolder<String> {
         private TextView tvshopmanagerleft;
         private TextView tvshopmanagerright;
         @Override

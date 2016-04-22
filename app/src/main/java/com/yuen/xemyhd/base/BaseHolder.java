@@ -9,7 +9,7 @@ import android.view.View;
  *
  */
 public abstract class BaseHolder<T> {
-    
+
     /**
      * holder对应的视图（listview的子布局对应的视图）
      */
