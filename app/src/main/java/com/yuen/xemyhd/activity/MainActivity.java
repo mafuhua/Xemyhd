@@ -83,7 +83,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FragmentTransaction transaction;
     private RadioGroup mRgHome;
     private TextView mTvTitleDec;
+
     private TextView mTvTitleEdit;
+
+
+
 
     private void assignViews() {
         context = this;
