@@ -7,7 +7,7 @@ public class ContactURL {
     /**
      * BaseURL
      */
-    public static String BASE_URL = "http://192.168.2.120/xiaoermei/shopapi/";
+    public static String BASE_URL = "http://192.168.2.109/xiaoermei/shopapi/";
     /**
      * 登陆
      */
@@ -20,4 +20,8 @@ public class ContactURL {
      * 短信
      */
     public static String Duanxin_URL = BASE_URL + "duanxin";
+    /**
+     * 忘记密码确定
+     */
+    public static String FoegetPSW_URL = BASE_URL + "xiu_register";
 }

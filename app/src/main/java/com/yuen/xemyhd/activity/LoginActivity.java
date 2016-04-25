@@ -79,11 +79,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 String password = mEtLoginPassword.getText().toString().trim();
                 if (TextUtils.isEmpty(userName)) {
                     Toast.makeText(this, "用户名不能为空!", Toast.LENGTH_SHORT).show();
-                    return;
+                    break;
                 }
                 if (TextUtils.isEmpty(password)) {
                     Toast.makeText(this, "密码不能为空!", Toast.LENGTH_SHORT).show();
-                    return;
+                    break;
 
                 }*/
                 login();
@@ -93,7 +93,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.tv_login_forget_password:
                 login_type = "1";
-                intent = new Intent(LoginActivity.this, RigesterActivity.class);
+                intent = new Intent(LoginActivity.this, ForgetPSWActivity.class);
                 startActivity(intent);
                 break;
             case R.id.tv_login_rigester:

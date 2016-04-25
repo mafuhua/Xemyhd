@@ -15,9 +15,9 @@
 
         <EditText
             android:id="@+id/et_rigester_tel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:background="@null"
             android:hint="请输入手机号"
             android:inputType="number"
@@ -47,9 +47,9 @@
         <EditText
             android:inputType="number"
             android:id="@+id/et_rigester_yzm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:background="@null"
             android:hint="请输入验证码"
             android:textColor="@android:color/white"

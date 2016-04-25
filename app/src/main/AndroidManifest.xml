@@ -61,6 +61,8 @@
         <activity android:name=".activity.EditGouWuCheActivity"/>
         <activity android:name=".activity.RigesterActivity">
         </activity>
+        <activity android:name=".activity.ForgetPSWActivity"/>
+        <activity android:name=".activity.ForgetPSWFINISHActivity"/>
         <activity android:name=".activity.RigesterPswActivity">
         </activity>
         <!--

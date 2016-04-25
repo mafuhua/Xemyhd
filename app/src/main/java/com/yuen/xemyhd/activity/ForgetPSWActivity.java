@@ -7,9 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -22,10 +22,10 @@ import org.xutils.common.Callback;
 
 import java.util.HashMap;
 
-public class RigesterActivity extends AppCompatActivity {
+public class ForgetPSWActivity extends AppCompatActivity  {
     private EditText mEtRigesterTel;
     private EditText mEtRigesterYzm;
-    private Button mTvGetYzm;
+    private TextView mTvGetYzm;
     private ImageView mIvBtnRigesterNext;
     private Context context;
     private String fanhuiyzm;
@@ -34,7 +34,7 @@ public class RigesterActivity extends AppCompatActivity {
         context = this;
         mEtRigesterTel = (EditText) findViewById(R.id.et_rigester_tel);
         mEtRigesterYzm = (EditText) findViewById(R.id.et_rigester_yzm);
-        mTvGetYzm = (Button) findViewById(R.id.tv_get_yzm);
+        mTvGetYzm = (TextView) findViewById(R.id.tv_get_yzm);
         mIvBtnRigesterNext = (ImageView) findViewById(R.id.iv_btn_rigester_next);
         mTvGetYzm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,12 +64,12 @@ public class RigesterActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(yzm)) {
                     Toast.makeText(context, "验证码不能为空!", Toast.LENGTH_SHORT).show();
                     return;
-                }else if (!yzm.equals(fanhuiyzm)){
+                } else if (!yzm.equals(fanhuiyzm)) {
                     Toast.makeText(context, "验证码不一致!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Intent intent = new Intent(RigesterActivity.this, RigesterPswActivity.class);
-                intent.putExtra("tel",shoujihao);
+                Intent intent = new Intent(ForgetPSWActivity.this, ForgetPSWFINISHActivity.class);
+                intent.putExtra("tel", shoujihao);
                 startActivity(intent);
                 finish();
             }
@@ -111,4 +111,7 @@ public class RigesterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rigester_next);
         assignViews();
     }
+
+
+
 }

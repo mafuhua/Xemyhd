@@ -18,16 +18,17 @@
 
         <EditText
             android:id="@+id/et_rigester_tel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:background="@null"
             android:hint="请输入手机号"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
             android:textSize="16sp"/>
 
-        <TextView
+        <Button
+            android:background="@null"
             android:id="@+id/tv_get_yzm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,9 +50,9 @@
 
         <EditText
             android:id="@+id/et_rigester_yzm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:background="@null"
             android:hint="请输入验证码"
             android:inputType="textPassword"
