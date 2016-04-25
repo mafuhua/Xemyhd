@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yuen.xemyhd.R;
-import com.yuen.xemyhd.activity.HomeMarketActivity;
+import com.yuen.xemyhd.activity.HomeMarketListActivity;
 
 import org.xutils.image.ImageOptions;
 
@@ -193,7 +193,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         Intent intent;
         switch (v.getId()) {
             case R.id.rl_home_market:
-                intent = new Intent(context, HomeMarketActivity.class);
+                intent = new Intent(context, HomeMarketListActivity.class);
                 startActivity(intent);
                 break;
             case R.id.rl_home_world:

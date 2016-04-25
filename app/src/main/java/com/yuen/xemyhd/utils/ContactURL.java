@@ -23,5 +23,8 @@ public class ContactURL {
     /**
      * 忘记密码确定
      */
-    public static String FoegetPSW_URL = BASE_URL + "xiu_register";
+    public static String FoegetPSW_URL = BASE_URL + "xiu_register"; /**
+     * 获取超市列表
+     */
+    public static String GetMarketList_URL = BASE_URL + "dingwei";
 }

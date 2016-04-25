@@ -32,40 +32,6 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
-    //声明定位回调监听器
-    public AMapLocationListener mLocationListener = new AMapLocationListener() {
-        @Override
-        public void onLocationChanged(AMapLocation aMapLocation) {
-            if (aMapLocation != null) {
-                if (aMapLocation.getErrorCode() == 0) {
-                    //定位成功回调信息，设置相关消息
-                    aMapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
-                    aMapLocation.getLatitude();//获取纬度
-                    aMapLocation.getLongitude();//获取经度
-                    aMapLocation.getAccuracy();//获取精度信息
-                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Date date = new Date(aMapLocation.getTime());
-                    df.format(date);//定位时间
-                    aMapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
-                    aMapLocation.getCountry();//国家信息
-                    aMapLocation.getProvince();//省信息
-                    aMapLocation.getCity();//城市信息
-                    aMapLocation.getDistrict();//城区信息
-                    aMapLocation.getStreet();//街道信息
-                    aMapLocation.getStreetNum();//街道门牌号信息
-                    aMapLocation.getCityCode();//城市编码
-                    aMapLocation.getAdCode();//地区编码
-                    Log.d("mafuhua", " aMapLocation.getStreet()" + aMapLocation.getCity() + "***" + aMapLocation.getDistrict() + "***" + aMapLocation.getStreet() + "***" + aMapLocation.getStreetNum());
-                    //  aMapLocation.getAOIName();//获取当前定位点的AOI信息
-                } else {
-                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-                    Log.e("AmapError", "location Error, ErrCode:"
-                            + aMapLocation.getErrorCode() + ", errInfo:"
-                            + aMapLocation.getErrorInfo());
-                }
-            }
-        }
-    };
     //声明mLocationOption对象
     public AMapLocationClientOption mLocationOption = null;
     private RadioButton mRbHomeShouye;
@@ -84,6 +50,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RadioGroup mRgHome;
     private TextView mTvTitleDec;
     private TextView mTvTitleEdit;
+    public static String province;
+    public static String city;
+    public static String district;
+    public static String street;
+    //声明定位回调监听器
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            if (aMapLocation != null) {
+                if (aMapLocation.getErrorCode() == 0) {
+                    //定位成功回调信息，设置相关消息
+                    aMapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
+                    aMapLocation.getLatitude();//获取纬度
+                    aMapLocation.getLongitude();//获取经度
+                    aMapLocation.getAccuracy();//获取精度信息
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = new Date(aMapLocation.getTime());
+                    df.format(date);//定位时间
+                    aMapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                    aMapLocation.getCountry();//国家信息
+                    province = aMapLocation.getProvince();
+                    city = aMapLocation.getCity();
+                    district = aMapLocation.getDistrict();
+                    street = aMapLocation.getStreet();
+                    aMapLocation.getStreetNum();//街道门牌号信息
+                    aMapLocation.getCityCode();//城市编码
+                    aMapLocation.getAdCode();//地区编码
+                    Log.d("mafuhua", province + city + district + street);
+                    //  aMapLocation.getAOIName();//获取当前定位点的AOI信息
+                } else {
+                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + aMapLocation.getErrorCode() + ", errInfo:"
+                            + aMapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
 
     private void assignViews() {
         context = this;
@@ -178,39 +182,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         transaction = supportFragmentManager.beginTransaction();
         switch (v.getId()) {
             case R.id.rb_home_shouye:
-                mTvTitleEdit.setVisibility(View.GONE);
-                setGouwuche();
                 mTvTitleDec.setText("首页");
                 if (currentFragment != homeFragment) {
-                    switchContent(currentFragment, homeFragment);
-                    currentFragment = homeFragment;
+                    switchContent(currentFragment, homeFragment, "首页", View.GONE);
                 }
                 break;
             case R.id.rb_home_kuaidi:
-                mTvTitleEdit.setVisibility(View.GONE);
-                setGouwuche();
-                mTvTitleDec.setText("快递");
-                switchContent(currentFragment, kuaiDiFragment);
-                currentFragment = kuaiDiFragment;
+                switchContent(currentFragment, kuaiDiFragment, "快递", View.GONE);
                 break;
             case R.id.rb_home_gouwuche:
-                mTvTitleDec.setText("购物车");
-                mTvTitleEdit.setVisibility(View.VISIBLE);
                 mTvTitleEdit.setTextColor(Color.WHITE);
-                setGouwuche();
+                switchContent(currentFragment, gouWuCheFragment, "购物车", View.VISIBLE);
                 GouWuCheFragment2.getdata();
-                switchContent(currentFragment, gouWuCheFragment);
-                currentFragment = gouWuCheFragment;
                 break;
             case R.id.rb_home_wode:
-                mTvTitleEdit.setVisibility(View.GONE);
-                setGouwuche();
-                // GouWuCheFragment2.totalprice = 0;
-                // GouWuCheFragment2.MyAdapter.totalprice = 0;
-
-                mTvTitleDec.setText("个人中心");
-                switchContent(currentFragment, woDeFragment);
-                currentFragment = woDeFragment;
+                switchContent(currentFragment, woDeFragment, "个人中心", View.GONE);
                 break;
             case R.id.tv_title_edit:
                 Intent intent = new Intent(this, EditGouWuCheActivity.class);
@@ -229,7 +215,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void switchContent(Fragment from, Fragment to) {
+    public void switchContent(Fragment from, Fragment to, String title, int gone) {
+        mTvTitleEdit.setVisibility(gone);
+        setGouwuche();
+        mTvTitleDec.setText(title);
+        currentFragment = to;
         if (!to.isAdded()) {    // 先判断是否被add过
             transaction.hide(from).add(R.id.fl_home_content, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
         } else {

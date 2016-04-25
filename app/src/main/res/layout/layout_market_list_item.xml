@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="80dp"
+              android:background="@android:color/white"
+              android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/grey_line"/>
+
+    <TextView
+        android:id="@+id/tv_market_listitem_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="世纪华联"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/tv_market_listitem_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="世纪华联世纪华联纪华联世纪华联世纪华联"/>
+</LinearLayout>
