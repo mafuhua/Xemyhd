@@ -82,7 +82,6 @@ public class HomeMarketActivity extends FragmentActivity implements
     }
 
     class MyAdapter extends BaseAdapter {
-
         private Context context;
         private String[] strings;
         public  int mPosition;

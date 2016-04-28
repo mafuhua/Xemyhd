@@ -23,6 +23,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.fragment.FragmentFractory;
 import com.yuen.xemyhd.fragment.GouWuCheFragment2;
+import com.yuen.xemyhd.utils.MyApplication;
 import com.yuen.xemyhd.utils.MyUtils;
 
 import java.text.SimpleDateFormat;
@@ -31,9 +32,9 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     //声明AMapLocationClient类对象
-    public AMapLocationClient mLocationClient = null;
+    public static AMapLocationClient mLocationClient = null;
     //声明mLocationOption对象
-    public AMapLocationClientOption mLocationOption = null;
+    public static AMapLocationClientOption mLocationOption = null;
     private RadioButton mRbHomeShouye;
     private RadioButton mRbHomeKuaidi;
     private RadioButton mRbHomeGouwuche;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static String district;
     public static String street;
     //声明定位回调监听器
-    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+    public static AMapLocationListener mLocationListener = new AMapLocationListener() {
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
             if (aMapLocation != null) {
@@ -152,9 +153,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void getLoc() {
+    public static void getLoc() {
         //初始化定位
-        mLocationClient = new AMapLocationClient(getApplicationContext());
+        mLocationClient = new AMapLocationClient(MyApplication.context);
         //设置定位回调监听
         mLocationClient.setLocationListener(mLocationListener);
         //初始化定位参数

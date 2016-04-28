@@ -24,6 +24,7 @@ import com.yuen.xemyhd.utils.SysExitUtil;
 import org.xutils.image.ImageOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
@@ -52,6 +53,7 @@ public class HomeMarketListFragment extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+
             switch (msg.what) {
                 case 1:
 
@@ -131,9 +133,36 @@ public class HomeMarketListFragment extends AppCompatActivity {
         setContentView(R.layout.home_market_fragment_list);
         SysExitUtil.activityList.add(this);
         //getCommodityList();
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
         assignViews();
+        getShop(id);
     }
+    public void getShop(String id){
+        HashMap<String,String> map = new HashMap<>();
+        map.put("id",id);
+       /* XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", "---------"+result);
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });*/
+    }
     @Override
     protected void onResume() {
         super.onResume();

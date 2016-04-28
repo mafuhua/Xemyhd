@@ -13,11 +13,10 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="35dp"
         android:background="#ededed"
         android:gravity="center"
         android:text="超市营业时间:03:00-06:00"
-        android:textColor="#333333"
         android:textSize="17sp"/>
 
     <LinearLayout

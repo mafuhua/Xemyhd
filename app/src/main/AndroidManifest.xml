@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.yuen.xemyhd"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    package="com.yuen.xemyhd"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 添加可以向外拨打电话的权限 -->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
@@ -53,31 +54,22 @@
             android:label="@string/title_activity_address_manager"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
-        <activity android:name=".activity.AddressManagerDecActivity">
-        </activity>
-        <activity android:name=".activity.WoOftenGetActivity">
-        </activity>
+        <activity android:name=".activity.AddressManagerDecActivity"/>
+        <activity android:name=".activity.WoOftenGetActivity"/>
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.EditGouWuCheActivity"/>
-        <activity android:name=".activity.RigesterActivity">
-        </activity>
+        <activity android:name=".activity.RigesterActivity"/>
         <activity android:name=".activity.ForgetPSWActivity"/>
         <activity android:name=".activity.ForgetPSWFINISHActivity"/>
-        <activity android:name=".activity.RigesterPswActivity">
-        </activity>
-        <!--
-             ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
+        <activity android:name=".fragment.HomeMarketListFragment"/>
+        <activity android:name=".activity.RigesterPswActivity"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
-
         <activity android:name=".activity.HomeMarketActivity"/>
-        <activity android:name="xlkd.provinceslinkage.ProvinceLinkActivity">
-        </activity>
+        <activity android:name="xlkd.provinceslinkage.ProvinceLinkActivity"/>
         <!-- 高德定位服务 -->
         <service android:name="com.amap.api.location.APSService"/>
         <!-- 高德开发者申请的key -->
