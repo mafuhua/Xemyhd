@@ -82,10 +82,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         handler.sendEmptyMessageDelayed(88, 3000); // 发送一个延时消息，3秒后，执行handlerMessage
         mIvBtnHomeLove.setOnClickListener(this);
         mBtnHomeAddIcon.setOnClickListener(this);
-
         mRlHomeMarket.setOnClickListener(this);
         mRlHomeWorld.setOnClickListener(this);
-        mDatas = new ArrayList<Integer>();
+        mDatas = new ArrayList<>();
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -120,15 +119,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             public void onPageSelected(int position) {
                 position = position % imageIds.length; // 防止集合下标越界
               /*
-
                 //改变描述文字
                 tvDesc.setText(imageDescriptions[position]);*/
-
                 // 改变指示点
-
                 // 上一个页面，灰点
                 mLlPointGroup.getChildAt(lastPosition).setEnabled(false);
-
                 // 找到对应下标的point ，并改变显示
                 mLlPointGroup.getChildAt(position).setEnabled(true);
 
@@ -162,7 +157,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             } else {
                 point.setEnabled(false);
             }
-
             // 布局参数 : 当布局添加子view 时， 布局参数一定要和布局的类型 匹配
             // 向线性布局中，添加子view时，一定要指定线性布局的布局参数
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, -2);

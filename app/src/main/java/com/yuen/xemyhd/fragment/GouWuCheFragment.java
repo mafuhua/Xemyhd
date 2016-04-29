@@ -68,7 +68,7 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("mafuhua", "shopapi/test========" + result);
+                Log.d("mafuhua", "shopapi/ShopListEmptyBean========" + result);
                 Gson gson = new Gson();
                 TestGouwuche testGouwuche = gson.fromJson(result, TestGouwuche.class);
                 dataBeanList = testGouwuche.data;
@@ -96,17 +96,17 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("mafuhua", "shopapi/test========" + isOnCallback);
+                Log.d("mafuhua", "shopapi/ShopListEmptyBean========" + isOnCallback);
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                Log.d("mafuhua", "shopapi/test========" + cex);
+                Log.d("mafuhua", "shopapi/ShopListEmptyBean========" + cex);
             }
 
             @Override
             public void onFinished() {
-                Log.d("mafuhua", "shopapi/test========" + "onFinished");
+                Log.d("mafuhua", "shopapi/ShopListEmptyBean========" + "onFinished");
             }
         });
     }

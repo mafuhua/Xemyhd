@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -23,15 +22,11 @@ import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public class HomeMarketListActivity extends AppCompatActivity {
     private LinearLayout mLayoutTitleBar;
-    private List<String> wodeItemDec = new ArrayList<String>(Arrays.asList("订单", "积分",
-            "我常买", "收货地址", "我的分享", "邀请好友", "客服中心", "设置"));
     private ImageView mIvBtnBack;
     private TextView mTvTitleDec;
     private ImageView mIvBtnAdd;
@@ -53,7 +48,7 @@ public class HomeMarketListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(context, HomeMarketActivity.class);
-                String id1 = marketListBeanData.get(position).getId();
+                String id1 = marketListBeanData.get(position).getUser_id();
                 intent.putExtra("id",id1);
                 startActivity(intent);
 
@@ -72,19 +67,17 @@ public class HomeMarketListActivity extends AppCompatActivity {
 
     public void getMarketList() {
         HashMap<String, String> map = new HashMap<>();
-        if (MainActivity.province==null) {
+        if (MainActivity.province==null||MainActivity.city==null||MainActivity.district==null||MainActivity.street==null) {
             MainActivity.getLoc();
-
         }
             map.put("sheng", MainActivity.province);
             map.put("shi", MainActivity.city);
             map.put("qu", MainActivity.district);
             map.put("adds", MainActivity.street);
-            Log.d("mafuhua", "GetMarketList_URL------" + map.toString());
+
             XUtils.xUtilsPost(ContactURL.GetMarketList_URL, map, new Callback.CommonCallback<String>() {
                 @Override
                 public void onSuccess(String result) {
-                    Log.d("mafuhua", "GetMarketList_URL------" + result);
                     Gson gson = new Gson();
                     MarketListBean marketListBean = gson.fromJson(result, MarketListBean.class);
                     marketListBeanData = marketListBean.getData();

@@ -49,7 +49,7 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
     private TextView mTvTitileDec;
 
     public static void getdata() {
-        final RequestParams params = new RequestParams("http://192.168.2.116/xiaoermei/shopapi/test");
+        final RequestParams params = new RequestParams("http://192.168.2.116/xiaoermei/shopapi/ShopListEmptyBean");
         //  final RequestParams params = new RequestParams("http://192.168.2.128:8080/buycar.json");
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
@@ -61,7 +61,7 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
                     typenameList.clear();
                     myproBeanList.clear();
                 }
-                Log.d("mafuhua", "shopapi/test========" + result.toString());
+                Log.d("mafuhua", "shopapi/ShopListEmptyBean========" + result.toString());
                 Gson gson = new Gson();
                 TestGouwuche testGouwuche = gson.fromJson(result, TestGouwuche.class);
                 dataBeanList = testGouwuche.getData();

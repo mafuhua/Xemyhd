@@ -7,7 +7,7 @@ public class ContactURL {
     /**
      * BaseURL
      */
-    public static String BASE_URL = "http://192.168.2.109/xiaoermei/shopapi/";
+    public static String BASE_URL = "http://192.168.2.131/xiaoermei/shopapi/";
     /**
      * 登陆
      */
@@ -23,8 +23,21 @@ public class ContactURL {
     /**
      * 忘记密码确定
      */
-    public static String FoegetPSW_URL = BASE_URL + "xiu_register"; /**
+    public static String FoegetPSW_URL = BASE_URL + "xiu_register";
+    /**
      * 获取超市列表
      */
     public static String GetMarketList_URL = BASE_URL + "dingwei";
+    /**
+     * 获取商品列表
+     */
+    public static String GetShopList_URL = BASE_URL + "product/shop_user_id/";
+    /**
+     * 获取商品二级列表
+     */
+    public static String GetShopListTitle_URL = BASE_URL + "product2/shop_user_id/";
+    /**
+     * 获取商品二级商品列表
+     */
+    public static String GetShopListContent_URL = BASE_URL + "product3/shop_user_id/";
 }
