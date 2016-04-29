@@ -98,16 +98,8 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         myRCAdapter.setOnItemClickLitener(new MyRCAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (position==0){
-                    MyUtils.toastShow(getApplicationContext(), "全部", Toast.LENGTH_SHORT);
-                }else {
-                   // MyUtils.toastShow(getApplicationContext(), shopListBeanT2_data.get(position - 1).getNav_name(), Toast.LENGTH_SHORT);
-                }
-                if (position == 0) {
-                   // getShopListTitle(position);
-                } else {
-                    getShopListContent(position);
-                }
+                MyUtils.toastShow(context, shopListBeanT2_data.get(position).getNav_name(), Toast.LENGTH_SHORT);
+                getShopListContent(position);
 
             }
         });
@@ -147,6 +139,10 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
                 shopListBeanData = shopListBean.getData();
                 ShopListBean.DataUserBean shopListBeanData_user = shopListBean.getData_user();
                 tv_market_shoptime.setText("营业时间" + shopListBeanData_user.getShop_time() + ":00 - " + shopListBeanData_user.getShop_etime() + ":00");
+                if (shopListBeanT2_data != null) {
+                    shopListBeanT2_data.clear();
+                    myRCAdapter.notifyDataSetChanged();
+                }
                 myGridAdapter.notifyDataSetChanged();
                 myListAdapter.notifyDataSetChanged();
             }
@@ -173,10 +169,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         XUtils.xUtilsGet(ContactURL.GetShopListTitle_URL + shop_user_id + "/type_id/" + t_data.get(position - 1).getId(), new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                for (int i = 0; i < t_data.size(); i++) {
-                    Log.d("mafuhua", "result-----------" + t_data.get(i).getId());
-                }
-                Log.d("mafuhua", "result-----------" + result);
+                // Log.d("mafuhua", "result-----------" + result);
                 Log.d("mafuhua", "result-----------" + ContactURL.GetShopListTitle_URL + shop_user_id + "/type_id/" + t_data.get(position - 1).getId());
                 Gson gson = new Gson();
                 ShopListBean shopListBean = gson.fromJson(result, ShopListBean.class);
@@ -208,15 +201,14 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
             }
         });
     }
+
     public void getShopListContent(final int position) {
-        XUtils.xUtilsGet(ContactURL.GetShopListContent_URL + shop_user_id + "/type_id/" + shopListBeanT2_data.get(position - 1).getId(), new Callback.CommonCallback<String>() {
+        XUtils.xUtilsGet(ContactURL.GetShopListContent_URL + shop_user_id + "/type_id/" + shopListBeanT2_data.get(position).getId(), new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                for (int i = 0; i < t_data.size(); i++) {
-                    Log.d("mafuhua", "result***********" + t_data.get(i).getId());
-                }
-                Log.d("mafuhua", "result***********" + result);
-                Log.d("mafuhua", "result***********" + ContactURL.GetShopListContent_URL + shop_user_id + "/type_id/" + shopListBeanT2_data.get(position - 1).getId());
+
+                // Log.d("mafuhua", "result***********" + result);
+                Log.d("mafuhua", "result***********" + ContactURL.GetShopListContent_URL + shop_user_id + "/type_id/" + shopListBeanT2_data.get(position).getId());
                 Gson gson = new Gson();
                 ShopListBean shopListBean = gson.fromJson(result, ShopListBean.class);
                 if (shopListBean.getData() == null) {
@@ -244,11 +236,20 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        mPosition = 0;
+        if (shopListBeanT2_data != null) {
+            shopListBeanT2_data.clear();
+        }
+        finish();
+    }
+
     static class MyRCAdapter extends RecyclerView.Adapter<MyRCAdapter.ViewHolder> {
 
+        public int mrcPosition;
         private LayoutInflater mInflater;
         private OnItemClickLitener mOnItemClickLitener;
-        public int mrcPosition;
 
         public MyRCAdapter(Context context) {
             mInflater = LayoutInflater.from(context);
@@ -260,7 +261,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
 
         @Override
         public int getItemCount() {
-            return shopListBeanT2_data.size() + 1;
+            return shopListBeanT2_data.size();
         }
 
         /**
@@ -279,13 +280,8 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
          * 设置值
          */
         @Override
-        public void onBindViewHolder(final ViewHolder viewHolder,final int i) {
-            if (i == 0) {
-                viewHolder.mTxt.setText("全部");
-                //viewHolder.mTxt.setTextColor(Color.YELLOW);
-            } else {
-                viewHolder.mTxt.setText(shopListBeanT2_data.get(i - 1).getNav_name());
-            }
+        public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
+            viewHolder.mTxt.setText(shopListBeanT2_data.get(i).getNav_name());
           /*  if (mrcPosition == HomeMarketActivity.mRCPosition) {
                 viewHolder.mTxt.setTextColor(Color.parseColor("#FEBB24"));
             } else {
@@ -331,8 +327,11 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
-            return t_data.size() + 1;
+            if (t_data == null){
+                return 1;
+            }else {
+                return t_data.size() + 1;
+            }
         }
 
         @Override
@@ -373,7 +372,12 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
 
         @Override
         public int getCount() {
-            return shopListBeanData.size();
+            if (shopListBeanData == null){
+                return 0;
+            }else {
+                return shopListBeanData.size();
+            }
+
         }
 
         @Override
@@ -418,5 +422,6 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
             }
         }
     }
+
 }
 
