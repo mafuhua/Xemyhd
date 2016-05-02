@@ -38,7 +38,7 @@ import java.util.List;
 
 public class HomeMarketActivity extends FragmentActivity implements AdapterView.OnItemClickListener {
     public static int mPosition;
-    public static int mRCPosition;
+    public static int mRCPosition = -1;
     private static List<ShopListBean.T2DataBean> shopListBeanT2_data = new ArrayList<>();
     private List titleString = new ArrayList();
     private ListView listView;
@@ -98,8 +98,11 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         myRCAdapter.setOnItemClickLitener(new MyRCAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
+                mRCPosition = position;
+                Log.d("mafuhua", "mrcPosition------:" + position);
                 MyUtils.toastShow(context, shopListBeanT2_data.get(position).getNav_name(), Toast.LENGTH_SHORT);
                 getShopListContent(position);
+                myRCAdapter.notifyDataSetChanged();
 
             }
         });
@@ -119,6 +122,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         // TODO Auto-generated method stub
         //拿到当前位置
         mPosition = position;
+
         //即使刷新adapter
         myListAdapter.notifyDataSetChanged();
         if (position == 0) {
@@ -170,7 +174,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
             @Override
             public void onSuccess(String result) {
                 // Log.d("mafuhua", "result-----------" + result);
-                Log.d("mafuhua", "result-----------" + ContactURL.GetShopListTitle_URL + shop_user_id + "/type_id/" + t_data.get(position - 1).getId());
+            //    Log.d("mafuhua", "result-----------" + ContactURL.GetShopListTitle_URL + shop_user_id + "/type_id/" + t_data.get(position - 1).getId());
                 Gson gson = new Gson();
                 ShopListBean shopListBean = gson.fromJson(result, ShopListBean.class);
                 if (shopListBean.getData() == null) {
@@ -208,7 +212,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
             public void onSuccess(String result) {
 
                 // Log.d("mafuhua", "result***********" + result);
-                Log.d("mafuhua", "result***********" + ContactURL.GetShopListContent_URL + shop_user_id + "/type_id/" + shopListBeanT2_data.get(position).getId());
+               // Log.d("mafuhua", "result***********" + ContactURL.GetShopListContent_URL + shop_user_id + "/type_id/" + shopListBeanT2_data.get(position).getId());
                 Gson gson = new Gson();
                 ShopListBean shopListBean = gson.fromJson(result, ShopListBean.class);
                 if (shopListBean.getData() == null) {
@@ -238,6 +242,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
 
     @Override
     public void onBackPressed() {
+        mRCPosition = -1;
         mPosition = 0;
         if (shopListBeanT2_data != null) {
             shopListBeanT2_data.clear();
@@ -282,11 +287,13 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         @Override
         public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
             viewHolder.mTxt.setText(shopListBeanT2_data.get(i).getNav_name());
-          /*  if (mrcPosition == HomeMarketActivity.mRCPosition) {
+            mrcPosition = i;
+            Log.d("mafuhua", "mPosition****:" + mrcPosition);
+            if (mrcPosition == HomeMarketActivity.mRCPosition) {
                 viewHolder.mTxt.setTextColor(Color.parseColor("#FEBB24"));
             } else {
                 viewHolder.mTxt.setTextColor(Color.parseColor("#757575"));
-            }*/
+            }
             //如果设置了回调，则设置点击事件
             if (mOnItemClickLitener != null) {
 
