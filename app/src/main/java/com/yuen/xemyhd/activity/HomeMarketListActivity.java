@@ -49,7 +49,9 @@ public class HomeMarketListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(context, HomeMarketActivity.class);
                 String id1 = marketListBeanData.get(position).getUser_id();
+                String shop_title = marketListBeanData.get(position).getShop_title();
                 intent.putExtra("id",id1);
+                intent.putExtra("shop_title",shop_title);
                 startActivity(intent);
 
             }
@@ -94,6 +96,7 @@ public class HomeMarketListActivity extends AppCompatActivity {
                 public void onCancelled(CancelledException cex) {
 
                 }
+
 
                 @Override
                 public void onFinished() {

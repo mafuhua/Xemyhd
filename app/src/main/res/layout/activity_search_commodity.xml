@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_margin="5dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <EditText
+            android:id="@+id/et_input_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="70dp"
+            android:background="@null"
+            android:hint="请输入商品名"/>
+
+        <ImageView
+            android:id="@+id/iv_btn_search"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/sousuo12x"/>
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_margin="3dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ss3x"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"/>
+        <View
+            android:background="@color/titlebar_bg"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_height="1dp"/>
+    </RelativeLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv_search"
+        android:layout_gravity="center_horizontal"/>
+
+</LinearLayout>

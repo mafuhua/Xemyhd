@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.yuen.xemyhd"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="com.yuen.xemyhd"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 添加可以向外拨打电话的权限 -->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
@@ -65,9 +64,11 @@
         <activity android:name=".activity.ForgetPSWFINISHActivity"/>
         <activity android:name=".fragment.HomeMarketListFragment"/>
         <activity android:name=".activity.RigesterPswActivity"/>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
+
         <activity android:name=".activity.HomeMarketActivity"/>
         <activity android:name="xlkd.provinceslinkage.ProvinceLinkActivity"/>
         <!-- 高德定位服务 -->
@@ -79,6 +80,8 @@
         </meta-data>
 
         <activity android:name=".activity.HomeMarketListActivity">
+        </activity>
+        <activity android:name=".activity.SearchCommodityActivity">
         </activity>
     </application>
 

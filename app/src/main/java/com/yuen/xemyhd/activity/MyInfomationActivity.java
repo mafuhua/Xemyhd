@@ -280,7 +280,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent.putExtra("name", "修改昵称");
                 intent.putExtra("flag", "1");
-                startActivity(intent);
+                startActivityForResult(intent, 100);
                 break;
             case R.id.rl_user_sex:
                 settingSex();
@@ -399,7 +399,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
 
    /* public void getShopInfo(String url, final int type) {
       //  RequestParams params = new RequestParams(url + MainActivity.userid);
-        x.http().get(params, new Callback.CommonCallback<String>() {
+        x.http().get(params, new XCallback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 // Log.d("mafuhua", "result" + result.toString());

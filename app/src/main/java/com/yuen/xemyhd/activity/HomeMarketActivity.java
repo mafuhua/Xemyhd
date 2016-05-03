@@ -15,12 +15,11 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.bean.ShopListBean;
@@ -36,7 +35,7 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeMarketActivity extends FragmentActivity implements AdapterView.OnItemClickListener {
+public class HomeMarketActivity extends FragmentActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     public static int mPosition;
     public static int mRCPosition = -1;
     private static List<ShopListBean.T2DataBean> shopListBeanT2_data = new ArrayList<>();
@@ -55,11 +54,13 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
     private List<ShopListBean.TDataBean> t_Contentdata = new ArrayList<>();
     private TextView tv_market_shoptime;
     private String shop_user_id;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+    private LinearLayout mLayoutTitleBar;
+    private ImageView mIvBtnBack;
+    private TextView mTvTitleDec;
+    private ImageView mIvBtnAdd;
+    private ImageView mIvBtnTalk;
+    private String shop_title;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +68,9 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         setContentView(R.layout.activity_home_market);
         Intent intent = getIntent();
         shop_user_id = intent.getStringExtra("id");
+        shop_title = intent.getStringExtra("shop_title");
         initView();
         getShopList();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     /**
@@ -85,6 +83,14 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         tv_market_shoptime = (TextView) findViewById(R.id.tv_market_shoptime);
         gv_commoditylist = (GridView) findViewById(R.id.gv_commoditylist);
         mRcHomeHorizontal = (RecyclerView) findViewById(R.id.rc_home_horizontal);
+        mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
+        mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
+        mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
+        mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
+        mIvBtnTalk = (ImageView) findViewById(R.id.iv_btn_talk);
+        mIvBtnAdd.setOnClickListener(this);
+        mIvBtnTalk.setOnClickListener(this);
+        mIvBtnTalk.setOnClickListener(this);
         myGridAdapter = new MyGridAdapter();
         gv_commoditylist.setAdapter(myGridAdapter);
         myListAdapter = new MyAdapter();
@@ -122,7 +128,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         // TODO Auto-generated method stub
         //拿到当前位置
         mPosition = position;
-
+        mRCPosition = -1;
         //即使刷新adapter
         myListAdapter.notifyDataSetChanged();
         if (position == 0) {
@@ -174,7 +180,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
             @Override
             public void onSuccess(String result) {
                 // Log.d("mafuhua", "result-----------" + result);
-            //    Log.d("mafuhua", "result-----------" + ContactURL.GetShopListTitle_URL + shop_user_id + "/type_id/" + t_data.get(position - 1).getId());
+                //    Log.d("mafuhua", "result-----------" + ContactURL.GetShopListTitle_URL + shop_user_id + "/type_id/" + t_data.get(position - 1).getId());
                 Gson gson = new Gson();
                 ShopListBean shopListBean = gson.fromJson(result, ShopListBean.class);
                 if (shopListBean.getData() == null) {
@@ -212,7 +218,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
             public void onSuccess(String result) {
 
                 // Log.d("mafuhua", "result***********" + result);
-               // Log.d("mafuhua", "result***********" + ContactURL.GetShopListContent_URL + shop_user_id + "/type_id/" + shopListBeanT2_data.get(position).getId());
+                // Log.d("mafuhua", "result***********" + ContactURL.GetShopListContent_URL + shop_user_id + "/type_id/" + shopListBeanT2_data.get(position).getId());
                 Gson gson = new Gson();
                 ShopListBean shopListBean = gson.fromJson(result, ShopListBean.class);
                 if (shopListBean.getData() == null) {
@@ -248,6 +254,19 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
             shopListBeanT2_data.clear();
         }
         finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+            Intent intent;
+        switch (v.getId()) {
+            case R.id.iv_btn_add:
+                intent = new Intent(this,SearchCommodityActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.iv_btn_talk:
+                break;
+        }
     }
 
     static class MyRCAdapter extends RecyclerView.Adapter<MyRCAdapter.ViewHolder> {
@@ -334,9 +353,9 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
 
         @Override
         public int getCount() {
-            if (t_data == null){
+            if (t_data == null) {
                 return 1;
-            }else {
+            } else {
                 return t_data.size() + 1;
             }
         }
@@ -379,9 +398,9 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
 
         @Override
         public int getCount() {
-            if (shopListBeanData == null){
+            if (shopListBeanData == null) {
                 return 0;
-            }else {
+            } else {
                 return shopListBeanData.size();
             }
 

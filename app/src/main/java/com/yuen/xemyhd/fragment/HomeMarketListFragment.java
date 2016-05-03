@@ -141,7 +141,7 @@ public class HomeMarketListFragment extends AppCompatActivity {
     public void getShop(String id){
         HashMap<String,String> map = new HashMap<>();
         map.put("id",id);
-       /* XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
+       /* XUtils.xUtilsPost(url, map, new XCallback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "---------"+result);
