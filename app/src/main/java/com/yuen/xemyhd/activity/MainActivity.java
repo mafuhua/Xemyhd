@@ -2,6 +2,7 @@ package com.yuen.xemyhd.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static String city;
     public static String district;
     public static String street;
+    private SharedPreferences sharedPreferences;
+
     //声明定位回调监听器
     public static AMapLocationListener mLocationListener = new AMapLocationListener() {
         @Override
@@ -89,9 +92,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     };
+    public static String useruid;
+    public static String usertel;
 
     private void assignViews() {
         context = this;
+        sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
+        useruid = sharedPreferences.getString("uid", "");
+        usertel = sharedPreferences.getString("tel", "");
         mRbHomeShouye = (RadioButton) findViewById(R.id.rb_home_shouye);
         mRgHome = (RadioGroup) findViewById(R.id.rg_home);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);

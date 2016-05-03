@@ -10,8 +10,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.base.BaseActivity;
+import com.yuen.xemyhd.bean.LoginBean;
 import com.yuen.xemyhd.utils.ContactURL;
 import com.yuen.xemyhd.utils.SysExitUtil;
 import com.yuen.xemyhd.utils.XUtils;
@@ -65,6 +67,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if ((sharedPreferences.getString("lgusername", "").length() > 1) && (sharedPreferences.getString("lgusername", "").length() > 1)) {
             //  Log.d("mafuhua", "******"+sharedPreferences.getString("username", ""));
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             finish();
         }
@@ -87,9 +90,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 }*/
                 login();
-                intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
                 break;
             case R.id.tv_login_forget_password:
                 login_type = "1";
@@ -113,36 +113,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         XUtils.xUtilsPost(ContactURL.LOGIN_URL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                  Log.d("mafuhua","----------LOGIN_URL---------"+ result.toString());
-                String res = result.toString();
-               /* sharedPreferences.edit().putString("username", "admin")
-                        .putString("password", "123456").apply();
-                sharedPreferences.edit().putString("lgusername", "admin")
-                        .putString("lgpassword", "123456").apply();
+                  Log.d("mafuhua","----------LOGIN_URL---------"+ result);
                 Gson gson = new Gson();
-                LoginBean loginBean = gson.fromJson(res, LoginBean.class);
+                LoginBean loginBean = gson.fromJson(result, LoginBean.class);
                 LoginBean.DataBean dataBean = loginBean.getData();
-
-                if (loginBean.getCode().equals("0") && loginBean.getMsg().equals("成功")) {
-                    sharedPreferences.edit()
-                            .putString("tel", dataBean.getTel())
-                            .putString("id", dataBean.getId())
-                            .putString("show_img", dataBean.getShop_img())
-                            .apply();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    startActivity(intent);
-                    finish();
-                }
-                if (loginBean.getCode().equals("1") && loginBean.getMsg().equals("成功")) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    startActivity(intent);
-                    finish();
-                } else {
-
-                }
-*/
+                sharedPreferences.edit()
+                        .putString("username", "admin")
+                        .putString("password", "123456")
+                        .putString("lgusername", "admin")
+                        .putString("lgpassword", "123456")
+                        .putString("uid", dataBean.getUid())
+                        .putString("tel", dataBean.getTel()).apply();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                finish();
             }
 
             @Override

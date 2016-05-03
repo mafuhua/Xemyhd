@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -12,13 +13,22 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.activity.AddressManagerActivity;
+import com.yuen.xemyhd.activity.MainActivity;
 import com.yuen.xemyhd.activity.MyInfomationActivity;
 import com.yuen.xemyhd.activity.SettingActivity;
 import com.yuen.xemyhd.activity.WoOftenGetActivity;
 import com.yuen.xemyhd.base.BaseHolder;
 import com.yuen.xemyhd.base.DefaultAdapter;
+import com.yuen.xemyhd.bean.MyInfoBean;
+import com.yuen.xemyhd.utils.ContactURL;
+import com.yuen.xemyhd.utils.MyApplication;
+import com.yuen.xemyhd.utils.XUtils;
+
+import org.xutils.common.Callback;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +49,7 @@ public class WoDeFragment extends BaseFragment {
     private List<String> wodeItemDec = new ArrayList<String>(Arrays.asList("订单", "积分",
             "我常买", "收货地址", "我的分享", "邀请好友", "客服中心", "设置"));
     private RelativeLayout mRlWodeUserInfo;
+    public static MyInfoBean.DataBean myInfoBeanData;
 
     private void assignViews() {
         mLayoutTitleUsericon = (LinearLayout) view.findViewById(R.id.layout_title_usericon);
@@ -103,7 +114,45 @@ public class WoDeFragment extends BaseFragment {
 
     @Override
     public void initData() {
+        getUserInfo();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserInfo();
+    }
+
+    private void getUserInfo() {
+        XUtils.xUtilsGet(ContactURL.GetMyInfo_URL + MainActivity.useruid, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", "GetMyInfo_URL----------" + result);
+                Gson gson = new Gson();
+                MyInfoBean myInfoBean = gson.fromJson(result, MyInfoBean.class);
+                myInfoBeanData = myInfoBean.getData();
+                mTvUserName.setText(myInfoBeanData.getNickname());
+                mTvUserTel.setText(MainActivity.usertel);
+                if (WoDeFragment.myInfoBeanData.getImg() != null) {
+                    x.image().bind(mIvUserIcon, WoDeFragment.myInfoBeanData.getImg(), MyApplication.options);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     protected void takecall() {

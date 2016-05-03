@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,7 +21,12 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yuen.xemyhd.R;
+import com.yuen.xemyhd.fragment.WoDeFragment;
+import com.yuen.xemyhd.utils.ContactURL;
+import com.yuen.xemyhd.utils.MyApplication;
+import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -31,6 +37,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class MyInfomationActivity extends AppCompatActivity implements View.OnClickListener {
     private final String ACTION_NAME = "geticon";
@@ -49,6 +56,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
     private SharedPreferences sharedPreferences;
     private TextView et_user_sex;
 
+
     private void assignViews() {
         context = this;
         sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
@@ -66,10 +74,20 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         et_user_sex = (TextView) findViewById(R.id.et_user_sex);
         mIvBtnAdd.setVisibility(View.GONE);
         mTvTitleDec.setText("我的资料");
+        mTvTitleDec.setTextColor(Color.WHITE);
         mIvBtnBack.setOnClickListener(this);
         rl_user_name.setOnClickListener(this);
         rl_user_sex.setOnClickListener(this);
         iv_user_icon.setOnClickListener(this);
+        et_user_name.setText(WoDeFragment.myInfoBeanData.getNickname());
+        if (WoDeFragment.myInfoBeanData.getSex().equals("0")) {
+            et_user_sex.setText("女");
+        } else if (WoDeFragment.myInfoBeanData.getSex().equals("1")) {
+            et_user_sex.setText("男");
+        }
+        if (WoDeFragment.myInfoBeanData.getImg() != null) {
+            x.image().bind(iv_user_icon, WoDeFragment.myInfoBeanData.getImg(), MyApplication.options);
+        }
     }
 
     @Override
@@ -84,9 +102,14 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onResume() {
         super.onResume();
-        // getShopInfo(ContactURL.SHOP_GET_NICK, 1);
-        // getShopInfo(ContactURL.SHOP_GET_SHOPTITILE, 2);
-        //
+        if (WoDeFragment.myInfoBeanData.getSex().equals("0")) {
+            et_user_sex.setText("女");
+        } else if (WoDeFragment.myInfoBeanData.getSex().equals("1")) {
+            et_user_sex.setText("男");
+        }
+        if (WoDeFragment.myInfoBeanData.getImg() != null) {
+            x.image().bind(iv_user_icon, WoDeFragment.myInfoBeanData.getImg(), MyApplication.options);
+        }
     }
 
     /**
@@ -166,6 +189,11 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
                     setPicToView(data);
                 }
                 break;
+            case 100:
+                if (data.getStringExtra("name") != null) {
+                    et_user_name.setText(data.getStringExtra("name"));
+                }
+                break;
             default:
                 break;
 
@@ -209,7 +237,8 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         Bundle extras = picdata.getExtras();
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
-            iv_user_icon.setImageBitmap(photo);
+            // iv_user_icon.setImageBitmap(photo);
+
             saveBitmapFile(photo);
 
            /* Bitmap scaledBitmap = Bitmap.createScaledBitmap(photo, 65, 65, false);
@@ -254,8 +283,8 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         if (!destDir.exists()) {
             destDir.mkdirs();
         }
-        File file = new File(destDir + "01.jpg");//将要保存图片的路径
-
+        File file = new File(destDir + "02.jpg");//将要保存图片的路径
+        x.image().bind(iv_user_icon, file.getAbsolutePath(), MyApplication.options);
         try {
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
@@ -273,7 +302,6 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.iv_user_icon:
                 ShowPickDialog();
-
                 break;
             case R.id.rl_user_name:
                 intent = new Intent(context, EditMyInfomationActivity.class);
@@ -304,46 +332,70 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                Log.d("mafuhua", items[which]);
+                et_user_sex.setText(items[which]);
+                String sex = "";
+                if (items[which].equals("男")) {
+                    sex = "1";
+                } else if (items[which].equals("女")) {
+                    sex = "0";
+                }
+                addSex(sex);
                 dialog.dismiss();
             }
         });
         builder.show();
     }
 
+    public void addSex(String sex) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sex", sex);
+        map.put("uid", MainActivity.useruid);
+        XUtils.xUtilsPost(ContactURL.AddName_URL, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
     private void sendimg(String path) {
 
         AsyncHttpClient client = new AsyncHttpClient();
-
-        //  String url = ContactURL.SHOP_EDIT_TOU;
-
         com.loopj.android.http.RequestParams rp = new com.loopj.android.http.RequestParams();
 
         File file = new File(path);
         //  Log.d("mafuhua", path + "**************");
         try {
             rp.put("img", file);
+            rp.put("uid", MainActivity.useruid);
+            Log.d("mafuhua", "----------" + MainActivity.useruid);
             //   rp.add("shou_img", MainActivity.shop_imgs);
             //  rp.add("user_id", MainActivity.userid);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-
-       /* client.post(url, rp, new AsyncHttpResponseHandler() {
+        client.post(ContactURL.AddIcon_URL, rp, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
-                // Log.d("mafuhua", "responseBody" + response);
-                Gson gson = new Gson();
-                IconResultBean iconResultBean = gson.fromJson(response, IconResultBean.class);
-                if (iconResultBean.getStatus().equals("0")) {
-                    Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
-                    getUserIcon(ContactURL.SHOP_STORE_TOU + MainActivity.userid);
-                } else {
-                    Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
-                }
+                Log.d("mafuhua", "responseBody" + response);
             }
 
             @Override
@@ -352,7 +404,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
             }
 
 
-        });*/
+        });
     }
 
     public void getUserIcon(String url) {

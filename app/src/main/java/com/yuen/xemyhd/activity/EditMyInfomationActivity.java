@@ -1,5 +1,7 @@
 package com.yuen.xemyhd.activity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -12,7 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
+import com.yuen.xemyhd.bean.BaseBean;
+import com.yuen.xemyhd.utils.ContactURL;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -41,6 +46,8 @@ public class EditMyInfomationActivity extends AppCompatActivity implements View.
         mIvBtnBack.setOnClickListener(this);
         mIvBtnAdd.setVisibility(View.GONE);
         mTvTitleDec.setText(name);
+        mTvTitleDec.setTextColor(Color.WHITE);
+        mBtnEditInfoOk.setTextColor(Color.WHITE);
     }
 
     @Override
@@ -60,14 +67,12 @@ public class EditMyInfomationActivity extends AppCompatActivity implements View.
                 if (TextUtils.isEmpty(info)) {
                     Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();
                     return;
-                }
-              /*  if (flag.equals("1")) {
-                    setAddInfo(info, ContactURL.SHOP_ADD_NICK, "shop_name");
-                } else if (flag.equals("2")) {
-                    setAddInfo(info, ContactURL.SHOP_ADD_SHOPTITILE, "shop_title");
-                }*/
+                }else {
+                    setAddInfo(info);
 
-                break;
+                }
+
+                 break;
             case R.id.iv_btn_back:
                 finish();
                 break;
@@ -75,21 +80,23 @@ public class EditMyInfomationActivity extends AppCompatActivity implements View.
     }
 
 
-    private void setAddInfo(String info, String url, String infokey) {
+    private void setAddInfo(final String nickname) {
         HashMap<String, String> map = new HashMap<String, String>();
-        //map.put("user_id", MainActivity.userid);
-        map.put(infokey, info);
-        XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
+        map.put("nickname",nickname);
+        map.put("uid",MainActivity.useruid);
+        XUtils.xUtilsPost(ContactURL.AddName_URL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                // Log.d("mafuhua", result.toString());
+                 Log.d("mafuhua", result.toString());
                 String res = result.toString();
                 if (flag.equals("1")) {
+                    Intent intent = new Intent();
+                    intent.putExtra("name", nickname);
+                    setResult(100, intent);
                     parseJson(res);
                 } else if (flag.equals("2")) {
                     parseJson2(res);
                 }
-
             }
 
             @Override
@@ -110,15 +117,15 @@ public class EditMyInfomationActivity extends AppCompatActivity implements View.
     }
 
     private void parseJson(String res) {
-     /*   Gson gson = new Gson();
-        ShopNameBean shopNameBean = gson.fromJson(res, ShopNameBean.class);
+        Gson gson = new Gson();
+        BaseBean shopNameBean = gson.fromJson(res, BaseBean.class);
         String code = shopNameBean.getCode();
         if (code.equals("0")) {
             Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
             finish();
         } else {
             Toast.makeText(this, "修改失败", Toast.LENGTH_SHORT).show();
-        }*/
+        }
     }
 
     private void parseJson2(String res) {

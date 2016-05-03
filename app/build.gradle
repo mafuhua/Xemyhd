@@ -35,4 +35,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'in.srain.cube:grid-view-with-header-footer:1.0.12'
     compile files('libs/AMap_Location_V2.4.1_20160414.jar')
+    compile project(':IMKit')
 }
