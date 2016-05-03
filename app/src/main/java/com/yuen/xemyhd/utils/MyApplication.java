@@ -27,7 +27,7 @@ public class MyApplication extends Application {
                 .setIgnoreGif(false)
                         // 图片缩放模式
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                 
+
                 .build();
     }
 }

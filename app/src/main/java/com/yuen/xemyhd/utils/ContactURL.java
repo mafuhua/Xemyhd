@@ -40,18 +40,24 @@ public class ContactURL {
      * 获取商品二级商品列表
      */
     public static String GetShopListContent_URL = BASE_URL + "product3/shop_user_id/";
-
     /**
      * 获取个人信息
      */
-    public static String GetMyInfo_URL = BASE_URL + "member_read/uid/"; /**
+    public static String GetMyInfo_URL = BASE_URL + "member_read/uid/";
+    /**
      * 上传头像
      */
-    public static String AddIcon_URL = BASE_URL + "add_avatar";/**
+    public static String AddIcon_URL = BASE_URL + "add_avatar";
+    /**
      * 修改性别，昵称
      */
-    public static String AddName_URL = BASE_URL + "save_member";/**
-     *收货地址列表
+    public static String AddName_URL = BASE_URL + "save_member";
+    /**
+     * 收货地址列表
      */
-    public static String GetAdds_URL = BASE_URL + "adds_read";
+    public static String GetAdds_URL = BASE_URL + "adds_read/uid/";
+    /**
+     * 编辑地址详情
+     */
+    public static String EditAdds_URL = BASE_URL + "adds_list/uid/";
 }

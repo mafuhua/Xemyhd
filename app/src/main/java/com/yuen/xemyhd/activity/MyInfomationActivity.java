@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yuen.xemyhd.R;
@@ -29,7 +28,6 @@ import com.yuen.xemyhd.utils.MyApplication;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.io.BufferedOutputStream;
@@ -41,6 +39,7 @@ import java.util.HashMap;
 
 public class MyInfomationActivity extends AppCompatActivity implements View.OnClickListener {
     private final String ACTION_NAME = "geticon";
+    int path = 0;
     private LinearLayout mLayoutTitleBar;
     private ImageView mIvBtnBack;
     private TextView mTvTitleDec;
@@ -55,7 +54,6 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
     private File destDir;
     private SharedPreferences sharedPreferences;
     private TextView et_user_sex;
-
 
     private void assignViews() {
         context = this;
@@ -79,14 +77,12 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         rl_user_name.setOnClickListener(this);
         rl_user_sex.setOnClickListener(this);
         iv_user_icon.setOnClickListener(this);
-        et_user_name.setText(WoDeFragment.myInfoBeanData.getNickname());
-        if (WoDeFragment.myInfoBeanData.getSex().equals("0")) {
-            et_user_sex.setText("女");
-        } else if (WoDeFragment.myInfoBeanData.getSex().equals("1")) {
-            et_user_sex.setText("男");
-        }
+
         if (WoDeFragment.myInfoBeanData.getImg() != null) {
             x.image().bind(iv_user_icon, WoDeFragment.myInfoBeanData.getImg(), MyApplication.options);
+        }
+        if (WoDeFragment.myInfoBeanData.getNickname() != null) {
+            et_user_name.setText(WoDeFragment.myInfoBeanData.getNickname());
         }
     }
 
@@ -102,14 +98,13 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onResume() {
         super.onResume();
+        path = sharedPreferences.getInt("path", 0);
         if (WoDeFragment.myInfoBeanData.getSex().equals("0")) {
             et_user_sex.setText("女");
         } else if (WoDeFragment.myInfoBeanData.getSex().equals("1")) {
             et_user_sex.setText("男");
         }
-        if (WoDeFragment.myInfoBeanData.getImg() != null) {
-            x.image().bind(iv_user_icon, WoDeFragment.myInfoBeanData.getImg(), MyApplication.options);
-        }
+
     }
 
     /**
@@ -237,39 +232,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         Bundle extras = picdata.getExtras();
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
-            // iv_user_icon.setImageBitmap(photo);
-
             saveBitmapFile(photo);
-
-           /* Bitmap scaledBitmap = Bitmap.createScaledBitmap(photo, 65, 65, false);
-            Bitmap circleImage = CustomImageView.createCircleImage(scaledBitmap, 70);
-           *//* circleImage.setHeight(70);
-            circleImage.setWidth(70);*//*
-            Drawable drawable = new BitmapDrawable(circleImage);*/
-
-            /**
-             * 下面注释的方法是将裁剪之后的图片以Base64Coder的字符方式上
-             * 传到服务器，QQ头像上传采用的方法跟这个类似
-             */
-
-			/*ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            photo.compress(Bitmap.CompressFormat.JPEG, 60, stream);
-			byte[] b = stream.toByteArray();
-			// 将图片流以字符串形式存储下来
-
-			tp = new String(Base64Coder.encodeLines(b));
-			这个地方大家可以写下给服务器上传图片的实现，直接把tp直接上传就可以了，
-			服务器处理的方法是服务器那边的事了，吼吼
-
-			如果下载到的服务器的数据还是以Base64Coder的形式的话，可以用以下方式转换
-			为我们可以用的图片类型就OK啦...吼吼
-			Bitmap dBitmap = BitmapFactory.decodeFile(tp);
-			Drawable drawable = new BitmapDrawable(dBitmap);
-			*/
-            //  iv_user_icon.setBackgroundDrawable(drawable);
-            //  iv_user_icon.setImageBitmap(circleImage);
-            // iv_user_icon.setBackground(CustomImageView.createCircleImage(photo,70));
-            //iv.setBackgroundDrawable(drawable);
         }
     }
 
@@ -283,8 +246,12 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         if (!destDir.exists()) {
             destDir.mkdirs();
         }
-        File file = new File(destDir + "02.jpg");//将要保存图片的路径
-        x.image().bind(iv_user_icon, file.getAbsolutePath(), MyApplication.options);
+        String paths = (path++) + ".jpg";
+        sharedPreferences.edit().putInt("path",path).apply();
+        File file = new File(destDir + paths);//将要保存图片的路径
+        /*if (file.exists()){
+            file.delete();
+        }*/
         try {
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
@@ -293,6 +260,8 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.d("mafuhua", "---------" + file.getPath());
+        x.image().bind(iv_user_icon, file.getPath(), MyApplication.options);
         sendimg(file.getPath());
     }
 
@@ -350,11 +319,12 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
     public void addSex(String sex) {
         HashMap<String, String> map = new HashMap<>();
         map.put("sex", sex);
+        Log.d("mafuhua", "sex-------" + sex);
         map.put("uid", MainActivity.useruid);
         XUtils.xUtilsPost(ContactURL.AddName_URL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-
+                Log.d("mafuhua", "AddName_URL-------" + result);
             }
 
             @Override
@@ -406,99 +376,5 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
 
         });
     }
-
-    public void getUserIcon(String url) {
-        RequestParams params = new RequestParams(url);
-        //  Log.d("mafuhua", url);
-        x.http().get(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                //  Log.d("mafuhua", "result" + result.toString());
-                String res = result.toString();
-                Gson gson = new Gson();
-             /*   UserIconBean userIconBean = gson.fromJson(res, UserIconBean.class);
-                String shop_img = userIconBean.getData().getShop_img();
-                if (shop_img.length() > 0) {
-
-                    String shop_imgs = userIconBean.getData().getShop_imgs();
-                    sharedPreferences.edit()
-                            .putString("show_img", shop_imgs)
-                            .apply();
-                    Intent mIntent = new Intent(ACTION_NAME);
-                    //发送广播
-                    sendBroadcast(mIntent);
-                }*/
-
-
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("mafuhua", isOnCallback + "");
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
-    }
-
-   /* public void getShopInfo(String url, final int type) {
-      //  RequestParams params = new RequestParams(url + MainActivity.userid);
-        x.http().get(params, new XCallback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                // Log.d("mafuhua", "result" + result.toString());
-                String res = result.toString();
-              *//*  Gson gson = new Gson();
-                ShopFreightBean shopFreightBean = gson.fromJson(res, ShopFreightBean.class);
-                String store_freight = shopFreightBean.getData().getShop_freight();
-                settingMap.put(4, store_freight + "元");
-                myAdapter.notifyDataSetChanged();*//*
-                if (type == 1) {
-                 //   parseJson(res);
-                } else if (type == 2) {
-                 //   parseJson2(res);
-                }
-
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("mafuhua", isOnCallback + "");
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
-    }*/
-
-    /*  private void parseJson(String res) {
-          Gson gson = new Gson();
-          ShopNameBean shopNameBean = gson.fromJson(res, ShopNameBean.class);
-          String shop_name = shopNameBean.getData().getShop_name();
-          et_user_nickname.setText(shop_name);
-      }
-  */
-    private void parseJson2(String res) {
-        Gson gson = new Gson();
-    /*    ShopTitleBean shopTitleBean = gson.fromJson(res, ShopTitleBean.class);
-        String shop_title = shopTitleBean.getData().getShop_title();
-        et_user_shop_name.setText(shop_title);*/
-    }
-
 
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -12,13 +13,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.base.BaseHolder;
 import com.yuen.xemyhd.base.DefaultAdapter;
+import com.yuen.xemyhd.bean.AddressBean;
+import com.yuen.xemyhd.utils.ContactURL;
+import com.yuen.xemyhd.utils.GsonUtil;
+import com.yuen.xemyhd.utils.XUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import org.xutils.common.Callback;
+
 import java.util.List;
 
 public class AddressManagerActivity extends AppCompatActivity {
@@ -29,9 +35,9 @@ public class AddressManagerActivity extends AppCompatActivity {
     private ListView mLvAddressManager;
     private MyAdapter myAdapter;
     private Context context;
-    private List<String> wodename = new ArrayList<String>(
-            Arrays.asList("小明", "小红","小明"));
     private Button mBtnAddressAdd;
+    public static List<AddressBean.DataBean> addressBeanData;
+    private int addressBeanNum;
 
     private void assignViews() {
         context = this;
@@ -44,19 +50,26 @@ public class AddressManagerActivity extends AppCompatActivity {
         mTvTitleDec.setText("收货地址管理");
         mTvTitleDec.setTextColor(Color.WHITE);
         mLvAddressManager = (ListView) findViewById(R.id.lv_address_manager);
-        myAdapter = new MyAdapter(wodename);
-        mLvAddressManager.setAdapter(myAdapter);
+
         mBtnAddressAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                wodename.add("呵呵");
-                myAdapter.notifyDataSetChanged();
+                if (addressBeanNum>=5) {
+                    Toast.makeText(context, "请编辑收货地址", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent = new Intent(context, AddressManagerDecActivity.class);
+                intent.putExtra("id",0);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                // myAdapter.notifyDataSetChanged();
             }
         });
         mLvAddressManager.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(context,AddressManagerDecActivity.class);
+                Intent intent = new Intent(context, AddressManagerDecActivity.class);
+                intent.putExtra("id",AddressManagerActivity.addressBeanData.get(position).getId());
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
@@ -68,9 +81,40 @@ public class AddressManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_manager);
         assignViews();
-
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAdds();
+    }
+    public void getAdds() {
+        XUtils.xUtilsGet(ContactURL.GetAdds_URL + MainActivity.useruid, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", "---------" + result);
+                AddressBean addressBean = GsonUtil.fromJson(result, AddressBean.class);
+                addressBeanNum = addressBean.getNum();
+                addressBeanData = addressBean.getData();
+                myAdapter = new MyAdapter(addressBeanData);
+                mLvAddressManager.setAdapter(myAdapter);
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
 
     class MyAdapter extends DefaultAdapter {
         public MyAdapter(List datas) {
@@ -82,7 +126,8 @@ public class AddressManagerActivity extends AppCompatActivity {
             return new AddressManagerHolder();
         }
     }
-    class AddressManagerHolder extends BaseHolder<String> {
+
+    class AddressManagerHolder extends BaseHolder<AddressBean.DataBean> {
         TextView tvaddresslistusername;
         TextView tvaddresslistphone;
         TextView tvaddresslisttype;
@@ -95,12 +140,21 @@ public class AddressManagerActivity extends AppCompatActivity {
             tvaddresslistphone = (TextView) root.findViewById(R.id.tv_address_list_phone);
             tvaddresslisttype = (TextView) root.findViewById(R.id.tv_address_list_type);
             tvaddresslistaddress = (TextView) root.findViewById(R.id.tv_address_list_address);
+            tvaddresslisttype.setTextColor(Color.RED);
             return root;
         }
 
         @Override
-        public void refreshView(String data, int position) {
-            tvaddresslistusername.setText(data);
+        public void refreshView(AddressBean.DataBean data, int position) {
+            tvaddresslistusername.setText(data.getName());
+            tvaddresslistphone.setText(data.getTel());
+            String moren = data.getMoren();
+            if (moren.equals("1")) {
+                tvaddresslisttype.setVisibility(View.VISIBLE);
+            } else {
+                tvaddresslisttype.setVisibility(View.GONE);
+            }
+            tvaddresslistaddress.setText("收货地址:"+data.getSheng() + data.getShi() + data.getQu() + data.getAdds());
         }
     }
 
