@@ -59,7 +59,10 @@ public class AddressManagerActivity extends AppCompatActivity {
                     return;
                 }
                 Intent intent = new Intent(context, AddressManagerDecActivity.class);
-                intent.putExtra("id",0);
+                intent.putExtra("id","");
+                intent.putExtra("sheng","");
+                intent.putExtra("shi","");
+                intent.putExtra("qu","");
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 // myAdapter.notifyDataSetChanged();
@@ -70,6 +73,9 @@ public class AddressManagerActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(context, AddressManagerDecActivity.class);
                 intent.putExtra("id",AddressManagerActivity.addressBeanData.get(position).getId());
+                intent.putExtra("sheng",AddressManagerActivity.addressBeanData.get(position).getSheng());
+                intent.putExtra("shi",AddressManagerActivity.addressBeanData.get(position).getShi());
+                intent.putExtra("qu",AddressManagerActivity.addressBeanData.get(position).getQu());
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
@@ -81,6 +87,7 @@ public class AddressManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_manager);
         assignViews();
+
     }
     @Override
     protected void onResume() {
@@ -91,7 +98,7 @@ public class AddressManagerActivity extends AppCompatActivity {
         XUtils.xUtilsGet(ContactURL.GetAdds_URL + MainActivity.useruid, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("mafuhua", "---------" + result);
+                Log.d("mafuhua", "-----GetAdds_URL----" + result);
                 AddressBean addressBean = GsonUtil.fromJson(result, AddressBean.class);
                 addressBeanNum = addressBean.getNum();
                 addressBeanData = addressBean.getData();

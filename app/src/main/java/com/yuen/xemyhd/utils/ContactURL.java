@@ -59,5 +59,13 @@ public class ContactURL {
     /**
      * 编辑地址详情
      */
-    public static String EditAdds_URL = BASE_URL + "adds_list/uid/";
+    public static String AddDec_URL = BASE_URL + "adds_list/uid/";
+    /**
+     * 新增,修改收货地址
+     */
+    public static String EditAdds_URL = BASE_URL + "add_adds";
+    /**
+     * 删除地址
+     */
+    public static String DelAdds_URL = BASE_URL + "del_adds";
 }

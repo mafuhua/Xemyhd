@@ -50,13 +50,15 @@ public class MyUtils {
             String content = editText.getText().toString();
             if (TextUtils.isEmpty(content)) {
                 toastShow(context, msg, Toast.LENGTH_SHORT);
+                return "";
             }
-                return content;
+            return content;
         }
     }
+
     /**
-     * @Description 删除文件或文件夹
      * @param file
+     * @Description 删除文件或文件夹
      */
     public static void deletefile(File file) {
         if (!file.exists()) {

@@ -2,8 +2,10 @@ package xlkd.provinceslinkage;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,7 +30,7 @@ public class ProvinceLinkActivity extends Util {
     private TextView mTvTitleDec;
     private ImageView mIvBtnAdd;
     private Button mBtnShopQuedingAddress;
-
+    private String tv_result;
 
     private void assignViews() {
         context = this;
@@ -39,10 +41,18 @@ public class ProvinceLinkActivity extends Util {
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
         mTvTitleDec.setText("所在地区");
         mTvTitleDec.setTextColor(Color.WHITE);
+        mBtnShopQuedingAddress.setTextColor(Color.WHITE);
         mIvBtnAdd.setVisibility(View.GONE);
         mBtnShopQuedingAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("add",tv_result);
+                intent.putExtra("sheng",mCurrentProviceName);
+                intent.putExtra("shi",mCurrentCityName);
+                intent.putExtra("qu",mCurrentDistrictName);
+                setResult(101,intent);
+                Log.d("mafuhua", tv_result);
                 finish();
             }
         });
@@ -61,8 +71,6 @@ public class ProvinceLinkActivity extends Util {
         setContentView(R.layout.activity_provincelink);
         initView();
         assignViews();
-
-
     }
 
     private void initView() {
@@ -92,7 +100,6 @@ public class ProvinceLinkActivity extends Util {
                 }
                 ArrayAdapter<String> districtAdapter = new ArrayAdapter<String>(ProvinceLinkActivity.this, android.R.layout.simple_list_item_1, areas);
                 districtSpinner.setAdapter(districtAdapter);
-
             }
 
             @Override
@@ -127,6 +134,7 @@ public class ProvinceLinkActivity extends Util {
                                        int position, long id) {
                 Spinner sp = (Spinner) parent;
                 mCurrentDistrictName = (String) sp.getItemAtPosition(position);
+                tv_result=(mCurrentProviceName + "," + mCurrentCityName + "," + mCurrentDistrictName);
             }
 
             @Override
