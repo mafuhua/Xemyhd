@@ -35,12 +35,12 @@ public abstract class BaseHolder<T> {
      * 传递数据
      * @param data:泛型
      */
-    public void setDatas(T data,int position){
+    public void setDatas(T data, int position){
         refreshView(data,position);
     }
     /**
      * 刷新listview子布局内部的控件
      */
-    public abstract void refreshView(T data,int position);
+    public abstract void refreshView(T data, int position);
     
 }

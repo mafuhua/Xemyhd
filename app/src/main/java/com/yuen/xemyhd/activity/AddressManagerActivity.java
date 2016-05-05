@@ -25,6 +25,7 @@ import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddressManagerActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class AddressManagerActivity extends AppCompatActivity {
     private MyAdapter myAdapter;
     private Context context;
     private Button mBtnAddressAdd;
-    public static List<AddressBean.DataBean> addressBeanData;
+    public static List<AddressBean.DataBean> addressBeanData = new ArrayList<>();
     private int addressBeanNum;
 
     private void assignViews() {
@@ -54,15 +55,15 @@ public class AddressManagerActivity extends AppCompatActivity {
         mBtnAddressAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (addressBeanNum>=5) {
+                if (addressBeanNum >= 5) {
                     Toast.makeText(context, "请编辑收货地址", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent intent = new Intent(context, AddressManagerDecActivity.class);
-                intent.putExtra("id","");
-                intent.putExtra("sheng","");
-                intent.putExtra("shi","");
-                intent.putExtra("qu","");
+                intent.putExtra("id", "");
+                intent.putExtra("sheng", "");
+                intent.putExtra("shi", "");
+                intent.putExtra("qu", "");
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 // myAdapter.notifyDataSetChanged();
@@ -80,6 +81,8 @@ public class AddressManagerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        myAdapter = new MyAdapter(addressBeanData);
+        mLvAddressManager.setAdapter(myAdapter);
     }
 
     @Override
@@ -101,9 +104,9 @@ public class AddressManagerActivity extends AppCompatActivity {
                 Log.d("mafuhua", "-----GetAdds_URL----" + result);
                 AddressBean addressBean = GsonUtil.fromJson(result, AddressBean.class);
                 addressBeanNum = addressBean.getNum();
-                addressBeanData = addressBean.getData();
-                myAdapter = new MyAdapter(addressBeanData);
-                mLvAddressManager.setAdapter(myAdapter);
+                addressBeanData.addAll(addressBean.getData());
+                myAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -123,14 +126,18 @@ public class AddressManagerActivity extends AppCompatActivity {
         });
     }
 
+        private AddressManagerHolder addressManagerHolder;
     class MyAdapter extends DefaultAdapter {
+
+
         public MyAdapter(List datas) {
             super(datas);
         }
 
         @Override
         public BaseHolder getHolder() {
-            return new AddressManagerHolder();
+            addressManagerHolder = new AddressManagerHolder();
+            return addressManagerHolder;
         }
     }
 
@@ -152,7 +159,7 @@ public class AddressManagerActivity extends AppCompatActivity {
         }
 
         @Override
-        public void refreshView(AddressBean.DataBean data, int position) {
+        public void refreshView(AddressBean.DataBean data,int position) {
             tvaddresslistusername.setText(data.getName());
             tvaddresslistphone.setText(data.getTel());
             String moren = data.getMoren();
