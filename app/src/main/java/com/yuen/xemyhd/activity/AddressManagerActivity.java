@@ -148,7 +148,6 @@ public class AddressManagerActivity extends AppCompatActivity {
         TextView tvaddresslisttype;
         TextView tvaddresslistaddress;
 
-
         @Override
         public View initView() {
             View root = View.inflate(context, R.layout.layout_address_manager_item, null);
