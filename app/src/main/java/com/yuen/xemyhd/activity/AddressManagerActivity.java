@@ -104,6 +104,7 @@ public class AddressManagerActivity extends AppCompatActivity {
                 Log.d("mafuhua", "-----GetAdds_URL----" + result);
                 AddressBean addressBean = GsonUtil.fromJson(result, AddressBean.class);
                 addressBeanNum = addressBean.getNum();
+                addressBeanData.clear();
                 addressBeanData.addAll(addressBean.getData());
                 myAdapter.notifyDataSetChanged();
 
@@ -146,6 +147,7 @@ public class AddressManagerActivity extends AppCompatActivity {
         TextView tvaddresslistphone;
         TextView tvaddresslisttype;
         TextView tvaddresslistaddress;
+
 
         @Override
         public View initView() {
