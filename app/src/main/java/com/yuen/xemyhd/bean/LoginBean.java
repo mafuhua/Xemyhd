@@ -5,36 +5,37 @@ package com.yuen.xemyhd.bean;
  */
 public class LoginBean {
 
-
     /**
      * code : 0
+     * data : {"address":"","avatar":"avatar/201605/1462333026-45735.jpg","birthday":"","city":"","email":"","fax":"","img":"http://192.168.2.131/xiaoermei/upload/avatar/201605/1462333026-45735.jpg","intr":"","jifen":"0","login_time":"1462436686","nickname":"懒猫啊啦啊？黑龙江咯","phone":"","province":"","pwd":"123456","qq":"0","sex":"0","tel":"15821972611","token":"dc5ac7ad62617dcfb12c118c3fccdce47e636e4d","uid":"352"}
      * msg : 成功
-     * data : {"uid":"352","email":"","nickname":"","tel":"15821972611","pwd":"123456","avatar":"","jifen":"0","birthday":"","sex":"1","address":"","province":"","city":"","intr":"","phone":"","fax":"","qq":"0","login_time":"0"}
      */
 
     private String code;
-    private String msg;
     /**
-     * uid : 352
-     * email :
-     * nickname :
-     * tel : 15821972611
-     * pwd : 123456
-     * avatar :
-     * jifen : 0
-     * birthday :
-     * sex : 1
      * address :
-     * province :
+     * avatar : avatar/201605/1462333026-45735.jpg
+     * birthday :
      * city :
-     * intr :
-     * phone :
+     * email :
      * fax :
+     * img : http://192.168.2.131/xiaoermei/upload/avatar/201605/1462333026-45735.jpg
+     * intr :
+     * jifen : 0
+     * login_time : 1462436686
+     * nickname : 懒猫啊啦啊？黑龙江咯
+     * phone :
+     * province :
+     * pwd : 123456
      * qq : 0
-     * login_time : 0
+     * sex : 0
+     * tel : 15821972611
+     * token : dc5ac7ad62617dcfb12c118c3fccdce47e636e4d
+     * uid : 352
      */
 
     private DataBean data;
+    private String msg;
 
     public String getCode() {
         return code;
@@ -42,14 +43,6 @@ public class LoginBean {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
     }
 
     public DataBean getData() {
@@ -60,63 +53,41 @@ public class LoginBean {
         this.data = data;
     }
 
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
     public static class DataBean {
-        private String uid;
-        private String email;
-        private String nickname;
-        private String tel;
-        private String pwd;
-        private String avatar;
-        private String jifen;
-        private String birthday;
-        private String sex;
         private String address;
-        private String province;
+        private String avatar;
+        private String birthday;
         private String city;
-        private String intr;
-        private String phone;
+        private String email;
         private String fax;
-        private String qq;
+        private String img;
+        private String intr;
+        private String jifen;
         private String login_time;
+        private String nickname;
+        private String phone;
+        private String province;
+        private String pwd;
+        private String qq;
+        private String sex;
+        private String tel;
+        private String token;
+        private String uid;
 
-        public String getUid() {
-            return uid;
+        public String getAddress() {
+            return address;
         }
 
-        public void setUid(String uid) {
-            this.uid = uid;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getNickname() {
-            return nickname;
-        }
-
-        public void setNickname(String nickname) {
-            this.nickname = nickname;
-        }
-
-        public String getTel() {
-            return tel;
-        }
-
-        public void setTel(String tel) {
-            this.tel = tel;
-        }
-
-        public String getPwd() {
-            return pwd;
-        }
-
-        public void setPwd(String pwd) {
-            this.pwd = pwd;
+        public void setAddress(String address) {
+            this.address = address;
         }
 
         public String getAvatar() {
@@ -127,44 +98,12 @@ public class LoginBean {
             this.avatar = avatar;
         }
 
-        public String getJifen() {
-            return jifen;
-        }
-
-        public void setJifen(String jifen) {
-            this.jifen = jifen;
-        }
-
         public String getBirthday() {
             return birthday;
         }
 
         public void setBirthday(String birthday) {
             this.birthday = birthday;
-        }
-
-        public String getSex() {
-            return sex;
-        }
-
-        public void setSex(String sex) {
-            this.sex = sex;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public String getProvince() {
-            return province;
-        }
-
-        public void setProvince(String province) {
-            this.province = province;
         }
 
         public String getCity() {
@@ -175,20 +114,12 @@ public class LoginBean {
             this.city = city;
         }
 
-        public String getIntr() {
-            return intr;
+        public String getEmail() {
+            return email;
         }
 
-        public void setIntr(String intr) {
-            this.intr = intr;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
+        public void setEmail(String email) {
+            this.email = email;
         }
 
         public String getFax() {
@@ -199,12 +130,28 @@ public class LoginBean {
             this.fax = fax;
         }
 
-        public String getQq() {
-            return qq;
+        public String getImg() {
+            return img;
         }
 
-        public void setQq(String qq) {
-            this.qq = qq;
+        public void setImg(String img) {
+            this.img = img;
+        }
+
+        public String getIntr() {
+            return intr;
+        }
+
+        public void setIntr(String intr) {
+            this.intr = intr;
+        }
+
+        public String getJifen() {
+            return jifen;
+        }
+
+        public void setJifen(String jifen) {
+            this.jifen = jifen;
         }
 
         public String getLogin_time() {
@@ -213,6 +160,78 @@ public class LoginBean {
 
         public void setLogin_time(String login_time) {
             this.login_time = login_time;
+        }
+
+        public String getNickname() {
+            return nickname;
+        }
+
+        public void setNickname(String nickname) {
+            this.nickname = nickname;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getProvince() {
+            return province;
+        }
+
+        public void setProvince(String province) {
+            this.province = province;
+        }
+
+        public String getPwd() {
+            return pwd;
+        }
+
+        public void setPwd(String pwd) {
+            this.pwd = pwd;
+        }
+
+        public String getQq() {
+            return qq;
+        }
+
+        public void setQq(String qq) {
+            this.qq = qq;
+        }
+
+        public String getSex() {
+            return sex;
+        }
+
+        public void setSex(String sex) {
+            this.sex = sex;
+        }
+
+        public String getTel() {
+            return tel;
+        }
+
+        public void setTel(String tel) {
+            this.tel = tel;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+
+        public String getUid() {
+            return uid;
+        }
+
+        public void setUid(String uid) {
+            this.uid = uid;
         }
     }
 }

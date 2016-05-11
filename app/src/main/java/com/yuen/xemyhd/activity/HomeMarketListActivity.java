@@ -30,6 +30,7 @@ public class HomeMarketListActivity extends AppCompatActivity {
     private ImageView mIvBtnBack;
     private TextView mTvTitleDec;
     private ImageView mIvBtnAdd;
+
     private ListView mLvMarketList;
     private Context context;
     private MyAdapter myAdapter;

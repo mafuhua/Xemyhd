@@ -24,11 +24,15 @@ import com.amap.api.location.AMapLocationListener;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.fragment.FragmentFractory;
 import com.yuen.xemyhd.fragment.GouWuCheFragment2;
+import com.yuen.xemyhd.lisetner.MyReceivePushMessageListener;
 import com.yuen.xemyhd.utils.MyApplication;
 import com.yuen.xemyhd.utils.MyUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -36,28 +40,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static AMapLocationClient mLocationClient = null;
     //声明mLocationOption对象
     public static AMapLocationClientOption mLocationOption = null;
-    private RadioButton mRbHomeShouye;
-    private RadioButton mRbHomeKuaidi;
-    private RadioButton mRbHomeGouwuche;
-    private RadioButton mRbHomeWode;
-    private Context context;
-    private FrameLayout mFlHomeContent;
-    private FragmentManager supportFragmentManager;
-    private Fragment homeFragment;
-    private Fragment kuaiDiFragment;
-    private Fragment gouWuCheFragment;
-    private Fragment woDeFragment;
-    private Fragment currentFragment;
-    private FragmentTransaction transaction;
-    private RadioGroup mRgHome;
-    private TextView mTvTitleDec;
-    private TextView mTvTitleEdit;
     public static String province;
     public static String city;
     public static String district;
     public static String street;
-    private SharedPreferences sharedPreferences;
-
     //声明定位回调监听器
     public static AMapLocationListener mLocationListener = new AMapLocationListener() {
         @Override
@@ -94,11 +80,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
     public static String useruid;
     public static String usertel;
+    public static String token;
+    private RadioButton mRbHomeShouye;
+    private RadioButton mRbHomeKuaidi;
+    private RadioButton mRbHomeGouwuche;
+    private RadioButton mRbHomeWode;
+    private Context context;
+    private FrameLayout mFlHomeContent;
+    private FragmentManager supportFragmentManager;
+    private Fragment homeFragment;
+    private Fragment kuaiDiFragment;
+    private Fragment gouWuCheFragment;
+    private Fragment woDeFragment;
+    private Fragment currentFragment;
+    private FragmentTransaction transaction;
+    private RadioGroup mRgHome;
+    private TextView mTvTitleDec;
+    private TextView mTvTitleEdit;
+    private SharedPreferences sharedPreferences;
+
+    public static void getLoc() {
+        //初始化定位
+        mLocationClient = new AMapLocationClient(MyApplication.context);
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+        //初始化定位参数
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        //设置是否只定位一次,默认为false
+        mLocationOption.setOnceLocation(true);
+        //设置是否强制刷新WIFI，默认为强制刷新
+        mLocationOption.setWifiActiveScan(true);
+        //设置是否允许模拟位置,默认为false，不允许模拟位置
+        mLocationOption.setMockEnable(false);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        //  mLocationOption.setInterval(2000);
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+    }
 
     private void assignViews() {
         context = this;
         sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         useruid = sharedPreferences.getString("uid", "");
+        token = sharedPreferences.getString("token", "");
         usertel = sharedPreferences.getString("tel", "");
         mRbHomeShouye = (RadioButton) findViewById(R.id.rb_home_shouye);
         mRgHome = (RadioGroup) findViewById(R.id.rg_home);
@@ -141,6 +171,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .show(homeFragment)
                 .commit();
         currentFragment = homeFragment;
+        /**
+         * 设置接收 push 消息的监听器。
+         */
+        RongIM.setOnReceivePushMessageListener(new MyReceivePushMessageListener());
+        /**
+         * IMKit SDK调用第二步
+         *
+         * 建立与服务器的连接
+         *
+         */
+        RongIM.connect("8duyP2i/zSjC3SUr3vnSkWe5/jZa3Ypyi+wfBPDUwE/jf6GM17R8U3FreAVn5kiFy0YR2pHTHqypD7KikQDrwA==", new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+                //Connect Token 失效的状态处理，需要重新获取 Token
+                Log.e("MainActivity", "——Connect Token— -" + "失效的状态处理，需要重新获取 Token");
+            }
+
+            @Override
+            public void onSuccess(String userId) {
+                Log.e("MainActivity", "——onSuccess— -" + userId);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.e("MainActivity", "——onError— -" + errorCode);
+            }
+        });
+
 
     }
 
@@ -159,31 +217,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getLoc();
 
 
-    }
-
-    public static void getLoc() {
-        //初始化定位
-        mLocationClient = new AMapLocationClient(MyApplication.context);
-        //设置定位回调监听
-        mLocationClient.setLocationListener(mLocationListener);
-        //初始化定位参数
-        mLocationOption = new AMapLocationClientOption();
-        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-        //设置是否返回地址信息（默认返回地址信息）
-        mLocationOption.setNeedAddress(true);
-        //设置是否只定位一次,默认为false
-        mLocationOption.setOnceLocation(true);
-        //设置是否强制刷新WIFI，默认为强制刷新
-        mLocationOption.setWifiActiveScan(true);
-        //设置是否允许模拟位置,默认为false，不允许模拟位置
-        mLocationOption.setMockEnable(false);
-        //设置定位间隔,单位毫秒,默认为2000ms
-        //  mLocationOption.setInterval(2000);
-        //给定位客户端对象设置定位参数
-        mLocationClient.setLocationOption(mLocationOption);
-        //启动定位
-        mLocationClient.startLocation();
     }
 
     @Override

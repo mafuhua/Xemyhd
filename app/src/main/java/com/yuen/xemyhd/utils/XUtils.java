@@ -29,6 +29,7 @@ public  class XUtils {
             Log.d("mafuhua", key);
             String val = entry.getValue().toString();
             params.addBodyParameter(key, val);
+
         }
 
         x.http().post(params, commonCallback);

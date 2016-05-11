@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import io.rong.imkit.RongIM;
+
 /**
  * Created by Administrator on 2016/3/22.
  */
@@ -29,6 +31,10 @@ public class MyApplication extends Application {
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
 
                 .build();
+        /**
+         * 初始化融云
+         */
+        RongIM.init(this);
     }
 }
 

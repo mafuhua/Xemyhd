@@ -45,7 +45,6 @@
         android:orientation="horizontal">
 
         <EditText
-            android:inputType="number"
             android:id="@+id/et_rigester_yzm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

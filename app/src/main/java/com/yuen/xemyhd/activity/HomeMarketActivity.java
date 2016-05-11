@@ -35,6 +35,8 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.rong.imkit.RongIM;
+
 public class HomeMarketActivity extends FragmentActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     public static int mPosition;
     public static int mRCPosition = -1;
@@ -89,7 +91,6 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
         mIvBtnTalk = (ImageView) findViewById(R.id.iv_btn_talk);
         mIvBtnAdd.setOnClickListener(this);
-        mIvBtnTalk.setOnClickListener(this);
         mIvBtnTalk.setOnClickListener(this);
         myGridAdapter = new MyGridAdapter();
         gv_commoditylist.setAdapter(myGridAdapter);
@@ -265,6 +266,15 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
                 startActivity(intent);
                 break;
             case R.id.iv_btn_talk:
+                /**
+                 * 启动单聊
+                 * context - 应用上下文。
+                 * targetUserId - 要与之聊天的用户 Id。
+                 * title - 聊天的标题，如果传入空值，则默认显示与之聊天的用户名称。
+                 */
+                if (RongIM.getInstance() != null) {
+                    RongIM.getInstance().startPrivateChat(HomeMarketActivity.this, "123", "hello");
+                }
                 break;
         }
     }
