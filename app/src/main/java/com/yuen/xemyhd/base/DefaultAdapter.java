@@ -1,6 +1,5 @@
 package com.yuen.xemyhd.base;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -44,7 +43,7 @@ public abstract class DefaultAdapter<T> extends BaseAdapter {
         // 获取position对应的数据
         T data = datas.get(position);
         // 将数据传递到holder内
-        Log.d("mafuhua", "将数据传递到holder内"+position);
+      //  Log.d("mafuhua", "将数据传递到holder内"+position);
         holder.setDatas(data, position);
         return holder.getContentView();
     }

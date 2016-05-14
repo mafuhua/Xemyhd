@@ -26,6 +26,7 @@ import com.yuen.xemyhd.bean.ShopListBean;
 import com.yuen.xemyhd.fragment.MyFragment;
 import com.yuen.xemyhd.utils.ContactURL;
 import com.yuen.xemyhd.utils.MyUtils;
+import com.yuen.xemyhd.utils.SysExitUtil;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -68,6 +69,8 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_market);
+        SysExitUtil.activityList.add(this);
+
         Intent intent = getIntent();
         shop_user_id = intent.getStringExtra("id");
         shop_title = intent.getStringExtra("shop_title");

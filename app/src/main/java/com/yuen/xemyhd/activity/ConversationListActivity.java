@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.yuen.xemyhd.R;
+import com.yuen.xemyhd.utils.SysExitUtil;
 
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.model.Conversation;
@@ -15,6 +16,7 @@ public class ConversationListActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.conversationlist);
+        SysExitUtil.activityList.add(this);
 
         enterFragment();
     }

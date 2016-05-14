@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.bean.BaseBean;
 import com.yuen.xemyhd.utils.ContactURL;
+import com.yuen.xemyhd.utils.SysExitUtil;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -54,6 +55,8 @@ public class EditMyInfomationActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_my_infomation);
+        SysExitUtil.activityList.add(this);
+
         name = getIntent().getStringExtra("name");
         flag = getIntent().getStringExtra("flag");
         assignViews();

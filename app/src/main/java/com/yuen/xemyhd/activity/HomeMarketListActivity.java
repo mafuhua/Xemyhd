@@ -18,6 +18,7 @@ import com.yuen.xemyhd.base.BaseHolder;
 import com.yuen.xemyhd.base.DefaultAdapter;
 import com.yuen.xemyhd.bean.MarketListBean;
 import com.yuen.xemyhd.utils.ContactURL;
+import com.yuen.xemyhd.utils.SysExitUtil;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -64,6 +65,8 @@ public class HomeMarketListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_market_list);
+        SysExitUtil.activityList.add(this);
+
         assignViews();
         getMarketList();
     }

@@ -51,6 +51,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        SysExitUtil.activityList.add(this);
+
         assignViews();
         boolean rempsw = sharedPreferences.getBoolean("rempsw", false);
         username = sharedPreferences.getString("username", "");

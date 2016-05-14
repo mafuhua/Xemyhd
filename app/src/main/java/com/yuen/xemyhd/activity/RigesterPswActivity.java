@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.bean.DuanXinBean;
 import com.yuen.xemyhd.utils.ContactURL;
+import com.yuen.xemyhd.utils.SysExitUtil;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -72,6 +73,8 @@ public class RigesterPswActivity extends AppCompatActivity {
         Intent intent = getIntent();
         tel = intent.getStringExtra("tel");
         setContentView(R.layout.activity_rigester_psw);
+        SysExitUtil.activityList.add(this);
+
         assignViews();
     }
 

@@ -25,6 +25,7 @@ import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.fragment.WoDeFragment;
 import com.yuen.xemyhd.utils.ContactURL;
 import com.yuen.xemyhd.utils.MyApplication;
+import com.yuen.xemyhd.utils.SysExitUtil;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -91,6 +92,8 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_infomation);
         assignViews();
+        SysExitUtil.activityList.add(this);
+
         //  getUserIcon(ContactURL.SHOP_STORE_TOU + MainActivity.userid);
         //  x.image().bind(iv_user_icon, MainActivity.shop_imgs);
     }

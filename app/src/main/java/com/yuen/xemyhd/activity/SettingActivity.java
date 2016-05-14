@@ -22,6 +22,7 @@ import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.base.BaseActivity;
 import com.yuen.xemyhd.base.BaseHolder;
 import com.yuen.xemyhd.base.DefaultAdapter;
+import com.yuen.xemyhd.utils.SysExitUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,6 +117,8 @@ public class SettingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        SysExitUtil.activityList.add(this);
+
         assignViews();
 
     }
@@ -157,11 +160,11 @@ public class SettingActivity extends BaseActivity {
                 dialog.dismiss();
                 sharedPreferences.edit().putString("lgusername", "")
                         .putString("lgpassword", "").apply();
-             /*   Intent intent = new Intent(context, LoginActivity.class);
+                Intent intent = new Intent(context, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);*/
+                startActivity(intent);
+                SysExitUtil.exit();
                 finish();
-
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

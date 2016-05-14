@@ -21,6 +21,7 @@ import com.yuen.xemyhd.base.DefaultAdapter;
 import com.yuen.xemyhd.bean.AddressBean;
 import com.yuen.xemyhd.utils.ContactURL;
 import com.yuen.xemyhd.utils.GsonUtil;
+import com.yuen.xemyhd.utils.SysExitUtil;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -89,6 +90,8 @@ public class AddressManagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_manager);
+        SysExitUtil.activityList.add(this);
+
         assignViews();
 
     }

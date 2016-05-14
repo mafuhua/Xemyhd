@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.bean.DuanXinBean;
 import com.yuen.xemyhd.utils.ContactURL;
+import com.yuen.xemyhd.utils.SysExitUtil;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -109,6 +110,8 @@ public class ForgetPSWActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rigester_next);
+        SysExitUtil.activityList.add(this);
+
         assignViews();
     }
 

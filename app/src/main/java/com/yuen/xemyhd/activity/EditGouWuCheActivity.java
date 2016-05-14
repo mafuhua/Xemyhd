@@ -19,6 +19,7 @@ import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.base.BaseHolder;
 import com.yuen.xemyhd.base.DefaultAdapter;
 import com.yuen.xemyhd.bean.TestGouwuche;
+import com.yuen.xemyhd.utils.SysExitUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -103,6 +104,8 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_gouwuche);
+        SysExitUtil.activityList.add(this);
+
         assignViews();
         getdata();
     }

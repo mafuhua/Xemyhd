@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.utils.MyUtils;
+import com.yuen.xemyhd.utils.SysExitUtil;
 
 public class SearchCommodityActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText mEtInputSearch;
@@ -32,6 +33,8 @@ public class SearchCommodityActivity extends AppCompatActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_commodity);
+        SysExitUtil.activityList.add(this);
+
         assignViews();
     }
 

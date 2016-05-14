@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,17 +26,22 @@ import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.fragment.FragmentFractory;
 import com.yuen.xemyhd.fragment.GouWuCheFragment2;
 import com.yuen.xemyhd.lisetner.MyReceivePushMessageListener;
+import com.yuen.xemyhd.utils.Friend;
 import com.yuen.xemyhd.utils.MyApplication;
 import com.yuen.xemyhd.utils.MyUtils;
+import com.yuen.xemyhd.utils.SysExitUtil;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.UserInfo;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener , RongIM.UserInfoProvider{
     //声明AMapLocationClient类对象
     public static AMapLocationClient mLocationClient = null;
     //声明mLocationOption对象
@@ -123,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //启动定位
         mLocationClient.startLocation();
     }
-
+    private List<Friend> userIdList;
     private void assignViews() {
         context = this;
         sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
@@ -171,6 +177,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .show(homeFragment)
                 .commit();
         currentFragment = homeFragment;
+        userIdList = new ArrayList<Friend>();
+        userIdList.add(new Friend("123","联通","http://img02.tooopen.com/Download/2010/5/22/20100522103223994012.jpg"));
+        userIdList.add(new Friend("456", "移动", "http://img02.tooopen.com/Download/2010/5/22/20100522103223994012.jpg"));
+
+        RongIM.setUserInfoProvider(this, true);
         /**
          * 设置接收 push 消息的监听器。
          */
@@ -181,16 +192,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * 建立与服务器的连接
          *
          */
-        RongIM.connect("8duyP2i/zSjC3SUr3vnSkWe5/jZa3Ypyi+wfBPDUwE/jf6GM17R8U3FreAVn5kiFy0YR2pHTHqypD7KikQDrwA==", new RongIMClient.ConnectCallback() {
+        RongIM.connect(token, new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
-                //Connect Token 失效的状态处理，需要重新获取 Token
+                //Connect Token 失效的状态处理取 Token
+                
                 Log.e("MainActivity", "——Connect Token— -" + "失效的状态处理，需要重新获取 Token");
             }
 
             @Override
             public void onSuccess(String userId) {
                 Log.e("MainActivity", "——onSuccess— -" + userId);
+
             }
 
             @Override
@@ -212,6 +225,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         super.onCreate(savedInstanceState);
+        SysExitUtil.activityList.add(this);
+
         setContentView(R.layout.activity_main);
         assignViews();
         getLoc();
@@ -248,7 +263,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
-
+    @Override
+    public UserInfo getUserInfo(String userId) {
+        for (Friend i : userIdList) {
+            if (i.getUserId().equals(userId)) {
+                Log.e("mafuhua", i.getPortraitUri());
+                return new UserInfo(i.getUserId(),i.getUserName(),Uri.parse(i.getPortraitUri()));
+            }
+        }
+        return null;
+    }
     private void setGouwuche() {
         GouWuCheFragment2.checkalltype = false;
         GouWuCheFragment2.mCbGouwuche.setChecked(GouWuCheFragment2.checkalltype);

@@ -19,6 +19,7 @@ import com.yuen.xemyhd.bean.AddresBean;
 import com.yuen.xemyhd.utils.ContactURL;
 import com.yuen.xemyhd.utils.GsonUtil;
 import com.yuen.xemyhd.utils.MyUtils;
+import com.yuen.xemyhd.utils.SysExitUtil;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -88,6 +89,8 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_manager_dec);
+        SysExitUtil.activityList.add(this);
+
         assignViews();
         getAdd();
     }

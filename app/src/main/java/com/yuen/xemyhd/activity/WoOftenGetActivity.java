@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.base.BaseHolder;
 import com.yuen.xemyhd.base.DefaultAdapter;
+import com.yuen.xemyhd.utils.SysExitUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,6 +47,8 @@ public class WoOftenGetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wo_often_get);
+        SysExitUtil.activityList.add(this);
+
         assignViews();
     }
 
