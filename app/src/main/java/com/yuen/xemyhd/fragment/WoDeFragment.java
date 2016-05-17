@@ -1,8 +1,10 @@
 package com.yuen.xemyhd.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
@@ -45,13 +47,14 @@ public class WoDeFragment extends BaseFragment {
     private View view;
     private ListView mIvWoDe;
     private MyAdapter myAdapter;
-
+    private SharedPreferences sharedPreferences;
     private List<String> wodeItemDec = new ArrayList<String>(Arrays.asList("订单", "积分",
             "我常买", "收货地址", "我的分享", "邀请好友", "客服中心", "设置"));
     private RelativeLayout mRlWodeUserInfo;
     public static MyInfoBean.DataBean myInfoBeanData;
 
     private void assignViews() {
+        sharedPreferences = getActivity().getSharedPreferences("userinfo", Context.MODE_PRIVATE);
         mLayoutTitleUsericon = (LinearLayout) view.findViewById(R.id.layout_title_usericon);
         mRlWodeUserInfo = (RelativeLayout) view.findViewById(R.id.rl_wode_user_info);
         mIvUserIcon = (ImageView) view.findViewById(R.id.iv_user_icon);
@@ -131,6 +134,7 @@ public class WoDeFragment extends BaseFragment {
                 Gson gson = new Gson();
                 MyInfoBean myInfoBean = gson.fromJson(result, MyInfoBean.class);
                 myInfoBeanData = myInfoBean.getData();
+                sharedPreferences.edit().putString("icon",myInfoBeanData.getImg()).apply();
                 mTvUserName.setText(myInfoBeanData.getNickname());
                 mTvUserTel.setText(MainActivity.usertel);
                 if (WoDeFragment.myInfoBeanData.getImg() != null) {

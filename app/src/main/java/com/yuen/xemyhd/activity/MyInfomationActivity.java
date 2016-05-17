@@ -53,7 +53,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
     private RelativeLayout rl_user_sex;
     private Context context;
     private File destDir;
-    private SharedPreferences sharedPreferences;
+
     private TextView et_user_sex;
 
     private void assignViews() {
@@ -109,7 +109,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         }
 
     }
-
+    private SharedPreferences sharedPreferences;
     /**
      * 选择提示对话框
      */

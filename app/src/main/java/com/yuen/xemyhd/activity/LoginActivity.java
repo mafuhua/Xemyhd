@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
@@ -80,7 +82,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         Intent intent;
         switch (v.getId()) {
             case R.id.iv_btn_login:
-              /*  String userName = mEtLoginUsername.getText().toString().trim();
+                String userName = mEtLoginUsername.getText().toString().trim();
                 String password = mEtLoginPassword.getText().toString().trim();
                 if (TextUtils.isEmpty(userName)) {
                     Toast.makeText(this, "用户名不能为空!", Toast.LENGTH_SHORT).show();
@@ -90,8 +92,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     Toast.makeText(this, "密码不能为空!", Toast.LENGTH_SHORT).show();
                     break;
 
-                }*/
-                login();
+                }
+                login(userName,password);
                 break;
             case R.id.tv_login_forget_password:
                 login_type = "1";
@@ -108,10 +110,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
 
-    private void login() {
+    private void login(final String userName, final String password) {
+        Log.d("mafuhua", userName+"-------"+password);
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put("name", "admin");
-        map.put("password", "123456");
+        map.put("name", userName);
+        map.put("password", password);
         XUtils.xUtilsPost(ContactURL.LOGIN_URL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -120,12 +123,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 LoginBean loginBean = gson.fromJson(result, LoginBean.class);
                 LoginBean.DataBean dataBean = loginBean.getData();
                 sharedPreferences.edit()
-                        .putString("username", "admin")
-                        .putString("password", "123456")
-                        .putString("lgusername", "admin")
-                        .putString("lgpassword", "123456")
+                        .putString("username", userName)
+                        .putString("password", password)
+                        .putString("lgusername", userName)
+                        .putString("lgpassword", password)
                         .putString("uid", dataBean.getUid())
                         .putString("token", dataBean.getToken())
+                        .putString("icon", dataBean.getImg())
+                        .putString("nickname", dataBean.getNickname())
                         .putString("tel", dataBean.getTel()).apply();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

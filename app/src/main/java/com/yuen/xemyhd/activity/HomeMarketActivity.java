@@ -56,13 +56,14 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
     private List<ShopListBean.TDataBean> t_data = new ArrayList<>();
     private List<ShopListBean.TDataBean> t_Contentdata = new ArrayList<>();
     private TextView tv_market_shoptime;
-    private String shop_user_id;
+    public static String shop_user_id;
     private LinearLayout mLayoutTitleBar;
     private ImageView mIvBtnBack;
     private TextView mTvTitleDec;
     private ImageView mIvBtnAdd;
     private ImageView mIvBtnTalk;
-    private String shop_title;
+    public static String shop_title;
+    public static String img;
 
 
     @Override
@@ -73,6 +74,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
 
         Intent intent = getIntent();
         shop_user_id = intent.getStringExtra("id");
+        img = intent.getStringExtra("img");
         shop_title = intent.getStringExtra("shop_title");
         initView();
         getShopList();
@@ -276,7 +278,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
                  * title - 聊天的标题，如果传入空值，则默认显示与之聊天的用户名称。
                  */
                 if (RongIM.getInstance() != null) {
-                    RongIM.getInstance().startPrivateChat(HomeMarketActivity.this, "123", "hello");
+                    RongIM.getInstance().startPrivateChat(HomeMarketActivity.this, shop_user_id, "");
                 }
                 break;
         }

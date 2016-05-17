@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import io.rong.imkit.RongIM;
+
 
 public class SettingActivity extends BaseActivity {
     private List settingString = new ArrayList(Arrays.asList("意见反馈", "检查更新", "清除缓存", "帮助中心", "关于我们", "退出"));
@@ -163,6 +165,7 @@ public class SettingActivity extends BaseActivity {
                 Intent intent = new Intent(context, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
+                RongIM.getInstance().logout();
                 SysExitUtil.exit();
                 finish();
             }
