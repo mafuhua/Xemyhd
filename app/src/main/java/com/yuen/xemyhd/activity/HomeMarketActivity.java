@@ -97,6 +97,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         mIvBtnTalk = (ImageView) findViewById(R.id.iv_btn_talk);
         mIvBtnAdd.setOnClickListener(this);
         mIvBtnTalk.setOnClickListener(this);
+        mTvTitleDec.setText(shop_title);
         myGridAdapter = new MyGridAdapter();
         gv_commoditylist.setAdapter(myGridAdapter);
         myListAdapter = new MyAdapter();
@@ -111,7 +112,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
             @Override
             public void onItemClick(View view, int position) {
                 mRCPosition = position;
-                Log.d("mafuhua", "mrcPosition------:" + position);
+               // Log.d("mafuhua", "mrcPosition------:" + position);
                 MyUtils.toastShow(context, shopListBeanT2_data.get(position).getNav_name(), Toast.LENGTH_SHORT);
                 getShopListContent(position);
                 myRCAdapter.notifyDataSetChanged();
@@ -126,6 +127,16 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
                         // 图片缩放模式
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .build();
+        gv_commoditylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ShopListBean.DataBean dataBean = shopListBeanData.get(position);
+                Intent intent = new Intent(HomeMarketActivity.this,CommodityDecActivity.class);
+                intent.putExtra("id",dataBean.getId());
+                startActivity(intent);
+
+            }
+        });
     }
 
     @Override
@@ -149,6 +160,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         XUtils.xUtilsGet(ContactURL.GetShopList_URL + shop_user_id, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("mafuhua", "-----GetShopList_URL-----"+result);
                 Gson gson = new Gson();
                 ShopListBean shopListBean = gson.fromJson(result, ShopListBean.class);
                 t_data = shopListBean.getT_data();
@@ -223,7 +235,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
             @Override
             public void onSuccess(String result) {
 
-                // Log.d("mafuhua", "result***********" + result);
+                 Log.d("mafuhua", "----GetShopListContent_URL-----" + result);
                 // Log.d("mafuhua", "result***********" + ContactURL.GetShopListContent_URL + shop_user_id + "/type_id/" + shopListBeanT2_data.get(position).getId());
                 Gson gson = new Gson();
                 ShopListBean shopListBean = gson.fromJson(result, ShopListBean.class);
@@ -322,7 +334,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
             viewHolder.mTxt.setText(shopListBeanT2_data.get(i).getNav_name());
             mrcPosition = i;
-            Log.d("mafuhua", "mPosition****:" + mrcPosition);
+          //  Log.d("mafuhua", "mPosition****:" + mrcPosition);
             if (mrcPosition == HomeMarketActivity.mRCPosition) {
                 viewHolder.mTxt.setTextColor(Color.parseColor("#FEBB24"));
             } else {

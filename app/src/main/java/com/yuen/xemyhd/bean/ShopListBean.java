@@ -1,11 +1,12 @@
 package com.yuen.xemyhd.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/28.
  */
-public class ShopListBean {
+public class ShopListBean implements Serializable{
 
     /**
      * code : 0
@@ -112,7 +113,7 @@ public class ShopListBean {
         }
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         private String id;
         private String pro_h_price;
         private String pro_img;

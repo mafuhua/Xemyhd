@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -86,7 +85,7 @@ public class HomeMarketListActivity extends AppCompatActivity {
             XUtils.xUtilsPost(ContactURL.GetMarketList_URL, map, new Callback.CommonCallback<String>() {
                 @Override
                 public void onSuccess(String result) {
-                    Log.d("mafuhua", "----GetMarketList_URL-----"+result);
+                  //  Log.d("mafuhua", "----GetMarketList_URL-----"+result);
                     Gson gson = new Gson();
                     MarketListBean marketListBean = gson.fromJson(result, MarketListBean.class);
                     marketListBeanData = marketListBean.getData();

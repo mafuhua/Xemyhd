@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.activity.HomeMarketListActivity;
+import com.yuen.xemyhd.activity.MainActivity;
+import com.yuen.xemyhd.utils.MyUtils;
 
 import org.xutils.image.ImageOptions;
 
@@ -187,6 +189,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         Intent intent;
         switch (v.getId()) {
             case R.id.rl_home_market:
+                if (MainActivity.city==null||MainActivity.district==null||MainActivity.street==null||MainActivity.province==null){
+                    MyUtils.toastShow(getActivity(),"正在定位中...",Toast.LENGTH_SHORT);
+                    break;
+                }
                 intent = new Intent(context, HomeMarketListActivity.class);
                 startActivity(intent);
                 break;

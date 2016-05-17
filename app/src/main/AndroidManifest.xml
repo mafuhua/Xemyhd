@@ -79,6 +79,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.EditGouWuCheActivity"/>
         <activity android:name=".activity.RigesterActivity"/>
+        <activity android:name=".activity.CommodityDecActivity"/>
         <activity android:name=".activity.ForgetPSWActivity"/>
         <activity android:name=".activity.ForgetPSWFINISHActivity"/>
         <activity android:name=".fragment.HomeMarketListFragment"/>

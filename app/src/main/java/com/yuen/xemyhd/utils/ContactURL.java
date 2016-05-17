@@ -68,4 +68,8 @@ public class ContactURL {
      * 删除地址
      */
     public static String DelAdds_URL = BASE_URL + "del_adds";
+    /**
+     * 商品详情
+     */
+    public static String ShopDec_URL = BASE_URL + "product_read/product_id/";
 }
