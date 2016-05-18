@@ -101,6 +101,8 @@
 
         <activity android:name=".activity.HomeMarketListActivity">
         </activity>
+        <activity android:name=".lisetner.MyReceiveMessageListener">
+        </activity>
         <activity android:name=".activity.SearchCommodityActivity">
         </activity>
         <activity android:name=".activity.ConvertalkActivity">

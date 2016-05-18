@@ -28,6 +28,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.fragment.FragmentFractory;
 import com.yuen.xemyhd.fragment.GouWuCheFragment2;
+import com.yuen.xemyhd.lisetner.MyReceiveMessageListener;
 import com.yuen.xemyhd.lisetner.MyReceivePushMessageListener;
 import com.yuen.xemyhd.utils.Friend;
 import com.yuen.xemyhd.utils.MyApplication;
@@ -88,6 +89,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static String useruid;
     public static String usertel;
     public static String token;
+    public static String nickname;
+    public static String icon;
+
+    /**
+     * Notification管理
+     */
+    public static NotificationManager mNotificationManager;
+    /**
+     * Notification构造器
+     */
+    public static NotificationCompat.Builder mBuilder;
+    /**
+     * Notification的ID
+     */
+    public static int notifyId = 100;
     private RadioButton mRbHomeShouye;
     private RadioButton mRbHomeKuaidi;
     private RadioButton mRbHomeGouwuche;
@@ -105,8 +121,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mTvTitleDec;
     private TextView mTvTitleEdit;
     private SharedPreferences sharedPreferences;
-    public static String nickname;
-    public static String icon;
+    private List<Friend> userIdList;
+
+
 
     public static void getLoc() {
         //初始化定位
@@ -132,19 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //启动定位
         mLocationClient.startLocation();
     }
-    private List<Friend> userIdList;
-    /**
-     * Notification管理
-     */
-    public static NotificationManager mNotificationManager;
-    /**
-     * Notification构造器
-     */
-    public static NotificationCompat.Builder mBuilder;
-    /**
-     * Notification的ID
-     */
-    public static int notifyId = 100;
+
     /**
      * 初始化通知栏
      */
@@ -236,6 +241,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          */
         RongIM.setOnReceivePushMessageListener(new MyReceivePushMessageListener());
         /**
+         *  设置接收消息的监听器。
+         */
+        RongIM.setOnReceiveMessageListener(new MyReceiveMessageListener());
+        /**
          * IMKit SDK调用第二步
          *
          * 建立与服务器的连接
@@ -245,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onTokenIncorrect() {
                 //Connect Token 失效的状态处理取 Token
-                
+
                 Log.e("MainActivity", "——Connect Token— -" + "失效的状态处理，需要重新获取 Token");
             }
 
@@ -312,16 +321,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
-  /*  @Override
-    public UserInfo getUserInfo(String userId) {
-        for (Friend i : userIdList) {
-            if (i.getUserId().equals(userId)) {
-                Log.e("mafuhua", i.getPortraitUri());
-                return new UserInfo(i.getUserId(),i.getUserName(),Uri.parse(i.getPortraitUri()));
-            }
-        }
-        return null;
-    }*/
+
+    /*  @Override
+      public UserInfo getUserInfo(String userId) {
+          for (Friend i : userIdList) {
+              if (i.getUserId().equals(userId)) {
+                  Log.e("mafuhua", i.getPortraitUri());
+                  return new UserInfo(i.getUserId(),i.getUserName(),Uri.parse(i.getPortraitUri()));
+              }
+          }
+          return null;
+      }*/
     private void setGouwuche() {
         GouWuCheFragment2.checkalltype = false;
         GouWuCheFragment2.mCbGouwuche.setChecked(GouWuCheFragment2.checkalltype);

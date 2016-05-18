@@ -55,6 +55,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
     private File destDir;
 
     private TextView et_user_sex;
+    private SharedPreferences sharedPreferences;
 
     private void assignViews() {
         context = this;
@@ -109,7 +110,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         }
 
     }
-    private SharedPreferences sharedPreferences;
+
     /**
      * 选择提示对话框
      */
@@ -165,7 +166,9 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         switch (requestCode) {
             // 如果是直接从相册获取
             case 1:
-                startPhotoZoom(data.getData());
+                if (data != null) {
+                    startPhotoZoom(data.getData());
+                }
                 break;
             // 如果是调用相机拍照时
             case 2:
@@ -250,7 +253,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
             destDir.mkdirs();
         }
         String paths = (path++) + ".jpg";
-        sharedPreferences.edit().putInt("path",path).apply();
+        sharedPreferences.edit().putInt("path", path).apply();
         File file = new File(destDir + paths);//将要保存图片的路径
         /*if (file.exists()){
             file.delete();
