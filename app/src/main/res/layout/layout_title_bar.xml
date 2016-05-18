@@ -9,14 +9,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/titlebar_bg"
-        android:padding="12dp">
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/iv_btn_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:background="@drawable/iconfontjiantou3x"/>
+            android:background="@drawable/iconfontpjiantou2x"/>
 
         <TextView
             android:id="@+id/tv_title_dec"

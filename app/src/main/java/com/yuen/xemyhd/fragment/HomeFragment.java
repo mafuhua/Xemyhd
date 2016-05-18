@@ -1,16 +1,20 @@
 package com.yuen.xemyhd.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,6 +24,7 @@ import android.widget.Toast;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.activity.HomeMarketListActivity;
 import com.yuen.xemyhd.activity.MainActivity;
+import com.yuen.xemyhd.activity.SearchCommodityActivity;
 import com.yuen.xemyhd.utils.MyUtils;
 
 import org.xutils.image.ImageOptions;
@@ -104,7 +109,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         options = new ImageOptions.Builder()
                 //设置使用缓存
                 .setUseMemCache(true)
-                        // 图片缩放模式
+                // 图片缩放模式
                 .setImageScaleType(ImageView.ScaleType.FIT_XY)
                 .build();
     }
@@ -189,19 +194,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         Intent intent;
         switch (v.getId()) {
             case R.id.rl_home_market:
-                if (MainActivity.city==null||MainActivity.district==null||MainActivity.street==null||MainActivity.province==null){
-                    MyUtils.toastShow(getActivity(),"正在定位中...",Toast.LENGTH_SHORT);
+                if (MainActivity.city == null || MainActivity.district == null || MainActivity.street == null || MainActivity.province == null) {
+                    MyUtils.toastShow(getActivity(), "正在定位中...", Toast.LENGTH_SHORT);
                     break;
                 }
                 intent = new Intent(context, HomeMarketListActivity.class);
                 startActivity(intent);
                 break;
             case R.id.rl_home_world:
+                intent = new Intent(context, SearchCommodityActivity.class);
+                startActivity(intent);
                 break;
             case R.id.iv_btn_home_love:
                 break;
             case R.id.btn_home_addicon:
-                addData(mDatas.size());
+                settingShopManger();
+                addData(0);
                 break;
 
 
@@ -220,6 +228,31 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void removeData(int position) {
         mDatas.remove(position);
         myRCAdapter.notifyItemRemoved(position);
+    }
+
+    public void settingShopManger() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("请输入您好友的手机号");
+        final EditText editText = new EditText(context);
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        // editText.setHint(hint);
+        builder.setView(editText);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String weight = editText.getText().toString().trim();
+
+
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override

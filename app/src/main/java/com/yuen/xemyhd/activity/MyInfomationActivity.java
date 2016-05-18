@@ -191,7 +191,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
             case 100:
-                if (data.getStringExtra("name") != null) {
+                if (data != null) {
                     et_user_name.setText(data.getStringExtra("name"));
                 }
                 break;

@@ -26,7 +26,7 @@ import org.xutils.common.Callback;
 import java.util.HashMap;
 import java.util.List;
 
-public class HomeMarketListActivity extends AppCompatActivity {
+public class HomeMarketListActivity extends AppCompatActivity implements View.OnClickListener{
     private LinearLayout mLayoutTitleBar;
     private ImageView mIvBtnBack;
     private TextView mTvTitleDec;
@@ -46,6 +46,7 @@ public class HomeMarketListActivity extends AppCompatActivity {
         mLvMarketList = (ListView) findViewById(R.id.lv_market_list);
         mTvTitleDec.setText("超市列表");
         mTvTitleDec.setTextColor(Color.WHITE);
+        mIvBtnBack.setOnClickListener(this);
         mLvMarketList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -111,6 +112,15 @@ public class HomeMarketListActivity extends AppCompatActivity {
             });
 
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_btn_back:
+                finish();
+                break;
+        }
     }
 
     class MyAdapter extends DefaultAdapter {

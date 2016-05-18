@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class WoOftenGetActivity extends AppCompatActivity {
+public class WoOftenGetActivity extends AppCompatActivity implements View.OnClickListener{
     private ListView mLvOftenGet;
     private LinearLayout mLayoutTitleBar;
     private ImageView mIvBtnBack;
@@ -40,6 +40,7 @@ public class WoOftenGetActivity extends AppCompatActivity {
         mTvTitleDec.setTextColor(Color.WHITE);
         myAdapter = new MyAdapter(wodeItemDec);
         mLvOftenGet.setAdapter(myAdapter);
+        mIvBtnBack.setOnClickListener(this);
     }
 
 
@@ -50,6 +51,15 @@ public class WoOftenGetActivity extends AppCompatActivity {
         SysExitUtil.activityList.add(this);
 
         assignViews();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_btn_back:
+                finish();
+                break;
+        }
     }
 
     class MyAdapter extends DefaultAdapter {

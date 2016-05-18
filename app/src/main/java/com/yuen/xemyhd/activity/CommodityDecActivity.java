@@ -54,13 +54,19 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
     private LinearLayout mLlPointGroup;
     private CommodityDecBean.DataBean commodityDecBeanData;
     private Button btn_add_gwc;
-
+    private Button btn_jia;
+    private Button btn_jian;
+    private TextView tv_shuliang;
+    private int totalNum = 1;
     private void assignViews() {
         context = this;
         mVpCommodityDec = (ViewPager) findViewById(R.id.vp_commodity_dec);
         btn_add_gwc = (Button) findViewById(R.id.btn_add_gwc);
+        btn_jia = (Button) findViewById(R.id.btn_jia);
+        btn_jian = (Button) findViewById(R.id.btn_jian);
         btn_add_gwc.setTextColor(Color.WHITE);
         mTvCommodityDec = (TextView) findViewById(R.id.tv_commodity_dec);
+        tv_shuliang = (TextView) findViewById(R.id.tv_shuliang);
         mTvCommodityDecContent = (TextView) findViewById(R.id.tv_commodity_dec_content);
         mGvCommoditydec = (GridView) findViewById(R.id.gv_commoditydec);
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
@@ -75,6 +81,9 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         mGvCommoditydec.setAdapter(adapter);
         mIvBtnAdd.setOnClickListener(this);
         mIvBtnBack.setOnClickListener(this);
+        btn_jia.setOnClickListener(this);
+        btn_jian.setOnClickListener(this);
+        btn_add_gwc.setOnClickListener(this);
         options = new ImageOptions.Builder()
                 //设置使用缓存
                 .setUseMemCache(true)
@@ -82,6 +91,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .build();
     }
+
     public void setListViewHeightBasedOnChildren(GridView listView) {
         // 获取ListView对应的Adapter
         ListAdapter listAdapter = listView.getAdapter();
@@ -90,7 +100,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         }
 
         int totalHeight = 0;
-        for (int i = 0, len = listAdapter.getCount(); i < len/2+1; i++) {
+        for (int i = 0, len = listAdapter.getCount(); i < len / 2 + 1; i++) {
             // listAdapter.getCount()返回数据项的数目
             View listItem = listAdapter.getView(i, null, listView);
             // 计算子项View 的宽高
@@ -100,11 +110,12 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         }
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height =  totalHeight;//+ (listView.getHeight() * (listAdapter.getCount() - 1));
+        params.height = totalHeight;//+ (listView.getHeight() * (listAdapter.getCount() - 1));
         // listView.getDividerHeight()获取子项间分隔符占用的高度
         // params.height最后得到整个ListView完整显示需要的高度
         listView.setLayoutParams(params);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,22 +123,22 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         SysExitUtil.activityList.add(this);
         Intent intent = getIntent();
         commodityid = intent.getStringExtra("id");
-        Log.d("mafuhua", "commodityid"+commodityid);
+        Log.d("mafuhua", "commodityid" + commodityid);
         assignViews();
         getCommodityList(commodityid);
-       // regListener();
+        // regListener();
     }
 
     private void addPoints() {
-        for(int i = 0;i<commodityImageList.size();i++){
+        for (int i = 0; i < commodityImageList.size(); i++) {
             // 动态添加指示点
             ImageView point = new ImageView(this);
             point.setBackgroundResource(R.drawable.point_bg); // 设置背景
 
             // 默认让第一个点是选中状态
-            if(i == 0){
+            if (i == 0) {
                 point.setEnabled(true);
-            }else{
+            } else {
                 point.setEnabled(false);
             }
 
@@ -138,19 +149,20 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
             layoutParams.leftMargin = 10; // 左边距，10象素
             layoutParams.topMargin = 5; // 上边距 ,5 象素
 
-            mLlPointGroup.addView(point,layoutParams); // 添加至页面中之前准备好的布局
+            mLlPointGroup.addView(point, layoutParams); // 添加至页面中之前准备好的布局
 
 
         }
     }
+
     public void getCommodityList(String commodity) {
-       // RequestParams params = new RequestParams(ContactURL.COMMODITY_DEC+commodityid);
-        org.xutils.http.RequestParams params = new org.xutils.http.RequestParams(ContactURL.ShopDec_URL+commodityid);
+        // RequestParams params = new RequestParams(ContactURL.COMMODITY_DEC+commodityid);
+        org.xutils.http.RequestParams params = new org.xutils.http.RequestParams(ContactURL.ShopDec_URL + commodityid);
         params.addBodyParameter("product_id", commodity);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("mafuhua", "------ShopDec_URL------"+result.toString());
+                Log.d("mafuhua", "------ShopDec_URL------" + result.toString());
                 String res = result.toString();
                 Gson gson = new Gson();
                 CommodityDecBean commodityDecBean = gson.fromJson(res, CommodityDecBean.class);
@@ -243,6 +255,17 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.iv_btn_back:
                 finish();
+                break;
+            case R.id.btn_jia:
+                totalNum+=1;
+                tv_shuliang.setText(totalNum+"");
+                break;
+            case R.id.btn_jian:
+                totalNum-=1;
+                tv_shuliang.setText(totalNum+"");
+                break;
+            case R.id.btn_add_gwc:
+                Log.d("mafuhua", "commodityid----"+commodityid+"totalNum:----" + totalNum);
                 break;
         }
     }

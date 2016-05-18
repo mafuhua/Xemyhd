@@ -97,6 +97,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         mIvBtnTalk = (ImageView) findViewById(R.id.iv_btn_talk);
         mIvBtnAdd.setOnClickListener(this);
         mIvBtnTalk.setOnClickListener(this);
+        mIvBtnBack.setOnClickListener(this);
         mTvTitleDec.setText(shop_title);
         myGridAdapter = new MyGridAdapter();
         gv_commoditylist.setAdapter(myGridAdapter);
@@ -278,6 +279,9 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
     public void onClick(View v) {
             Intent intent;
         switch (v.getId()) {
+            case R.id.iv_btn_back:
+                finish();
+                break;
             case R.id.iv_btn_add:
                 intent = new Intent(this,SearchCommodityActivity.class);
                 startActivity(intent);
