@@ -72,4 +72,14 @@ public class ContactURL {
      * 商品详情
      */
     public static String ShopDec_URL = BASE_URL + "product_read/product_id/";
+    /**
+     * 搜索超市商品
+     */
+    public static String SearchShop_URL = BASE_URL + "product/shop_user_id/"; /**
+     * 搜索互联世界商品
+     */
+    public static String SearchWorld_URL = BASE_URL + "pro_product/pro_name/";  /**
+     * 购物车
+     */
+    public static String GouWuChe_URL = BASE_URL + "cat/uid/";
 }

@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.base.BaseHolder;
 import com.yuen.xemyhd.base.DefaultAdapter;
-import com.yuen.xemyhd.bean.SearchShopBean;
+import com.yuen.xemyhd.bean.SearchWorldBean;
 import com.yuen.xemyhd.utils.ContactURL;
 import com.yuen.xemyhd.utils.MyUtils;
 import com.yuen.xemyhd.utils.SysExitUtil;
@@ -26,13 +26,12 @@ import org.xutils.x;
 
 import java.util.List;
 
-public class SearchCommodityActivity extends AppCompatActivity implements View.OnClickListener {
+public class SearchWorldActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText mEtInputSearch;
     private ImageView mIvBtnSearch;
     private Button mBtnSearch;
     private GridView mGvSearch;
     private Context context;
-
     private void assignViews() {
         context = this;
         mEtInputSearch = (EditText) findViewById(R.id.et_input_search);
@@ -40,6 +39,7 @@ public class SearchCommodityActivity extends AppCompatActivity implements View.O
         mBtnSearch = (Button) findViewById(R.id.btn_search);
         mGvSearch = (GridView) findViewById(R.id.gv_search);
         mBtnSearch.setOnClickListener(this);
+
     }
 
     @Override
@@ -53,20 +53,20 @@ public class SearchCommodityActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        switch (v.getId()){
             case R.id.btn_search:
                 String string = MyUtils.getInputString(context, mEtInputSearch, "内容不能为空");
                 if (string.isEmpty()) {
                     break;
                 }
-                XUtils.xUtilsGet(ContactURL.SearchShop_URL + HomeMarketActivity.shop_user_id + "/pro_name/" + string, new Callback.CommonCallback<String>() {
+                XUtils.xUtilsGet(ContactURL.SearchWorld_URL+ string, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.d("mafuhua", "------SearchShop_URL------" + result);
+                        Log.d("mafuhua", "------SearchWorld_URL------" + result);
                         Gson gson = new Gson();
-                        SearchShopBean searchShopBean = gson.fromJson(result, SearchShopBean.class);
-                        List<SearchShopBean.DataBean> searchShopBeanData = searchShopBean.getData();
-                        mGvSearch.setAdapter(new MyAdapter(searchShopBeanData));
+                        SearchWorldBean searchWorldBean = gson.fromJson(result, SearchWorldBean.class);
+                        List<SearchWorldBean.DataBean> searchWorldBeanData = searchWorldBean.getData();
+                        mGvSearch.setAdapter(new MyAdapter(searchWorldBeanData));
                     }
 
                     @Override
@@ -84,10 +84,10 @@ public class SearchCommodityActivity extends AppCompatActivity implements View.O
 
                     }
                 });
+
                 break;
         }
     }
-
     class MyAdapter extends DefaultAdapter {
         public MyAdapter(List datas) {
             super(datas);
@@ -100,7 +100,7 @@ public class SearchCommodityActivity extends AppCompatActivity implements View.O
     }
 
 
-    class ViewHolder extends BaseHolder<SearchShopBean.DataBean> {
+    class ViewHolder extends BaseHolder<SearchWorldBean.DataBean> {
         ImageView ivcommodityicon;
         TextView tvcommoditydec;
         TextView tvcommodityprice;
@@ -117,11 +117,10 @@ public class SearchCommodityActivity extends AppCompatActivity implements View.O
         }
 
         @Override
-        public void refreshView(SearchShopBean.DataBean data, int position) {
+        public void refreshView(SearchWorldBean.DataBean data, int position) {
             tvcommodityprice.setText("￥:" + data.getPro_price());
             tvcommoditydec.setText(data.getPro_name());
             x.image().bind(ivcommodityicon, data.getPro_img(), MyUtils.options);
-
         }
     }
 }

@@ -21,8 +21,6 @@ import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.activity.CommodityDecActivity;
 import com.yuen.xemyhd.utils.SysExitUtil;
 
-import org.xutils.image.ImageOptions;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +45,6 @@ public class HomeMarketListFragment extends AppCompatActivity {
     private List<String> proSheLvesList = new ArrayList<>();
     private List<String> proNameList = new ArrayList<>();
     private List<String> proInventoryList = new ArrayList<>();
-    private ImageOptions options;
     private int page = 0;
     private Handler mHandler = new Handler() {
         @Override
@@ -121,10 +118,7 @@ public class HomeMarketListFragment extends AppCompatActivity {
 
             }
         });
-        options = new ImageOptions.Builder()
-                //设置使用缓存
-                .setUseMemCache(true)
-                .build();
+
     }
 
     @Override

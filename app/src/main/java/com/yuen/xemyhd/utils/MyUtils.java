@@ -3,7 +3,10 @@ package com.yuen.xemyhd.utils;
 import android.content.Context;
 import android.text.TextUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import org.xutils.image.ImageOptions;
 
 import java.io.File;
 
@@ -11,6 +14,12 @@ import java.io.File;
  * Created by Administrator on 2016/4/12.
  */
 public class MyUtils {
+    public static ImageOptions options = new ImageOptions.Builder()
+            //设置使用缓存
+            .setUseMemCache(true)
+            // 图片缩放模式
+            .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+            .build();
     private static Toast toast = null;
 
     /**

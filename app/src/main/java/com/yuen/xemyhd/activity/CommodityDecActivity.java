@@ -22,10 +22,10 @@ import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.bean.CommodityDecBean;
 import com.yuen.xemyhd.utils.ContactURL;
+import com.yuen.xemyhd.utils.MyUtils;
 import com.yuen.xemyhd.utils.SysExitUtil;
 
 import org.xutils.common.Callback;
-import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -49,7 +49,6 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
     private List<String> commodityImageList = new ArrayList<>();
     private MyPagerAdapter myPagerAdapter;
     private String commodityid;
-    private ImageOptions options;
     private TextView mTvCommodityDecContent;
     private LinearLayout mLlPointGroup;
     private CommodityDecBean.DataBean commodityDecBeanData;
@@ -84,12 +83,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         btn_jia.setOnClickListener(this);
         btn_jian.setOnClickListener(this);
         btn_add_gwc.setOnClickListener(this);
-        options = new ImageOptions.Builder()
-                //设置使用缓存
-                .setUseMemCache(true)
-                // 图片缩放模式
-                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                .build();
+
     }
 
     public void setListViewHeightBasedOnChildren(GridView listView) {
@@ -278,7 +272,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
            /* LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
                     ViewGroup.LayoutParams.FILL_PARENT);
             imageView .setLayoutParams(mParams);*/
-            x.image().bind(imageView, commodityImageList.get(position), options);
+            x.image().bind(imageView, commodityImageList.get(position), MyUtils.options);
 
             container.addView(imageView);
             return imageView;

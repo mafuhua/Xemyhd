@@ -30,7 +30,6 @@ import com.yuen.xemyhd.utils.SysExitUtil;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
-import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -52,7 +51,6 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
     private GridView gv_commoditylist;
     private List<ShopListBean.DataBean> shopListBeanData = new ArrayList<>();
     private Context context;
-    private ImageOptions options;
     private List<ShopListBean.TDataBean> t_data = new ArrayList<>();
     private List<ShopListBean.TDataBean> t_Contentdata = new ArrayList<>();
     private TextView tv_market_shoptime;
@@ -122,12 +120,6 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
         });
         mRcHomeHorizontal.setAdapter(myRCAdapter);
         listView.setOnItemClickListener(this);
-        options = new ImageOptions.Builder()
-                //设置使用缓存
-                .setUseMemCache(true)
-                        // 图片缩放模式
-                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                .build();
         gv_commoditylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -459,7 +451,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
             }
             viewHolder.tvcommodityprice.setText("￥:" + shopListBeanData.get(position).getPro_price());
             viewHolder.tvcommoditydec.setText(shopListBeanData.get(position).getPro_name());
-            x.image().bind(viewHolder.ivcommodityicon, shopListBeanData.get(position).getPro_img(), options);
+            x.image().bind(viewHolder.ivcommodityicon, shopListBeanData.get(position).getPro_img(), MyUtils.options);
             return convertView;
         }
 

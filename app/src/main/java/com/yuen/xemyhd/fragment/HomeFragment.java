@@ -24,10 +24,8 @@ import android.widget.Toast;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.activity.HomeMarketListActivity;
 import com.yuen.xemyhd.activity.MainActivity;
-import com.yuen.xemyhd.activity.SearchCommodityActivity;
+import com.yuen.xemyhd.activity.SearchWorldActivity;
 import com.yuen.xemyhd.utils.MyUtils;
-
-import org.xutils.image.ImageOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +47,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private List<Integer> mDatas;
     private Button mBtnHomeAddIcon;
     private MyPagerAdapter myPagerAdapter;
-    private ImageOptions options;
     private Context context;
     /**
      * 页面改变时，上一个页面的下标
@@ -106,12 +103,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             }
         });
         mRcHomeHorizontal.setAdapter(myRCAdapter);
-        options = new ImageOptions.Builder()
-                //设置使用缓存
-                .setUseMemCache(true)
-                // 图片缩放模式
-                .setImageScaleType(ImageView.ScaleType.FIT_XY)
-                .build();
+
     }
 
     private void regListener() {
@@ -202,7 +194,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.rl_home_world:
-                intent = new Intent(context, SearchCommodityActivity.class);
+                intent = new Intent(context, SearchWorldActivity.class);
                 startActivity(intent);
                 break;
             case R.id.iv_btn_home_love:
