@@ -1,10 +1,12 @@
 package com.yuen.xemyhd.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -32,6 +34,7 @@ public class SearchCommodityActivity extends AppCompatActivity implements View.O
     private Button mBtnSearch;
     private GridView mGvSearch;
     private Context context;
+    private List<SearchShopBean.DataBean> searchShopBeanData;
 
     private void assignViews() {
         context = this;
@@ -40,6 +43,15 @@ public class SearchCommodityActivity extends AppCompatActivity implements View.O
         mBtnSearch = (Button) findViewById(R.id.btn_search);
         mGvSearch = (GridView) findViewById(R.id.gv_search);
         mBtnSearch.setOnClickListener(this);
+        mGvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SearchShopBean.DataBean dataBean = searchShopBeanData.get(position);
+                Intent intent = new Intent(SearchCommodityActivity.this,CommodityDecActivity.class);
+                intent.putExtra("id",dataBean.getId());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -64,8 +76,8 @@ public class SearchCommodityActivity extends AppCompatActivity implements View.O
                     public void onSuccess(String result) {
                         Log.d("mafuhua", "------SearchShop_URL------" + result);
                         Gson gson = new Gson();
-                        SearchShopBean searchShopBean = gson.fromJson(result, SearchShopBean.class);
-                        List<SearchShopBean.DataBean> searchShopBeanData = searchShopBean.getData();
+                        SearchShopBean searchShopBean =  gson.fromJson(result, SearchShopBean.class);
+                        searchShopBeanData = searchShopBean.getData();
                         mGvSearch.setAdapter(new MyAdapter(searchShopBeanData));
                     }
 

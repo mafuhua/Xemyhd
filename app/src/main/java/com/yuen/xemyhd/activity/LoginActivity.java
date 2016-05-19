@@ -1,5 +1,6 @@
 package com.yuen.xemyhd.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.base.BaseActivity;
 import com.yuen.xemyhd.bean.LoginBean;
 import com.yuen.xemyhd.utils.ContactURL;
+import com.yuen.xemyhd.utils.MyUtils;
 import com.yuen.xemyhd.utils.SysExitUtil;
 import com.yuen.xemyhd.utils.XUtils;
 
@@ -25,6 +27,7 @@ import org.xutils.common.Callback;
 import java.util.HashMap;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
+    public static String login_type;
     private EditText mEtLoginUsername;
     private EditText mEtLoginPassword;
     private TextView mTvLoginForgetPassword;
@@ -33,8 +36,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private String username;
     private String password;
     private TextView mTvLoginRigister;
-    public static String login_type;
+    private Context context;
+
     private void assignViews() {
+        context = this;
         sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         mEtLoginUsername = (EditText) findViewById(R.id.et_login_username);
         mEtLoginPassword = (EditText) findViewById(R.id.et_login_password);
@@ -93,7 +98,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     break;
 
                 }
-                login(userName,password);
+                login(userName, password);
                 break;
             case R.id.tv_login_forget_password:
                 login_type = "1";
@@ -111,31 +116,37 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
     private void login(final String userName, final String password) {
-        Log.d("mafuhua", userName+"-------"+password);
+        Log.d("mafuhua", userName + "-------" + password);
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put("name", userName);
-        map.put("password", password);
+        map.put("tel", userName);
+        map.put("pwd", password);
         XUtils.xUtilsPost(ContactURL.LOGIN_URL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                  Log.d("mafuhua","----------LOGIN_URL---------"+ result);
+                Log.d("mafuhua", "----------LOGIN_URL---------" + result);
                 Gson gson = new Gson();
                 LoginBean loginBean = gson.fromJson(result, LoginBean.class);
-                LoginBean.DataBean dataBean = loginBean.getData();
-                sharedPreferences.edit()
-                        .putString("username", userName)
-                        .putString("password", password)
-                        .putString("lgusername", userName)
-                        .putString("lgpassword", password)
-                        .putString("uid", dataBean.getUid())
-                        .putString("token", dataBean.getToken())
-                        .putString("icon", dataBean.getImg())
-                        .putString("nickname", dataBean.getNickname())
-                        .putString("tel", dataBean.getTel()).apply();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
-                finish();
+                String code = loginBean.getCode();
+                if (code.equals("1")) {
+                    MyUtils.toastShow(context, loginBean.getMsg(), Toast.LENGTH_SHORT);
+                } else {
+                    LoginBean.DataBean dataBean = loginBean.getData();
+                    sharedPreferences.edit()
+                            .putString("username", userName)
+                            .putString("password", password)
+                            .putString("lgusername", userName)
+                            .putString("lgpassword", password)
+                            .putString("uid", dataBean.getUid())
+                            .putString("token", dataBean.getToken())
+                            .putString("icon", dataBean.getImg())
+                            .putString("nickname", dataBean.getNickname())
+                            .putString("tel", dataBean.getTel()).apply();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                    finish();
+                }
+
             }
 
             @Override

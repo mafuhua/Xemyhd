@@ -1,10 +1,12 @@
 package com.yuen.xemyhd.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -32,6 +34,8 @@ public class SearchWorldActivity extends AppCompatActivity implements View.OnCli
     private Button mBtnSearch;
     private GridView mGvSearch;
     private Context context;
+    private List<SearchWorldBean.DataBean> searchWorldBeanData;
+
     private void assignViews() {
         context = this;
         mEtInputSearch = (EditText) findViewById(R.id.et_input_search);
@@ -39,6 +43,15 @@ public class SearchWorldActivity extends AppCompatActivity implements View.OnCli
         mBtnSearch = (Button) findViewById(R.id.btn_search);
         mGvSearch = (GridView) findViewById(R.id.gv_search);
         mBtnSearch.setOnClickListener(this);
+        mGvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SearchWorldBean.DataBean dataBean = searchWorldBeanData.get(position);
+                Intent intent = new Intent(SearchWorldActivity.this,CommodityDecActivity.class);
+                intent.putExtra("id",dataBean.getId());
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -65,7 +78,7 @@ public class SearchWorldActivity extends AppCompatActivity implements View.OnCli
                         Log.d("mafuhua", "------SearchWorld_URL------" + result);
                         Gson gson = new Gson();
                         SearchWorldBean searchWorldBean = gson.fromJson(result, SearchWorldBean.class);
-                        List<SearchWorldBean.DataBean> searchWorldBeanData = searchWorldBean.getData();
+                        searchWorldBeanData = searchWorldBean.getData();
                         mGvSearch.setAdapter(new MyAdapter(searchWorldBeanData));
                     }
 

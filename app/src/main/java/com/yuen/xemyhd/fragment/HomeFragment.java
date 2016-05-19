@@ -36,7 +36,7 @@ import java.util.List;
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     // 图片资源ID
-    private final int[] imageIds = {R.drawable.hlsj3x, R.drawable.cs3x};
+    private final int[] imageIds = {R.drawable.at, R.drawable.bt, R.drawable.ct,R.drawable.at, R.drawable.bt, R.drawable.ct};
     private ViewPager mVpHomepageDec;
     private LinearLayout mLlPointGroup;
     private RelativeLayout mRlHomeMarket;

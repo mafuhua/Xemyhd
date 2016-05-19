@@ -19,6 +19,7 @@ import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.base.BaseHolder;
 import com.yuen.xemyhd.base.DefaultAdapter;
 import com.yuen.xemyhd.bean.TestGouwuche;
+import com.yuen.xemyhd.utils.ContactURL;
 import com.yuen.xemyhd.utils.SysExitUtil;
 
 import org.xutils.common.Callback;
@@ -50,7 +51,7 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
     private TextView mTvTitileDec;
 
     public static void getdata() {
-        final RequestParams params = new RequestParams("http://192.168.2.116/xiaoermei/shopapi/ShopListEmptyBean");
+        final RequestParams params = new RequestParams(ContactURL.GouWuChe_URL+ MainActivity.useruid);
         //  final RequestParams params = new RequestParams("http://192.168.2.128:8080/buycar.json");
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
