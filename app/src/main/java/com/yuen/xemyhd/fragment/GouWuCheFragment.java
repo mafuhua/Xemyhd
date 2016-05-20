@@ -71,20 +71,20 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
                 Log.d("mafuhua", "shopapi/ShopListEmptyBean========" + result);
                 Gson gson = new Gson();
                 TestGouwuche testGouwuche = gson.fromJson(result, TestGouwuche.class);
-                dataBeanList = testGouwuche.data;
+                dataBeanList = testGouwuche.getData();
                 typepos = 0;
                 typeposList.add(typepos);
                 for (int i = 0; i < dataBeanList.size(); i++) {
-                    String typename = dataBeanList.get(i).name;
+                    String typename = dataBeanList.get(i).getShop_title();
                     shopcheckparentList.add(false);
-                    GouWuCheFragment.proBeanList = dataBeanList.get(i).pro;
+                    GouWuCheFragment.proBeanList = dataBeanList.get(i).getPro();
                     typepos = typepos + proBeanList.size();
                     typeposList.add(typepos);
                     for (int i1 = 0; i1 < GouWuCheFragment.proBeanList.size(); i1++) {
-                        shopnameList.add(GouWuCheFragment.proBeanList.get(i1).pro_name);
-                        shopnumList.add(GouWuCheFragment.proBeanList.get(i1).num);
-                        shopinventList.add(Integer.parseInt(GouWuCheFragment.proBeanList.get(i1).pro_inventory));
-                        shoppriceList.add(GouWuCheFragment.proBeanList.get(i1).price);
+                        shopnameList.add(GouWuCheFragment.proBeanList.get(i1).getPro_name());
+                        shopnumList.add(Integer.parseInt(GouWuCheFragment.proBeanList.get(i1).getPro_num()));
+                        shopinventList.add(Integer.parseInt(GouWuCheFragment.proBeanList.get(i1).getPro_inventory()));
+                        shoppriceList.add(GouWuCheFragment.proBeanList.get(i1).getPro_price());
                         shopcheckchildList.add(false);
                     }
                     typenameList.add(typename);
@@ -198,7 +198,7 @@ public class GouWuCheFragment extends BaseFragment implements View.OnClickListen
                 int indexOf = typeposList.indexOf(position);
                 Log.d("mafuhua", "shopcheckparentList.get(indexOf):" + shopcheckparentList.get(indexOf));
                 viewHolder.cbgouwucheitemall.setChecked(shopcheckparentList.get(indexOf));
-                viewHolder.tvgouwuchelisttype.setText(dataBeanList.get(indexOf).name);
+                viewHolder.tvgouwuchelisttype.setText(dataBeanList.get(indexOf).getShop_title());
                 viewHolder.rlgowucheitemtitle.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.rlgowucheitemtitle.setVisibility(View.GONE);

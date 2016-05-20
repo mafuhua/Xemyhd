@@ -17,18 +17,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
+import com.yuen.xemyhd.bean.BaseBean;
 import com.yuen.xemyhd.bean.CommodityDecBean;
 import com.yuen.xemyhd.utils.ContactURL;
 import com.yuen.xemyhd.utils.MyUtils;
 import com.yuen.xemyhd.utils.SysExitUtil;
+import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,6 +61,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
     private Button btn_jian;
     private TextView tv_shuliang;
     private int totalNum = 1;
+
     private void assignViews() {
         context = this;
         mVpCommodityDec = (ViewPager) findViewById(R.id.vp_commodity_dec);
@@ -251,17 +256,56 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 finish();
                 break;
             case R.id.btn_jia:
-                totalNum+=1;
-                tv_shuliang.setText(totalNum+"");
+                if (Integer.parseInt(commodityDecBeanData.getPro_inventory()) > totalNum) {
+                    totalNum += 1;
+                    tv_shuliang.setText(totalNum + "");
+                }
                 break;
             case R.id.btn_jian:
-                totalNum-=1;
-                tv_shuliang.setText(totalNum+"");
+                if (totalNum >= 2) {
+                    totalNum -= 1;
+                    tv_shuliang.setText(totalNum + "");
+                }
                 break;
             case R.id.btn_add_gwc:
-                Log.d("mafuhua", "commodityid----"+commodityid+"totalNum:----" + totalNum);
+                addGouwuche();
+
                 break;
         }
+    }
+
+    private void addGouwuche() {
+        Log.d("mafuhua", "commodityid----" + commodityid + "totalNum:----" + totalNum);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("shop_id", HomeMarketActivity.shop_user_id);
+        map.put("user_id", MainActivity.useruid);
+        map.put("pro_id", commodityid);
+        map.put("num", totalNum + "");
+        XUtils.xUtilsPost(ContactURL.AddGouWuChe_URL, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", "------AddGouWuChe_URL---------" + result);
+                Gson gson = new Gson();
+                BaseBean baseBean = gson.fromJson(result, BaseBean.class);
+                Toast.makeText(CommodityDecActivity.this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     class MyPagerAdapter extends PagerAdapter {

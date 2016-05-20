@@ -75,11 +75,19 @@ public class ContactURL {
     /**
      * 搜索超市商品
      */
-    public static String SearchShop_URL = BASE_URL + "product/shop_user_id/"; /**
+    public static String SearchShop_URL = BASE_URL + "product/shop_user_id/";
+    /**
      * 搜索互联世界商品
      */
-    public static String SearchWorld_URL = BASE_URL + "pro_product/pro_name/";  /**
+    public static String SearchWorld_URL = BASE_URL + "pro_product/pro_name/";
+    /**
      * 购物车
      */
-    public static String GouWuChe_URL = BASE_URL + "cat/uid/";
+    public static String GouWuChe_URL = BASE_URL + "cat/uid/";  /**
+     * 添加购物车
+     */
+    public static String AddGouWuChe_URL = BASE_URL + "add_cat";/**
+     * 删除购物车
+     */
+    public static String DelGouWuChe_URL = BASE_URL + "del_cat/id/";
 }
