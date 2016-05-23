@@ -7,7 +7,7 @@ public class ContactURL {
     /**
      * BaseURL
      */
-    public static String BASE_URL = "http://192.168.2.117/xiaoermei/shopapi/";
+    public static String BASE_URL = "http://192.168.2.133/xiaoermei/shopapi/";
     /**
      * 登陆
      */
@@ -83,11 +83,20 @@ public class ContactURL {
     /**
      * 购物车
      */
-    public static String GouWuChe_URL = BASE_URL + "cat/uid/";  /**
+    public static String GouWuChe_URL = BASE_URL + "cat/uid/";
+    /**
      * 添加购物车
      */
-    public static String AddGouWuChe_URL = BASE_URL + "add_cat";/**
+    public static String AddGouWuChe_URL = BASE_URL + "add_cat";
+    /**
      * 删除购物车
      */
     public static String DelGouWuChe_URL = BASE_URL + "del_cat/id/";
+    /**
+     * 订单
+     */
+    public static String CreatOrder_URL = BASE_URL + "order"; /**
+     * 订单列表
+     */
+    public static String OrderList_URL = BASE_URL + "order_list/user_id/";
 }

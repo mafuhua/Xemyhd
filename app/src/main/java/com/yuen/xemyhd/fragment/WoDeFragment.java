@@ -20,6 +20,7 @@ import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.activity.AddressManagerActivity;
 import com.yuen.xemyhd.activity.MainActivity;
 import com.yuen.xemyhd.activity.MyInfomationActivity;
+import com.yuen.xemyhd.activity.OrderListActivity;
 import com.yuen.xemyhd.activity.SettingActivity;
 import com.yuen.xemyhd.activity.WoOftenGetActivity;
 import com.yuen.xemyhd.base.BaseHolder;
@@ -77,6 +78,9 @@ public class WoDeFragment extends BaseFragment {
                 Intent intent;
                 switch (position) {
                     case 0:
+                        intent = new Intent(getActivity(), OrderListActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
                         break;
                     case 1:
                         break;

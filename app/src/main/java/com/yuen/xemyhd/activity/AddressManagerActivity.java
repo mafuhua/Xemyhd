@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressManagerActivity extends AppCompatActivity {
+    ListView lvaddressmanager;
+    Button btnaddressadd;
     private LinearLayout mLayoutTitleBar;
     private ImageView mIvBtnBack;
     private TextView mTvTitleDec;
@@ -131,6 +133,8 @@ public class AddressManagerActivity extends AppCompatActivity {
     }
 
         private AddressManagerHolder addressManagerHolder;
+
+
     class MyAdapter extends DefaultAdapter {
 
 

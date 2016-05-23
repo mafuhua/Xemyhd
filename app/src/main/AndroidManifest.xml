@@ -81,6 +81,7 @@
         <activity android:name=".activity.RigesterActivity"/>
         <activity android:name=".activity.CommodityDecActivity"/>
         <activity android:name=".activity.ForgetPSWActivity"/>
+        <activity android:name=".activity.OrderListActivity"/>
         <activity android:name=".activity.SearchWorldActivity"/>
         <activity android:name=".activity.ForgetPSWFINISHActivity"/>
         <activity android:name=".fragment.HomeMarketListFragment"/>
