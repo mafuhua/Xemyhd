@@ -7,23 +7,25 @@ import java.util.List;
  */
 public class OrderListBean {
 
+
     /**
      * code : 0
+     * data : [{"adds_id":"10","order_id":"1463797361649893","price":"152.00","pro":[{"id":"17","image":"http://192.168.2.136/xiaoermei/upload/product/201604/1460777662-22766.jpg","name":"4","num":"1","order_id":"1463797361649893","price":"152.00","pro_id":"13","time":"1463797361"}],"shop_id":"1","shop_title":"家乐福","time":"1463797361","type":"2","user_id":"1"},{"adds_id":"10","order_id":"1463797361344610","price":"56.00","pro":[{"id":"18","image":"http://192.168.2.136/xiaoermei/upload/product/201604/1460777662-22766.jpg","name":"3","num":"8","order_id":"1463797361344610","price":"1.00","pro_id":"10","time":"1463797361"},{"id":"19","image":"http://192.168.2.136/xiaoermei/upload/product/201604/1460777662-22766.jpg","name":"3","num":"9","order_id":"1463797361344610","price":"2.00","pro_id":"11","time":"1463797361"},{"id":"20","image":"http://192.168.2.136/xiaoermei/upload/product/201604/1460777662-22766.jpg","name":"3","num":"10","order_id":"1463797361344610","price":"3.00","pro_id":"12","time":"1463797361"}],"shop_id":"6","shop_title":"家乐福1","time":"1463797361","type":"0","user_id":"1"}]
      * msg : 成功
-     * data : [{"order_id":"1463991971371472","user_id":"352","shop_id":"1","price":"64545.00","type":"0","time":"1463991971","fu_time":null,"pro":[{"id":"21","order_id":"1463991971371472","pro_id":"50","name":"u嘟嘟符合等你呢","price":"21515.00","image":"http://192.168.2.133/xiaoermei/upload/product/201605/1462880105-25814.jpg","num":"3","time":"1463991971"}]},{"order_id":"1463991971385781","user_id":"352","shop_id":"5","price":"153.00","type":"0","time":"1463991971","fu_time":null,"pro":[{"id":"22","order_id":"1463991971385781","pro_id":"4","name":"4","price":"152.00","image":"http://192.168.2.133/xiaoermei/upload/product/201604/1460777662-22766.jpg","num":"1","time":"1463991971"},{"id":"23","order_id":"1463991971385781","pro_id":"5","name":"5","price":"1.00","image":"http://192.168.2.133/xiaoermei/upload/product/201604/1460777662-22766.jpg","num":"1","time":"1463991971"}]}]
      */
 
     private String code;
     private String msg;
     /**
-     * order_id : 1463991971371472
-     * user_id : 352
+     * adds_id : 10
+     * order_id : 1463797361649893
+     * price : 152.00
+     * pro : [{"id":"17","image":"http://192.168.2.136/xiaoermei/upload/product/201604/1460777662-22766.jpg","name":"4","num":"1","order_id":"1463797361649893","price":"152.00","pro_id":"13","time":"1463797361"}]
      * shop_id : 1
-     * price : 64545.00
-     * type : 0
-     * time : 1463991971
-     * fu_time : null
-     * pro : [{"id":"21","order_id":"1463991971371472","pro_id":"50","name":"u嘟嘟符合等你呢","price":"21515.00","image":"http://192.168.2.133/xiaoermei/upload/product/201605/1462880105-25814.jpg","num":"3","time":"1463991971"}]
+     * shop_title : 家乐福
+     * time : 1463797361
+     * type : 2
+     * user_id : 1
      */
 
     private List<DataBean> data;
@@ -53,25 +55,34 @@ public class OrderListBean {
     }
 
     public static class DataBean {
+        private String adds_id;
         private String order_id;
-        private String user_id;
-        private String shop_id;
         private String price;
-        private String type;
+        private String shop_id;
+        private String shop_title;
         private String time;
-        private Object fu_time;
+        private String type;
+        private String user_id;
         /**
-         * id : 21
-         * order_id : 1463991971371472
-         * pro_id : 50
-         * name : u嘟嘟符合等你呢
-         * price : 21515.00
-         * image : http://192.168.2.133/xiaoermei/upload/product/201605/1462880105-25814.jpg
-         * num : 3
-         * time : 1463991971
+         * id : 17
+         * image : http://192.168.2.136/xiaoermei/upload/product/201604/1460777662-22766.jpg
+         * name : 4
+         * num : 1
+         * order_id : 1463797361649893
+         * price : 152.00
+         * pro_id : 13
+         * time : 1463797361
          */
 
         private List<ProBean> pro;
+
+        public String getAdds_id() {
+            return adds_id;
+        }
+
+        public void setAdds_id(String adds_id) {
+            this.adds_id = adds_id;
+        }
 
         public String getOrder_id() {
             return order_id;
@@ -79,22 +90,6 @@ public class OrderListBean {
 
         public void setOrder_id(String order_id) {
             this.order_id = order_id;
-        }
-
-        public String getUser_id() {
-            return user_id;
-        }
-
-        public void setUser_id(String user_id) {
-            this.user_id = user_id;
-        }
-
-        public String getShop_id() {
-            return shop_id;
-        }
-
-        public void setShop_id(String shop_id) {
-            this.shop_id = shop_id;
         }
 
         public String getPrice() {
@@ -105,12 +100,20 @@ public class OrderListBean {
             this.price = price;
         }
 
-        public String getType() {
-            return type;
+        public String getShop_id() {
+            return shop_id;
         }
 
-        public void setType(String type) {
-            this.type = type;
+        public void setShop_id(String shop_id) {
+            this.shop_id = shop_id;
+        }
+
+        public String getShop_title() {
+            return shop_title;
+        }
+
+        public void setShop_title(String shop_title) {
+            this.shop_title = shop_title;
         }
 
         public String getTime() {
@@ -121,12 +124,20 @@ public class OrderListBean {
             this.time = time;
         }
 
-        public Object getFu_time() {
-            return fu_time;
+        public String getType() {
+            return type;
         }
 
-        public void setFu_time(Object fu_time) {
-            this.fu_time = fu_time;
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(String user_id) {
+            this.user_id = user_id;
         }
 
         public List<ProBean> getPro() {
@@ -139,12 +150,12 @@ public class OrderListBean {
 
         public static class ProBean {
             private String id;
-            private String order_id;
-            private String pro_id;
-            private String name;
-            private String price;
             private String image;
+            private String name;
             private String num;
+            private String order_id;
+            private String price;
+            private String pro_id;
             private String time;
 
             public String getId() {
@@ -155,20 +166,12 @@ public class OrderListBean {
                 this.id = id;
             }
 
-            public String getOrder_id() {
-                return order_id;
+            public String getImage() {
+                return image;
             }
 
-            public void setOrder_id(String order_id) {
-                this.order_id = order_id;
-            }
-
-            public String getPro_id() {
-                return pro_id;
-            }
-
-            public void setPro_id(String pro_id) {
-                this.pro_id = pro_id;
+            public void setImage(String image) {
+                this.image = image;
             }
 
             public String getName() {
@@ -179,6 +182,22 @@ public class OrderListBean {
                 this.name = name;
             }
 
+            public String getNum() {
+                return num;
+            }
+
+            public void setNum(String num) {
+                this.num = num;
+            }
+
+            public String getOrder_id() {
+                return order_id;
+            }
+
+            public void setOrder_id(String order_id) {
+                this.order_id = order_id;
+            }
+
             public String getPrice() {
                 return price;
             }
@@ -187,20 +206,12 @@ public class OrderListBean {
                 this.price = price;
             }
 
-            public String getImage() {
-                return image;
+            public String getPro_id() {
+                return pro_id;
             }
 
-            public void setImage(String image) {
-                this.image = image;
-            }
-
-            public String getNum() {
-                return num;
-            }
-
-            public void setNum(String num) {
-                this.num = num;
+            public void setPro_id(String pro_id) {
+                this.pro_id = pro_id;
             }
 
             public String getTime() {

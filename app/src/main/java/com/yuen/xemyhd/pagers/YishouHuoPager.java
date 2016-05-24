@@ -1,7 +1,5 @@
 package com.yuen.xemyhd.pagers;
 
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,11 +9,11 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
-import com.yuen.xemyhd.activity.CommodityDecActivity;
 import com.yuen.xemyhd.activity.MainActivity;
 import com.yuen.xemyhd.base.BaseHolder;
 import com.yuen.xemyhd.base.DefaultAdapter;
 import com.yuen.xemyhd.bean.OrderListBean;
+import com.yuen.xemyhd.fragment.BaseFragment;
 import com.yuen.xemyhd.utils.ContactURL;
 import com.yuen.xemyhd.utils.XUtils;
 
@@ -26,41 +24,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class YiFaHuoPager extends BasePager {
+public class YishouHuoPager extends BaseFragment {
 
     private ListView mLvOftenGet;
     private MyAdapter myAdapter;
     private List<OrderListBean.DataBean.ProBean> orderList = new ArrayList<>();
     private List<OrderListBean.DataBean> orderListBeanData;
     private String[] stringArray;
-    private Context context;
-
-    public YiFaHuoPager(Context context) {
-        super(context);
-        this.context = context;
-    }
 
     @Override
     public View initView() {
-        View view = View.inflate(context, R.layout.pager_order_list, null);
+        View view = View.inflate(getActivity(), R.layout.pager_order_list, null);
         mLvOftenGet = (ListView) view.findViewById(R.id.lv_often_get);
-        Log.d("mafuhua", "待收货:" );
+
         return view;
     }
     private static int typepos = 0;
     private static List<Integer> typeposList = new ArrayList<>();
     @Override
     public void initData() {
-        stringArray = context.getResources().getStringArray(R.array.types);
+        stringArray = getActivity().getResources().getStringArray(R.array.types);
         getOrderList();
     }
 
     private void getOrderList() {
-        XUtils.xUtilsGet(ContactURL.OrderList_URL + MainActivity.useruid+"/type/3", new Callback.CommonCallback<String>() {
+        XUtils.xUtilsGet(ContactURL.OrderList_URL + MainActivity.useruid+"/type/4", new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "------OrderList_URL-----" + result);
-
                 orderList.clear();
                 Gson gson = new Gson();
                 OrderListBean orderListBean = gson.fromJson(result, OrderListBean.class);
@@ -120,7 +111,7 @@ public class YiFaHuoPager extends BasePager {
         private RelativeLayout rl_titile;
         @Override
         public View initView() {
-            View root = View.inflate(context, R.layout.layout_often_get_item, null);
+            View root = View.inflate(getActivity(), R.layout.layout_often_get_item, null);
             ivoftenimgtype = (ImageView) root.findViewById(R.id.iv_often_img_type);
             rl_titile =  (RelativeLayout) root.findViewById(R.id.rl_titile);
             tvorderlisttype = (TextView) root.findViewById(R.id.tv_order_list_type);
@@ -132,12 +123,11 @@ public class YiFaHuoPager extends BasePager {
         }
 
         @Override
-        public void refreshView(final OrderListBean.DataBean.ProBean data, int position) {
+        public void refreshView(OrderListBean.DataBean.ProBean data, int position) {
             tvoftenlistshopname.setText(data.getName());
             tvoftenlistprice.setText(data.getPrice());
             tvoftenlistshopname.setText(data.getPrice());
             tvoftenlistprice.setText(data.getPrice());
-
             x.image().bind(ivordershopimage, data.getImage());
             Log.d("mafuhua", "typeposListoo:" + typeposList);
             Log.d("mafuhua", "typeposList:" + position);
@@ -153,22 +143,12 @@ public class YiFaHuoPager extends BasePager {
                 }else{
                     tv_order_type.setText(stringArray[2]);
                 }
-                tvorderlisttype.setText(dataBean.getShop_title());
+                tvoftenlistshopname.setText(dataBean.getShop_title());
                 rl_titile.setVisibility(View.VISIBLE);
             } else {
                 rl_titile.setVisibility(View.GONE);
             }
-            ivordershopimage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, CommodityDecActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    intent.putExtra("id", data.getPro_id());
-                    context.startActivity(intent);
-                }
-            });
         }
     }
-
 
 }
