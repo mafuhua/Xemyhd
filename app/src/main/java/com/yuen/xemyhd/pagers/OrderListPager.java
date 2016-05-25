@@ -27,6 +27,8 @@ import java.util.List;
 
 
 public class OrderListPager extends BasePager {
+    private static int typepos = 0;
+    private static List<Integer> typeposList = new ArrayList<>();
     private ListView mLvOftenGet;
     private MyAdapter myAdapter;
     private List<OrderListBean.DataBean.ProBean> orderList = new ArrayList<>();
@@ -42,13 +44,12 @@ public class OrderListPager extends BasePager {
     @Override
     public View initView() {
         View view = View.inflate(context, R.layout.pager_order_list, null);
-        Log.d("mafuhua", "全部:" );
+        Log.d("mafuhua", "全部:");
         mLvOftenGet = (ListView) view.findViewById(R.id.lv_often_get);
 
         return view;
     }
-    private static int typepos = 0;
-    private static List<Integer> typeposList = new ArrayList<>();
+
     @Override
     public void initData() {
         stringArray = context.getResources().getStringArray(R.array.types);
@@ -116,17 +117,20 @@ public class OrderListPager extends BasePager {
         public TextView tvoftenlistshopname;
         public TextView tvoftenlistprice;
         public TextView tv_order_type;
+        public TextView tv_often_list_count;
         private RelativeLayout rl_titile;
+
         @Override
         public View initView() {
             View root = View.inflate(context, R.layout.layout_often_get_item, null);
             ivoftenimgtype = (ImageView) root.findViewById(R.id.iv_often_img_type);
-            rl_titile =  (RelativeLayout) root.findViewById(R.id.rl_titile);
+            rl_titile = (RelativeLayout) root.findViewById(R.id.rl_titile);
             tvorderlisttype = (TextView) root.findViewById(R.id.tv_order_list_type);
             tv_order_type = (TextView) root.findViewById(R.id.tv_order_type);
             ivordershopimage = (ImageView) root.findViewById(R.id.iv_order_shop_image);
             tvoftenlistshopname = (TextView) root.findViewById(R.id.tv_often_list_shopname);
             tvoftenlistprice = (TextView) root.findViewById(R.id.tv_often_list_price);
+            tv_often_list_count = (TextView) root.findViewById(R.id.tv_often_list_count);
             return root;
         }
 
@@ -134,8 +138,7 @@ public class OrderListPager extends BasePager {
         public void refreshView(final OrderListBean.DataBean.ProBean data, int position) {
             tvoftenlistshopname.setText(data.getName());
             tvoftenlistprice.setText(data.getPrice());
-            tvoftenlistshopname.setText(data.getPrice());
-            tvoftenlistprice.setText(data.getPrice());
+            tv_often_list_count.setText("X" + data.getNum());
             x.image().bind(ivordershopimage, data.getImage());
             Log.d("mafuhua", "typeposListoo:" + typeposList);
             Log.d("mafuhua", "typeposList:" + position);
@@ -144,11 +147,11 @@ public class OrderListPager extends BasePager {
                 int i = typeposList.indexOf(position);
                 OrderListBean.DataBean dataBean = orderListBeanData.get(i);
                 String type = dataBean.getType();
-                if (type.equals("1")){
+                if (type.equals("1")) {
                     tv_order_type.setText(stringArray[0]);
-                }else if (type.equals("2")){
+                } else if (type.equals("2")) {
                     tv_order_type.setText(stringArray[1]);
-                }else{
+                } else {
                     tv_order_type.setText(stringArray[2]);
                 }
 
@@ -164,7 +167,7 @@ public class OrderListPager extends BasePager {
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     intent.putExtra("id", data.getPro_id());
 
-                    Log.d("mafuhua","commodityi----d" +data.getPro_id());
+                    Log.d("mafuhua", "commodityi----d" + data.getPro_id());
                     context.startActivity(intent);
                 }
             });

@@ -52,7 +52,7 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
     private TextView mTvTitileDec;
 
     public static void getdata() {
-        final RequestParams params = new RequestParams(ContactURL.GouWuChe_URL+ MainActivity.useruid);
+        final RequestParams params = new RequestParams(ContactURL.GouWuChe_URL + MainActivity.useruid);
         //  final RequestParams params = new RequestParams("http://192.168.2.128:8080/buycar.json");
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
@@ -70,7 +70,7 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
                 if (testGouwuche.getCode().equals("2")) {
                     myAdapter = new MyAdapter(null);
                     mLvGouwucheList.setAdapter(myAdapter);
-                }else {
+                } else {
                     dataBeanList = testGouwuche.getData();
                     typepos = 0;
                     typeposList.add(typepos);
@@ -146,7 +146,7 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
                                 String shop_id = proBeanList.get(j).getId();
                                 String pro_name = proBeanList.get(j).getPro_name();
                                 Log.d("mafuhuax", "您选删除了" + shop_id + "----" + pro_name);
-                                sb.append(shop_id+",");
+                                sb.append(shop_id + ",");
                                 proBeanList.remove(j);
                                 j--;
                                 //  XUtils.xUtilsPost(ContactURL.DelGouWuChe_URL,);
@@ -155,10 +155,9 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
                     }
                     String s = sb.toString();
                     if (!s.isEmpty()) {
-                        delShop(s.substring(0,s.length()-1));
+                        delShop(s.substring(0, s.length() - 1));
                     }
                 }
-
 
 
                 break;
@@ -168,37 +167,43 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
                 totalprice = 0;
                 Log.d("mafuhua", "checkalltype========:" + checkalltype);
                 if (checkalltype) {
-                    for (int i = 0; i < dataBeanList.size(); i++) {
-                        dataBeanList.get(i).setCheckTitle(checkalltype);
-                        Log.d("mafuhua", "全选" + dataBeanList.get(i).getShop_title() + checkalltype);
-                        for (int j = 0; j < dataBeanList.get(i).getPro().size(); j++) {
-                            dataBeanList.get(i).getPro().get(j).setCheckitem(checkalltype);
+                    if (dataBeanList != null) {
+                        for (int i = 0; i < dataBeanList.size(); i++) {
+                            dataBeanList.get(i).setCheckTitle(checkalltype);
+                            Log.d("mafuhua", "全选" + dataBeanList.get(i).getShop_title() + checkalltype);
+                            for (int j = 0; j < dataBeanList.get(i).getPro().size(); j++) {
+                                dataBeanList.get(i).getPro().get(j).setCheckitem(checkalltype);
+                            }
                         }
-                    }
-                } else {
-                    for (int i = 0; i < dataBeanList.size(); i++) {
+                    } else {
+                        if (dataBeanList != null) {
+                            for (int i = 0; i < dataBeanList.size(); i++) {
 
-                        dataBeanList.get(i).setCheckTitle(checkalltype);
-                    }
-                    for (int i = 0; i < myproBeanList.size(); i++) {
-                        myproBeanList.get(i).setCheckitem(checkalltype);
-                        Log.d("mafuhua", "未全选" + myproBeanList.get(i).getPro_name() + myproBeanList.get(i).isCheckitem());
-                    }
+                                dataBeanList.get(i).setCheckTitle(checkalltype);
+                            }
+                            for (int i = 0; i < myproBeanList.size(); i++) {
+                                myproBeanList.get(i).setCheckitem(checkalltype);
+                                Log.d("mafuhua", "未全选" + myproBeanList.get(i).getPro_name() + myproBeanList.get(i).isCheckitem());
+                            }
+                        }
 
+                    }
+                    if (myAdapter != null) {
+                        myAdapter.notifyDataSetChanged();
+                    }
                 }
-                myAdapter.notifyDataSetChanged();
                 break;
 
         }
     }
 
     private void delShop(String shop_id) {
-        Log.d("mafuhua", "----DelGouWuChe_URL-----"+ContactURL.DelGouWuChe_URL+shop_id);
-        XUtils.xUtilsGet(ContactURL.DelGouWuChe_URL+shop_id, new Callback.CommonCallback<String>() {
+        Log.d("mafuhua", "----DelGouWuChe_URL-----" + ContactURL.DelGouWuChe_URL + shop_id);
+        XUtils.xUtilsGet(ContactURL.DelGouWuChe_URL + shop_id, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
 
-                Log.d("mafuhua", "----DelGouWuChe_URL-----"+result);
+                Log.d("mafuhua", "----DelGouWuChe_URL-----" + result);
                 getdata();
             }
 
@@ -280,7 +285,7 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
                 viewHolder.rlgowucheitemtitle.setVisibility(View.GONE);
             }
             viewHolder.tvoftenlistshopname.setText(shopnameList.get(position));
-            x.image().bind(viewHolder.ivordershopimage,myproBeanList.get(position).getPro_img());
+            x.image().bind(viewHolder.ivordershopimage, myproBeanList.get(position).getPro_img());
             viewHolder.tvgouwucheitemshuliang.setText(myproBeanList.get(position).getPro_num());
             viewHolder.tvoftenlistprice.setText(myproBeanList.get(position).getPro_price());
             viewHolder.cbgouwucheitem.setChecked(myproBeanList.get(position).isCheckitem());
@@ -294,7 +299,7 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
                     int num = Integer.parseInt(myproBeanList.get(position).getPro_num());
                     if (Integer.parseInt(myproBeanList.get(position).getPro_inventory()) > num) {
                         num += 1;
-                        myproBeanList.get(position).setPro_num(num+"");
+                        myproBeanList.get(position).setPro_num(num + "");
                         viewHolder.tvgouwucheitemshuliang.setText(num + "");
 
                     } else {
@@ -311,7 +316,7 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
                     int num = Integer.parseInt(myproBeanList.get(position).getPro_num());
                     if (num >= 2) {
                         num -= 1;
-                        myproBeanList.get(position).setPro_num(num+"");
+                        myproBeanList.get(position).setPro_num(num + "");
                         viewHolder.tvgouwucheitemshuliang.setText(num + "");
                     } else {
                         viewHolder.tvgouwucheitemshuliang.setText(num + "");
