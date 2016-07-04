@@ -77,43 +77,6 @@ public class OrderListActivity extends AppCompatActivity implements View.OnClick
 
             }
         });
-
-
-    /*    //准备数据源
-        List<Fragment> fragments = new ArrayList<Fragment>();
-        fragments.add(new OrderListPager());
-        //    fragments.add(new WeifuKuanPager());
-        fragments.add(new YifuKuanPager());
-        fragments.add(new WeifaHuoPager());
-        fragments.add(new YiFaHuoPager());
-        //  fragments.add(new YishouHuoPager());
-        adapter = new FragAdapter(getSupportFragmentManager(), fragments);
-        viewpager.setAdapter(adapter);
-        // viewpager.setCurrentItem(0);
-        //给viewPager设置适配器
-
-        // viewpager.setAdapter(new MyViewPagerAdapter());
-        mTopNavigationTabStrip.setTabIndex(0, true);
-        viewpager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                Log.d("mafuhua", "这是页面"position);
-                //  mTopNavigationTabStrip.setTabIndex(position, true);
-            }
-        });
-        mTopNavigationTabStrip.setOnTabStripSelectedIndexListener(new NavigationTabStrip.OnTabStripSelectedIndexListener() {
-            @Override
-            public void onStartTabSelected(String title, int index) {
-                Log.d("mafuhua", "这是低页面"indextitle);
-                //  viewpager.setCurrentItem(index);
-            }
-
-            @Override
-            public void onEndTabSelected(String title, int index) {
-
-            }
-        });*/
     }
 
     @Override

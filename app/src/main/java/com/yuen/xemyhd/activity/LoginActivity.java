@@ -87,6 +87,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         Intent intent;
         switch (v.getId()) {
             case R.id.iv_btn_login:
+
                 String userName = mEtLoginUsername.getText().toString().trim();
                 String password = mEtLoginPassword.getText().toString().trim();
                 if (TextUtils.isEmpty(userName)) {
@@ -116,10 +117,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
     private void login(final String userName, final String password) {
+
         Log.d("mafuhua", userName + "-------" + password);
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("tel", userName);
         map.put("pwd", password);
+
         XUtils.xUtilsPost(ContactURL.LOGIN_URL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

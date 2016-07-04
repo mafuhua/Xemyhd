@@ -1,7 +1,5 @@
 package com.yuen.xemyhd.utils;
 
-import android.util.Log;
-
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -26,7 +24,7 @@ public  class XUtils {
         while (iter.hasNext()) {
             Map.Entry<?, ?> entry = (Map.Entry<?, ?>) iter.next();
             String key = entry.getKey().toString();
-            Log.d("mafuhua", key);
+          //  Log.d("mafuhua", key);
             String val = entry.getValue().toString();
             params.addBodyParameter(key, val);
 

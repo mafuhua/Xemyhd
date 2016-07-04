@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +26,14 @@ import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.activity.HomeMarketListActivity;
 import com.yuen.xemyhd.activity.MainActivity;
 import com.yuen.xemyhd.activity.SearchWorldActivity;
+import com.yuen.xemyhd.utils.ContactURL;
 import com.yuen.xemyhd.utils.MyUtils;
+import com.yuen.xemyhd.utils.XUtils;
+
+import org.xutils.common.Callback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,7 +42,7 @@ import java.util.List;
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     // 图片资源ID
-    private final int[] imageIds = {R.drawable.at, R.drawable.bt, R.drawable.ct,R.drawable.at, R.drawable.bt, R.drawable.ct};
+    private final int[] imageIds = {R.drawable.at, R.drawable.bt, R.drawable.ct, R.drawable.at, R.drawable.bt, R.drawable.ct};
     private ViewPager mVpHomepageDec;
     private LinearLayout mLlPointGroup;
     private RelativeLayout mRlHomeMarket;
@@ -233,9 +239,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String weight = editText.getText().toString().trim();
-
+                addFriend(weight);
 
             }
+
+
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
@@ -245,6 +253,33 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void addFriend(String weight) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("tel", weight);
+        map.put("user_id", MainActivity.useruid);
+        XUtils.xUtilsPost(ContactURL.AddFriend_URL, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", "-----AddFriend_URL-----" + result);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     @Override

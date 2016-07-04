@@ -199,8 +199,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mRbHomeKuaidi = (RadioButton) findViewById(R.id.rb_home_kuaidi);
         mRbHomeGouwuche = (RadioButton) findViewById(R.id.rb_home_gouwuche);
         mRbHomeWode = (RadioButton) findViewById(R.id.rb_home_wode);
-        Drawable drawable = getResources().getDrawable(R.drawable.shouye);
         mTvTitleDec.setTextColor(Color.WHITE);
+        Drawable drawable = getResources().getDrawable(R.drawable.shouye);
         int dp = MyUtils.dip2px(context, 20);
         drawable.setBounds(0, 0, dp, dp);
         mRbHomeShouye.setCompoundDrawables(null, drawable, null, null);

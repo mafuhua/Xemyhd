@@ -55,6 +55,7 @@ public class SettingOurActivity extends BaseActivity {
         SysExitUtil.activityList.add(this);
         toNext();
         assignViews();
+
     }
 
     @Override
