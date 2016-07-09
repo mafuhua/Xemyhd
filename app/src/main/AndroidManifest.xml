@@ -26,8 +26,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -46,6 +44,7 @@
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
     <application
         android:name=".utils.MyApplication"
         android:allowBackup="true"
@@ -98,7 +97,7 @@
         <!-- 高德开发者申请的key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="cdd56e19b00631592e5d283837406b7b">
+            android:value="f48d7f9c6fc531094ea784d454d6e4df">
         </meta-data>
 
         <activity android:name=".activity.HomeMarketListActivity">
@@ -112,10 +111,11 @@
         <activity
             android:name=".PayActivity"
             android:label="@string/app_name">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
+
                 <data android:scheme="wxcab1c0202ebea846"/>
             </intent-filter>
         </activity>
@@ -123,7 +123,6 @@
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"/>
-
         <activity android:name=".activity.ConversationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -135,14 +134,12 @@
                     android:pathPrefix="/conversation/"
                     android:scheme="rong"/>
             </intent-filter>
-
         </activity>
-        <!--会话列表-->
+        <!-- 会话列表 -->
         <activity
             android:name=".activity.ConversationListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
@@ -154,9 +151,11 @@
                     android:scheme="rong"/>
             </intent-filter>
         </activity>
+
         <service
             android:name="io.rong.push.CommandService"
-            android:process="io.rong.push"> <!-- Waring: The name of the push process can't be changed!!! -->
+            android:process="io.rong.push">
+            <!-- Waring: The name of the push process can't be changed!!! -->
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
 
@@ -166,7 +165,8 @@
 
         <receiver
             android:name="io.rong.push.PushReceiver"
-            android:process="io.rong.push"> <!-- Waring: The name of the push process can't be changed!!! -->
+            android:process="io.rong.push">
+            <!-- Waring: The name of the push process can't be changed!!! -->
             <intent-filter>
                 <action android:name="io.rong.imlib.action.push.heartbeat"/>
             </intent-filter>
@@ -217,12 +217,14 @@
         <receiver
             android:name="io.rong.imlib.HeartbeatReceiver"
             android:process=":ipc"/>
-        <receiver
-            android:name=".AppRegister">
+        <receiver android:name=".AppRegister">
             <intent-filter>
-                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP"/>
             </intent-filter>
         </receiver>
+
+        <activity android:name=".activity.OrderActivity">
+        </activity>
     </application>
 
 </manifest>

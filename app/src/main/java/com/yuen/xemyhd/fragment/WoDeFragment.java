@@ -50,7 +50,7 @@ public class WoDeFragment extends BaseFragment {
     private MyAdapter myAdapter;
     private SharedPreferences sharedPreferences;
     private List<String> wodeItemDec = new ArrayList<String>(Arrays.asList("订单", "积分",
-            "我常买", "收货地址", "我的分享", "邀请好友", "客服中心", "设置"));
+            "我常买", "收货地址", /*"我的分享", "邀请好友", */"客服中心", "设置"));
     private RelativeLayout mRlWodeUserInfo;
     public static MyInfoBean.DataBean myInfoBeanData;
 
@@ -200,7 +200,7 @@ public class WoDeFragment extends BaseFragment {
         public ImageView ivwodeitemicon;
         public TextView tvwodeitemdec;
         private int[] wodeItemImg = new int[]{R.drawable.dd3x, R.drawable.jf3x, R.drawable.cm3x,
-                R.drawable.dz3x, R.drawable.fx3x, R.drawable.yq3x, R.drawable.kf3x, R.drawable.sz3x};
+                R.drawable.dz3x,/* R.drawable.fx3x, R.drawable.yq3x,*/ R.drawable.kf3x, R.drawable.sz3x};
 
         @Override
         public View initView() {

@@ -14,6 +14,11 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yuen.xemyhd.Constants;
+import com.yuen.xemyhd.utils.XUtils;
+
+import org.xutils.common.Callback;
+
+import java.util.HashMap;
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 
@@ -45,9 +50,58 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 			if (resp.errCode == 0){
 				Toast.makeText(this, "支付成功", Toast.LENGTH_SHORT).show();
+				postmoneytest();
 			}else {
 				Toast.makeText(this, "支付失败,请重试", Toast.LENGTH_SHORT).show();
 			}
 		}
+	}
+	private void postmoneytest() {
+		HashMap<String, String> paymap = new HashMap<>();
+		paymap.put("order_id", "14643328368843683");
+	/*	paymap.put("user_id",  "352");
+		paymap.put("price","21540");*/
+		XUtils.xUtilsPost("http://192.168.0.106/xiaoermei/OrderRmb/payment_done", paymap,new Callback.CommonCallback<String>() {
+
+
+			@Override
+			public void onSuccess(String result) {
+				Toast.makeText(WXPayEntryActivity.this, result, Toast.LENGTH_SHORT).show();
+				Log.d("mafuhua","result"+ result);
+            /*    Gson gson = new Gson();
+                WXBean wxBean = gson.fromJson(result, WXBean.class);
+                WXBean.DataBean data = wxBean.getData();
+                wxapi = WXAPIFactory.createWXAPI(getActivity(), Constants.APP_ID);
+                boolean registerApp = wxapi.registerApp(Constants.APP_ID);
+                Log.d("mafuhua", "registerApp:" + registerApp);
+                PayReq payReq = new PayReq();
+                payReq.appId = data.getAppid();
+                payReq.partnerId = data.getPartnerid();
+                payReq.prepayId = data.getPrepayid();
+                payReq.nonceStr = data.getNoncestr();
+                payReq.packageValue = "Sign=WXPay";
+                payReq.timeStamp = data.getTimestamp() + "";
+                payReq.sign = data.getSign();
+
+
+
+                wxapi.sendReq(payReq);*/
+			}
+
+			@Override
+			public void onError(Throwable ex, boolean isOnCallback) {
+
+			}
+
+			@Override
+			public void onCancelled(CancelledException cex) {
+
+			}
+
+			@Override
+			public void onFinished() {
+
+			}
+		});
 	}
 }

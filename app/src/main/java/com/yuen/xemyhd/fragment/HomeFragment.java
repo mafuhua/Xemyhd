@@ -86,7 +86,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mIvBtnHomeLove = (ImageView) view.findViewById(R.id.iv_btn_home_love);
         myPagerAdapter = new MyPagerAdapter();
         mVpHomepageDec.setAdapter(myPagerAdapter);
-        addPoints();
+      //  addPoints();
         regListener();
         isRunning = true;
         handler.sendEmptyMessageDelayed(88, 3000); // 发送一个延时消息，3秒后，执行handlerMessage
@@ -128,10 +128,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 tvDesc.setText(imageDescriptions[position]);*/
                 // 改变指示点
                 // 上一个页面，灰点
-                mLlPointGroup.getChildAt(lastPosition).setEnabled(false);
+            /*    mLlPointGroup.getChildAt(lastPosition).setEnabled(false);
                 // 找到对应下标的point ，并改变显示
                 mLlPointGroup.getChildAt(position).setEnabled(true);
-
+*/
                 lastPosition = position;// 为上一个页面赋值
 
             }

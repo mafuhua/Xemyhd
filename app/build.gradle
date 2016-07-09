@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+
     signingConfigs {
         keystore {
             keyAlias 'mafuhua'
@@ -22,7 +23,13 @@ android {
 
         release {
             minifyEnabled false
-            /* minifyEnabled false proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'*/
+            debuggable true
+            /* minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'*/
+            signingConfig    signingConfigs.keystore
+        }
+        debug {
+         /*    minifyEnabled false proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'*/
             signingConfig    signingConfigs.keystore
         }
         /*release {
