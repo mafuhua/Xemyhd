@@ -27,6 +27,7 @@ import com.yuen.xemyhd.utils.XUtils;
 import org.xutils.common.Callback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AddressManagerActivity extends AppCompatActivity {
@@ -42,9 +43,12 @@ public class AddressManagerActivity extends AppCompatActivity {
     private Button mBtnAddressAdd;
     public static List<AddressBean.DataBean> addressBeanData = new ArrayList<>();
     private int addressBeanNum;
+    public String orderid;
 
     private void assignViews() {
         context = this;
+        Intent intent = getIntent();
+        orderid = intent.getStringExtra("orderid");
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
         mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
@@ -75,13 +79,45 @@ public class AddressManagerActivity extends AppCompatActivity {
         mLvAddressManager.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(context, AddressManagerDecActivity.class);
-                intent.putExtra("id",AddressManagerActivity.addressBeanData.get(position).getId());
-                intent.putExtra("sheng",AddressManagerActivity.addressBeanData.get(position).getSheng());
-                intent.putExtra("shi",AddressManagerActivity.addressBeanData.get(position).getShi());
-                intent.putExtra("qu",AddressManagerActivity.addressBeanData.get(position).getQu());
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
+
+                if (orderid==null){
+
+                    Intent intent = new Intent(context, AddressManagerDecActivity.class);
+                    intent.putExtra("id",AddressManagerActivity.addressBeanData.get(position).getId());
+                    intent.putExtra("sheng",AddressManagerActivity.addressBeanData.get(position).getSheng());
+                    intent.putExtra("shi",AddressManagerActivity.addressBeanData.get(position).getShi());
+                    intent.putExtra("qu",AddressManagerActivity.addressBeanData.get(position).getQu());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                }else {
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("order_id",orderid);
+                    map.put("adds_id",addressBeanData.get(position).getId());
+                    XUtils.xUtilsPost(ContactURL.XIU_CAR_ORDER_URL, map, new Callback.CommonCallback<String>() {
+                        @Override
+                        public void onSuccess(String result) {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable ex, boolean isOnCallback) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(CancelledException cex) {
+
+                        }
+
+                        @Override
+                        public void onFinished() {
+                            finish();
+                        }
+                    });
+
+                }
+
+
             }
         });
         myAdapter = new MyAdapter(addressBeanData);
@@ -93,6 +129,7 @@ public class AddressManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_manager);
         SysExitUtil.activityList.add(this);
+
 
         assignViews();
 

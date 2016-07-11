@@ -54,12 +54,11 @@
 
         <TextView
             android:id="@+id/tv_order_list_peopleaddress"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/tv_order_list_address"
-            android:padding="10dp"
-            android:text="小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米"/>
+            android:padding="10dp"/>
 
     </RelativeLayout>
     <View

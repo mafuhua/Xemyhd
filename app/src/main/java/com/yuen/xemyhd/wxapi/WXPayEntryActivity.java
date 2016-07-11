@@ -53,6 +53,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 				postmoneytest();
 			}else {
 				Toast.makeText(this, "支付失败,请重试", Toast.LENGTH_SHORT).show();
+				finish();
 			}
 		}
 	}
@@ -68,6 +69,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 			public void onSuccess(String result) {
 				Toast.makeText(WXPayEntryActivity.this, result, Toast.LENGTH_SHORT).show();
 				Log.d("mafuhua","result"+ result);
+				finish();
             /*    Gson gson = new Gson();
                 WXBean wxBean = gson.fromJson(result, WXBean.class);
                 WXBean.DataBean data = wxBean.getData();

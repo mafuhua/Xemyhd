@@ -49,7 +49,7 @@ public class WoDeFragment extends BaseFragment {
     private ListView mIvWoDe;
     private MyAdapter myAdapter;
     private SharedPreferences sharedPreferences;
-    private List<String> wodeItemDec = new ArrayList<String>(Arrays.asList("订单", "积分",
+    private List<String> wodeItemDec = new ArrayList<String>(Arrays.asList("订单", /*"积分",*/
             "我常买", "收货地址", /*"我的分享", "邀请好友", */"客服中心", "设置"));
     private RelativeLayout mRlWodeUserInfo;
     public static MyInfoBean.DataBean myInfoBeanData;
@@ -83,29 +83,31 @@ public class WoDeFragment extends BaseFragment {
                         startActivity(intent);
                         break;
                     case 1:
+                        intent = new Intent(getActivity(), WoOftenGetActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
                         break;
                     case 2:
-                        intent = new Intent(getActivity(), WoOftenGetActivity.class);
+                        intent = new Intent(getActivity(), AddressManagerActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
                         break;
 
                     case 3:
-                        intent = new Intent(getActivity(), AddressManagerActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        startActivity(intent);
+                        takecall();
                         break;
                     case 4:
+                        intent = new Intent(getActivity(), SettingActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
                         break;
                     case 5:
                         break;
                     case 6:
-                        takecall();
+
                         break;
                     case 7:
-                        intent = new Intent(getActivity(), SettingActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        startActivity(intent);
+
                         break;
                 }
             }
@@ -199,7 +201,7 @@ public class WoDeFragment extends BaseFragment {
     class WoDeHolder extends BaseHolder<String> {
         public ImageView ivwodeitemicon;
         public TextView tvwodeitemdec;
-        private int[] wodeItemImg = new int[]{R.drawable.dd3x, R.drawable.jf3x, R.drawable.cm3x,
+        private int[] wodeItemImg = new int[]{R.drawable.dd3x, /*R.drawable.jf3x,*/ R.drawable.cm3x,
                 R.drawable.dz3x,/* R.drawable.fx3x, R.drawable.yq3x,*/ R.drawable.kf3x, R.drawable.sz3x};
 
         @Override

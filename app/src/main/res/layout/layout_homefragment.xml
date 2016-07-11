@@ -117,7 +117,7 @@
 
         <ImageView
             android:id="@+id/iv_btn_home_love"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:src="@drawable/yq32x"/>
     </LinearLayout>

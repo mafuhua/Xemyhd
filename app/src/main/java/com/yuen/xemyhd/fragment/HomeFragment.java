@@ -204,6 +204,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.iv_btn_home_love:
+
                 break;
             case R.id.btn_home_addicon:
                 settingShopManger();

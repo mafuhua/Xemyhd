@@ -51,6 +51,7 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
     private String addsheng;
     private String addshi;
     private String addqu;
+    private String orderid;
 
     private void assignViews() {
         context = this;
@@ -79,6 +80,7 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
         mBtnAddressSave.setOnClickListener(this);
         Intent intent = getIntent();
         addsid = intent.getStringExtra("id");
+        orderid = intent.getStringExtra("orderid");
         sheng = intent.getStringExtra("sheng");
         shi = intent.getStringExtra("shi");
         qu = intent.getStringExtra("qu");
@@ -101,7 +103,7 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
         switch (v.getId()) {
             case R.id.btn_address_delete:
                 delAdd();
-                finish();
+
                 break;
             case R.id.btn_address_save:
                 Log.d("mafuhua", addLoc
@@ -175,9 +177,10 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
         HashMap<String, String> map = new HashMap<>();
         map.put("sheng", sheng);
         map.put("shi", shi);
-        if (qu.isEmpty()) {
+        if (addsid==null) {
+            map.put("id", "0");
         } else {
-            map.put("id", addsid);
+            map.put("id",addsid);
         }
         if (mCbSettingAddress.isChecked()) {
             map.put("moren", "1");
@@ -185,6 +188,7 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
             map.put("moren", "0");
         }
         map.put("uid", MainActivity.useruid);
+        map.put("order_id", orderid+"");
         map.put("qu", qu);
         map.put("adds", MyUtils.getInputString(context, mTvAddressDecAddress, "详细地址不能为空"));
         map.put("name", MyUtils.getInputString(context, mTvAddressDecUsername, "收件人姓名不能为空"));
@@ -195,6 +199,7 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "----EditAdds_URL-----" + result);
+                finish();
             }
 
             @Override
@@ -223,6 +228,7 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "----DelAdds_URL---" + result);
+
             }
 
             @Override
@@ -237,7 +243,7 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
 
             @Override
             public void onFinished() {
-
+                finish();
             }
         });
     }

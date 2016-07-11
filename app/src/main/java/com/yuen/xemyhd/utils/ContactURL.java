@@ -7,7 +7,7 @@ public class ContactURL {
     /**
      * BaseURL
      */
-    public static String BASE_URL = "http://192.168.0.105/xiaoermei/shopapi/";
+    public static String BASE_URL = "http://192.168.0.149/xiaoermei/shopapi/";
     /**
      * 登陆
      */
@@ -104,4 +104,15 @@ public class ContactURL {
      * 添加好友
      */
     public static String AddFriend_URL = BASE_URL + "yan_tel/";
+    /**
+     * 一起购
+     */
+    public static String YIQIGOU_URL = BASE_URL + "yiqigou/";
+    /**
+     * 一起购
+     */
+    public static String ORDER_READ_URL = BASE_URL + "order_read/"; /**
+     * 一起购
+     */
+    public static String XIU_CAR_ORDER_URL = BASE_URL + "xiu_car_order/";
 }

@@ -26,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:padding="5dp"
         android:text="[默认]"/>
     <TextView
@@ -34,7 +35,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_below="@id/tv_address_list_username"
-        android:layout_toRightOf="@id/tv_address_list_username"
+        android:layout_toRightOf="@id/tv_address_list_type"
         android:layout_marginRight="10dp"
         android:text="收货地址:上海嘉定南翔正哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"/>
     <ImageView
