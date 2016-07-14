@@ -110,12 +110,12 @@ public class OrderActivity extends AppCompatActivity {
         }*/
         paymap.put("user_id", MainActivity.useruid);
         paymap.put("price", order_listPrice);
-        XUtils.xUtilsPost("http://192.168.0.149/xiaoermei/OrderRmb/doPay", paymap, new Callback.CommonCallback<String>() {
+        XUtils.xUtilsPost(ContactURL.DOPAY_URL, paymap, new Callback.CommonCallback<String>() {
 
             @Override
             public void onSuccess(String result) {
-                System.out.println(result);
-                Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+              //  System.out.println(result);
+              //  Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
                 Log.d("mafuhua", "result" + result);
                 Gson gson = new Gson();
                 WXBean wxBean = gson.fromJson(result, WXBean.class);
@@ -161,7 +161,6 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void getOrder() {
-        Toast.makeText(context, orderid, Toast.LENGTH_SHORT).show();
         HashMap<String, String> map = new HashMap<>();
         map.put("order_id", orderid);
         XUtils.xUtilsPost(ContactURL.ORDER_READ_URL, map, new Callback.CommonCallback<String>() {

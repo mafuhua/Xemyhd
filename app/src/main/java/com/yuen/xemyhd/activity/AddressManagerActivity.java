@@ -96,6 +96,15 @@ public class AddressManagerActivity extends AppCompatActivity {
                     XUtils.xUtilsPost(ContactURL.XIU_CAR_ORDER_URL, map, new Callback.CommonCallback<String>() {
                         @Override
                         public void onSuccess(String result) {
+                            Log.d("AddressManagerActivity", result);
+                          /*  Gson gson = new Gson();
+                            BaseBean baseBean = gson.fromJson(result, BaseBean.class);
+                            if (baseBean.getCode().equals("0")){
+                                Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+                                finish();
+                            }else {
+                                Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+                            }*/
 
                         }
 

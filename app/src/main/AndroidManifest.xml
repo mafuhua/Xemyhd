@@ -122,6 +122,7 @@
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
+            android:theme="@android:style/Theme.Translucent"
             android:launchMode="singleTop"/>
         <activity android:name=".activity.ConversationActivity">
             <intent-filter>

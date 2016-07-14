@@ -22,15 +22,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.activity.HomeMarketListActivity;
 import com.yuen.xemyhd.activity.MainActivity;
 import com.yuen.xemyhd.activity.SearchWorldActivity;
+import com.yuen.xemyhd.bean.BaseBean;
+import com.yuen.xemyhd.bean.FriendBean;
 import com.yuen.xemyhd.utils.ContactURL;
+import com.yuen.xemyhd.utils.MyApplication;
 import com.yuen.xemyhd.utils.MyUtils;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +55,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private ImageView mIvBtnHomeLove;
     private RecyclerView mRcHomeHorizontal;
     private MyRCAdapter myRCAdapter;
-    private List<Integer> mDatas;
+    private List<FriendBean.DataBean> mDatas;
     private Button mBtnHomeAddIcon;
     private MyPagerAdapter myPagerAdapter;
     private Context context;
@@ -70,9 +75,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 mVpHomepageDec.setCurrentItem(mVpHomepageDec.getCurrentItem() + 1);
                 handler.sendEmptyMessageDelayed(88, 3000);
             }
-        }
-
-        ;
+        };
     };
 
     private void assignViews(View view) {
@@ -204,19 +207,54 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.iv_btn_home_love:
+                if (mDatas.size()>0){
+                    XUtils.xUtilsGet(ContactURL.YIQIGOU_URL+MainActivity.useruid,  new Callback.CommonCallback<String>() {
+                        @Override
+                        public void onSuccess(String result) {
+                            Log.d("HomeFragment","---YIQIGOU_URL------"+ result);
+                            Gson gson = new Gson();
+                            BaseBean baseBean = gson.fromJson(result, BaseBean.class);
+                            if (baseBean.getCode().equals("1")){
+                                Toast.makeText(context, "不能一起购", Toast.LENGTH_SHORT).show();
+                            }else {
+                                if(onButtonClick!=null){
+                                    onButtonClick.onClick(mIvBtnHomeLove);
+                                }
+                            }
 
+                        }
+
+                        @Override
+                        public void onError(Throwable ex, boolean isOnCallback) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(CancelledException cex) {
+
+                        }
+
+                        @Override
+                        public void onFinished() {
+
+                        }
+                    });
+
+
+                   // getActivity().sendBroadcast(new Intent("com.yuen.xemyhd.fragment.HomeFragment"));
+                }
                 break;
             case R.id.btn_home_addicon:
                 settingShopManger();
-                addData(0);
+             //   addData(0);
                 break;
 
 
         }
     }
 
-    public void addData(int position) {
-        mDatas.add(position, R.drawable.tx3x);
+    public void addData( FriendBean.DataBean data) {
+        mDatas.add(data);
         myRCAdapter.notifyDataSetChanged();
         // 加入如下代码保证position的位置正确性
         /*if (position != mDatas.size() - 1) {
@@ -259,11 +297,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void addFriend(String weight) {
         HashMap<String, String> map = new HashMap<>();
         map.put("tel", weight);
-        map.put("user_id", MainActivity.useruid);
+        map.put("user_id","1");
         XUtils.xUtilsPost(ContactURL.AddFriend_URL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "-----AddFriend_URL-----" + result);
+                    Gson gson = new Gson();
+                if (result.contains("data")){
+                    FriendBean friendBean = gson.fromJson(result, FriendBean.class);
+                    FriendBean.DataBean data = friendBean.getData();
+                    addData(data);
+                }else {
+                    BaseBean baseBean = gson.fromJson(result, BaseBean.class);
+                    Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+
+
             }
 
             @Override
@@ -289,14 +338,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         isRunning = false;
     }
-
+    public OnButtonClick onButtonClick;
+    public OnButtonClick getOnButtonClick() {
+        return onButtonClick;
+    }
+    public void setOnButtonClick(OnButtonClick onButtonClick) {
+        this.onButtonClick = onButtonClick;
+    }
+    public interface OnButtonClick{
+         void onClick(View view);
+    }
     static class MyRCAdapter extends RecyclerView.Adapter<MyRCAdapter.ViewHolder> {
 
         private LayoutInflater mInflater;
-        private List<Integer> mDatas;
+        private List<FriendBean.DataBean> mDatas;
         private OnItemClickLitener mOnItemClickLitener;
 
-        public MyRCAdapter(Context context, List<Integer> datats) {
+        public MyRCAdapter(Context context, List<FriendBean.DataBean> datats) {
             mInflater = LayoutInflater.from(context);
             mDatas = datats;
         }
@@ -319,6 +377,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     viewGroup, false);
             ViewHolder viewHolder = new ViewHolder(view);
             viewHolder.mImg = (ImageView) view.findViewById(R.id.home_icon_item_image);
+            viewHolder.mTxt = (TextView) view.findViewById(R.id.home_icon__item_text);
             return viewHolder;
         }
 
@@ -327,7 +386,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
          */
         @Override
         public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-            viewHolder.mImg.setImageResource(mDatas.get(i));
+            x.image().bind(viewHolder.mImg,mDatas.get(i).getImage(), MyApplication.options);
+            viewHolder.mTxt.setText(mDatas.get(i).getNickname());
             //如果设置了回调，则设置点击事件
             if (mOnItemClickLitener != null) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

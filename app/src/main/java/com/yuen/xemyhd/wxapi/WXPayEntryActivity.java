@@ -14,6 +14,8 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yuen.xemyhd.Constants;
+import com.yuen.xemyhd.activity.MainActivity;
+import com.yuen.xemyhd.utils.ContactURL;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -47,14 +49,16 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 	public void onResp(BaseResp resp) {
 		Log.d("mafuhua","resp.errStr"+ resp.errStr);
 		Log.d("mafuhua","resp.errCode"+ resp.errCode);
+
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 			if (resp.errCode == 0){
-				Toast.makeText(this, "支付成功", Toast.LENGTH_SHORT).show();
+
 				postmoneytest();
 			}else {
 				Toast.makeText(this, "支付失败,请重试", Toast.LENGTH_SHORT).show();
 				finish();
 			}
+
 		}
 	}
 	private void postmoneytest() {
@@ -62,14 +66,16 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 		paymap.put("order_id", "14643328368843683");
 	/*	paymap.put("user_id",  "352");
 		paymap.put("price","21540");*/
-		XUtils.xUtilsPost("http://192.168.0.106/xiaoermei/OrderRmb/payment_done", paymap,new Callback.CommonCallback<String>() {
+		XUtils.xUtilsPost(ContactURL.PAYMENT_DONE_URL, paymap,new Callback.CommonCallback<String>() {
 
 
 			@Override
 			public void onSuccess(String result) {
-				Toast.makeText(WXPayEntryActivity.this, result, Toast.LENGTH_SHORT).show();
+				Toast.makeText(WXPayEntryActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(WXPayEntryActivity.this, result, Toast.LENGTH_SHORT).show();
 				Log.d("mafuhua","result"+ result);
-				finish();
+				Intent intent = new Intent(WXPayEntryActivity.this, MainActivity.class);
+				startActivity(intent);
             /*    Gson gson = new Gson();
                 WXBean wxBean = gson.fromJson(result, WXBean.class);
                 WXBean.DataBean data = wxBean.getData();
@@ -102,7 +108,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 
 			@Override
 			public void onFinished() {
-
+				finish();
 			}
 		});
 	}

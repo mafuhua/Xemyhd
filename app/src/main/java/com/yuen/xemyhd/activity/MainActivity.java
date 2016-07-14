@@ -3,8 +3,10 @@ package com.yuen.xemyhd.activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -20,6 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -28,6 +31,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.fragment.FragmentFractory;
 import com.yuen.xemyhd.fragment.GouWuCheFragment2;
+import com.yuen.xemyhd.fragment.HomeFragment;
 import com.yuen.xemyhd.lisetner.MyReceiveMessageListener;
 import com.yuen.xemyhd.lisetner.MyReceivePushMessageListener;
 import com.yuen.xemyhd.utils.Friend;
@@ -104,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Notification的ID
      */
     public static int notifyId = 100;
+    int position = 0;
     private RadioButton mRbHomeShouye;
     private RadioButton mRbHomeKuaidi;
     private RadioButton mRbHomeGouwuche;
@@ -111,9 +116,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Context context;
     private FrameLayout mFlHomeContent;
     private FragmentManager supportFragmentManager;
-    private Fragment homeFragment;
+    public HomeFragment homeFragment;
     private Fragment kuaiDiFragment;
-    private Fragment gouWuCheFragment;
+    public Fragment gouWuCheFragment;
     private Fragment woDeFragment;
     private Fragment currentFragment;
     private FragmentTransaction transaction;
@@ -122,8 +127,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mTvTitleEdit;
     private SharedPreferences sharedPreferences;
     private List<Friend> userIdList;
-
-
 
     public static void getLoc() {
         //初始化定位
@@ -220,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTvTitleEdit.setOnClickListener(this);
         mRgHome.check(R.id.rb_home_shouye);
         supportFragmentManager = getSupportFragmentManager();
-        homeFragment = FragmentFractory.getInstance().createFragment(0);
+        homeFragment = (HomeFragment) FragmentFractory.getInstance().createFragment(0);
         kuaiDiFragment = FragmentFractory.getInstance().createFragment(1);
         gouWuCheFragment = FragmentFractory.getInstance().createFragment(2);
         woDeFragment = FragmentFractory.getInstance().createFragment(3);
@@ -288,7 +291,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         assignViews();
         getLoc();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.yuen.xemyhd.fragment.HomeFragment");
+        filter.setPriority(Integer.MAX_VALUE);
+        registerReceiver(myReceiver, filter);
+        homeFragment.setOnButtonClick(new HomeFragment.OnButtonClick() {
 
+            @Override
+            public void onClick(View view) {
+
+                transaction = supportFragmentManager.beginTransaction();
+                mTvTitleEdit.setTextColor(Color.WHITE);
+                switchContent(homeFragment, gouWuCheFragment, "购物车", View.VISIBLE);
+                GouWuCheFragment2.getdata();
+
+            }
+        });
 
     }
 
@@ -318,7 +336,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 break;
+
         }
+
 
     }
 
@@ -339,7 +359,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         GouWuCheFragment2.mBtnGouWuCheJieSuan.setText("结算");
     }
 
-
     public void switchContent(Fragment from, Fragment to, String title, int gone) {
         mTvTitleEdit.setVisibility(gone);
         setGouwuche();
@@ -352,4 +371,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private BroadcastReceiver myReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context, "myReceiver receive", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(myReceiver);
+    }
 }

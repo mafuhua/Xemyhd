@@ -145,10 +145,11 @@ public class OrderListPager extends BasePager {
             if (typeposList.contains(position)) {
 
                 int i = typeposList.indexOf(position);
-                OrderListBean.DataBean dataBean = orderListBeanData.get(i);
+                final OrderListBean.DataBean dataBean = orderListBeanData.get(i);
                 String type = dataBean.getType();
                 if (type.equals("1")) {
                     tv_order_type.setText(stringArray[0]);
+
                 } else if (type.equals("2")) {
                     tv_order_type.setText(stringArray[1]);
                 } else {

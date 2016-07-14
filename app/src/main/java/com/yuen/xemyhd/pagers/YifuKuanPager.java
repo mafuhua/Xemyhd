@@ -2,6 +2,7 @@ package com.yuen.xemyhd.pagers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.activity.CommodityDecActivity;
 import com.yuen.xemyhd.activity.MainActivity;
+import com.yuen.xemyhd.activity.OrderActivity;
 import com.yuen.xemyhd.base.BaseHolder;
 import com.yuen.xemyhd.base.DefaultAdapter;
 import com.yuen.xemyhd.bean.OrderListBean;
@@ -147,10 +149,19 @@ public class YifuKuanPager extends BasePager {
             if (typeposList.contains(position)) {
 
                 int i = typeposList.indexOf(position);
-                OrderListBean.DataBean dataBean = orderListBeanData.get(i);
+                final OrderListBean.DataBean dataBean = orderListBeanData.get(i);
                 String type = dataBean.getType();
                 if (type.equals("1")) {
                     tv_order_type.setText(stringArray[0]);
+                    tv_order_type.setTextColor(Color.parseColor("#FEBB24"));
+                    tv_order_type.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, OrderActivity.class);
+                            intent.putExtra("orderid",dataBean.getOrder_id());
+                            context.startActivity(intent);
+                        }
+                    });
                 } else if (type.equals("2")) {
                     tv_order_type.setText(stringArray[1]);
                 } else {
