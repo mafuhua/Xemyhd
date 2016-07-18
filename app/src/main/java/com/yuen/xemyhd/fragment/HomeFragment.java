@@ -47,7 +47,8 @@ import java.util.List;
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     // 图片资源ID
-    private final int[] imageIds = {R.drawable.at, R.drawable.bt, R.drawable.ct, R.drawable.at, R.drawable.bt, R.drawable.ct};
+    private final int[] imageIds = {R.drawable.tu1, R.drawable.tu2, R.drawable.tu3};
+    public OnButtonClick onButtonClick;
     private ViewPager mVpHomepageDec;
     private LinearLayout mLlPointGroup;
     private RelativeLayout mRlHomeMarket;
@@ -75,7 +76,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 mVpHomepageDec.setCurrentItem(mVpHomepageDec.getCurrentItem() + 1);
                 handler.sendEmptyMessageDelayed(88, 3000);
             }
-        };
+        }
+
+        ;
     };
 
     private void assignViews(View view) {
@@ -89,7 +92,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mIvBtnHomeLove = (ImageView) view.findViewById(R.id.iv_btn_home_love);
         myPagerAdapter = new MyPagerAdapter();
         mVpHomepageDec.setAdapter(myPagerAdapter);
-      //  addPoints();
+        //  addPoints();
         regListener();
         isRunning = true;
         handler.sendEmptyMessageDelayed(88, 3000); // 发送一个延时消息，3秒后，执行handlerMessage
@@ -107,8 +110,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         myRCAdapter.setOnItemClickLitener(new MyRCAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(), position + "", Toast.LENGTH_SHORT)
-                        .show();
+
             }
         });
         mRcHomeHorizontal.setAdapter(myRCAdapter);
@@ -207,19 +209,24 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.iv_btn_home_love:
-                if (mDatas.size()>0){
-                    XUtils.xUtilsGet(ContactURL.YIQIGOU_URL+MainActivity.useruid,  new Callback.CommonCallback<String>() {
+                if (mDatas.size() > 0) {
+                    String uids = "";
+                    for (int i = 0; i < mDatas.size(); i++) {
+                        uids = mDatas.get(i).getUid() + ",";
+                    }
+
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("user_id", uids);
+                    XUtils.xUtilsPost(ContactURL.JPUSH_URL, map, new Callback.CommonCallback<String>() {
                         @Override
                         public void onSuccess(String result) {
-                            Log.d("HomeFragment","---YIQIGOU_URL------"+ result);
-                            Gson gson = new Gson();
+                            Log.d("HomeFragment", "---JPUSH_URL------" + result);
+                         /*   Gson gson = new Gson();
                             BaseBean baseBean = gson.fromJson(result, BaseBean.class);
-                            if (baseBean.getCode().equals("1")){
-                                Toast.makeText(context, "不能一起购", Toast.LENGTH_SHORT).show();
-                            }else {
-                                if(onButtonClick!=null){
-                                    onButtonClick.onClick(mIvBtnHomeLove);
-                                }
+                            Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+*/
+                            if (onButtonClick != null) {
+                                onButtonClick.onClick(mIvBtnHomeLove);
                             }
 
                         }
@@ -241,19 +248,49 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     });
 
 
-                   // getActivity().sendBroadcast(new Intent("com.yuen.xemyhd.fragment.HomeFragment"));
+                    // getActivity().sendBroadcast(new Intent("com.yuen.xemyhd.fragment.HomeFragment"));
                 }
                 break;
             case R.id.btn_home_addicon:
-                settingShopManger();
-             //   addData(0);
+                XUtils.xUtilsGet(ContactURL.YIQIGOU_URL + MainActivity.useruid, new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.d("HomeFragment", "---YIQIGOU_URL------" + result);
+                        Gson gson = new Gson();
+                        BaseBean baseBean = gson.fromJson(result, BaseBean.class);
+                        if (baseBean.getCode().equals("1")) {
+                            Toast.makeText(context, "不能一起购", Toast.LENGTH_SHORT).show();
+                        } else {
+                            settingShopManger();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+                });
+
+
+                //   addData(0);
                 break;
 
 
         }
     }
 
-    public void addData( FriendBean.DataBean data) {
+    public void addData(FriendBean.DataBean data) {
         mDatas.add(data);
         myRCAdapter.notifyDataSetChanged();
         // 加入如下代码保证position的位置正确性
@@ -297,17 +334,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void addFriend(String weight) {
         HashMap<String, String> map = new HashMap<>();
         map.put("tel", weight);
-        map.put("user_id","1");
+        map.put("user_id", "1");
         XUtils.xUtilsPost(ContactURL.AddFriend_URL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "-----AddFriend_URL-----" + result);
-                    Gson gson = new Gson();
-                if (result.contains("data")){
+                Gson gson = new Gson();
+                if (result.contains("data")) {
                     FriendBean friendBean = gson.fromJson(result, FriendBean.class);
                     FriendBean.DataBean data = friendBean.getData();
                     addData(data);
-                }else {
+                } else {
                     BaseBean baseBean = gson.fromJson(result, BaseBean.class);
                     Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
                 }
@@ -338,16 +375,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         isRunning = false;
     }
-    public OnButtonClick onButtonClick;
+
     public OnButtonClick getOnButtonClick() {
         return onButtonClick;
     }
+
     public void setOnButtonClick(OnButtonClick onButtonClick) {
         this.onButtonClick = onButtonClick;
     }
-    public interface OnButtonClick{
-         void onClick(View view);
+
+    public interface OnButtonClick {
+        void onClick(View view);
     }
+
     static class MyRCAdapter extends RecyclerView.Adapter<MyRCAdapter.ViewHolder> {
 
         private LayoutInflater mInflater;
@@ -386,7 +426,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
          */
         @Override
         public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-            x.image().bind(viewHolder.mImg,mDatas.get(i).getImage(), MyApplication.options);
+            x.image().bind(viewHolder.mImg, mDatas.get(i).getImage(), MyApplication.options);
             viewHolder.mTxt.setText(mDatas.get(i).getNickname());
             //如果设置了回调，则设置点击事件
             if (mOnItemClickLitener != null) {

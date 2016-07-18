@@ -187,10 +187,10 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 String pro_content = commodityDecBeanData.getPro_content();
                 mTvCommodityDec.setText(pro_name);
 
-                if (pro_h_price.length() > 0) {
+             /*   if (pro_h_price.length() > 0) {
                     commodityDecKey.add("活动价:");
                     commodityDecValue.add(pro_h_price);
-                }
+                }*/
                 if (pro_price.length() > 0) {
                     commodityDecKey.add("原价:");
                     commodityDecValue.add(pro_price);
@@ -277,9 +277,9 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
     private void addGouwuche() {
         Log.d("mafuhua", "commodityid----" + commodityid + "totalNum:----" + totalNum);
         HashMap<String, String> map = new HashMap<>();
-        map.put("shop_id", HomeMarketActivity.shop_user_id);
-        map.put("user_id", MainActivity.useruid);
-        map.put("pro_id", commodityid);
+        map.put("shop_id", HomeMarketActivity.shop_user_id+"");
+        map.put("user_id", MainActivity.useruid+"");
+        map.put("pro_id", commodityid+"");
         map.put("num", totalNum + "");
         XUtils.xUtilsPost(ContactURL.AddGouWuChe_URL, map, new Callback.CommonCallback<String>() {
             @Override

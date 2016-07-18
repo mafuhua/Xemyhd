@@ -36,7 +36,6 @@ public class RigesterPswActivity extends AppCompatActivity {
     private String tel;
 
     private void assignViews() {
-
         context = this;
         mEtRigesterPsw = (EditText) findViewById(R.id.et_rigester_psw);
         mEtRigesterPswd = (EditText) findViewById(R.id.et_rigester_pswd);
@@ -60,10 +59,7 @@ public class RigesterPswActivity extends AppCompatActivity {
                     return;
                 }
                 getRigester(pswd);
-
             }
-
-
         });
     }
 
@@ -74,7 +70,6 @@ public class RigesterPswActivity extends AppCompatActivity {
         tel = intent.getStringExtra("tel");
         setContentView(R.layout.activity_rigester_psw);
         SysExitUtil.activityList.add(this);
-
         assignViews();
     }
 

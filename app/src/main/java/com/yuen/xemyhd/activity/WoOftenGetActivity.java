@@ -4,16 +4,25 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.base.BaseHolder;
 import com.yuen.xemyhd.base.DefaultAdapter;
+import com.yuen.xemyhd.bean.ChanMaiBean;
+import com.yuen.xemyhd.utils.ContactURL;
+import com.yuen.xemyhd.utils.MyUtils;
 import com.yuen.xemyhd.utils.SysExitUtil;
+import com.yuen.xemyhd.utils.XUtils;
+
+import org.xutils.common.Callback;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +38,8 @@ public class WoOftenGetActivity extends AppCompatActivity implements View.OnClic
     private Context context;
     private List<String> wodeItemDec = new ArrayList<String>(Arrays.asList("订单", "积分",
             "我常买", "收货地址", "我的分享", "邀请好友", "客服中心", "设置"));
+    private List<ChanMaiBean.DataBean> chanMaiBeanData;
+
     private void assignViews() {
         context = this;
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
@@ -38,9 +49,36 @@ public class WoOftenGetActivity extends AppCompatActivity implements View.OnClic
         mLvOftenGet = (ListView) findViewById(R.id.lv_often_get);
         mTvTitleDec.setText("我常买");
         mTvTitleDec.setTextColor(Color.WHITE);
-        myAdapter = new MyAdapter(wodeItemDec);
-        mLvOftenGet.setAdapter(myAdapter);
+
         mIvBtnBack.setOnClickListener(this);
+
+        XUtils.xUtilsGet(ContactURL.CHANGMAI_URL+MainActivity.useruid, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua","---CHANGMAI_URL---" +ContactURL.CHANGMAI_URL+MainActivity.useruid);
+                Gson gson = new Gson();
+                ChanMaiBean chanMaiBean = gson.fromJson(result, ChanMaiBean.class);
+                chanMaiBeanData = chanMaiBean.getData();
+                myAdapter = new MyAdapter(chanMaiBeanData);
+                mLvOftenGet.setAdapter(myAdapter);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
 
@@ -73,7 +111,7 @@ public class WoOftenGetActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    class WoOftenGetHolder extends BaseHolder<String> {
+    class WoOftenGetHolder extends BaseHolder<ChanMaiBean.DataBean> {
         public ImageView ivoftenimgtype;
         public TextView tvorderlisttype;
         public ImageView ivordershopimage;
@@ -90,8 +128,12 @@ public class WoOftenGetActivity extends AppCompatActivity implements View.OnClic
             return root;
         }
         @Override
-        public void refreshView(String data, int position) {
-            tvoftenlistshopname.setText(data);
+        public void refreshView(ChanMaiBean.DataBean data, int position) {
+            tvoftenlistshopname.setText(data.getName());
+            tvoftenlistprice.setText(data.getPrice());
+            x.image().bind(ivordershopimage,ContactURL.BASEIMG_URL+data.getImage(), MyUtils.options);
+            tvoftenlistshopname.setText(data.getName());
+            tvoftenlistshopname.setText(data.getName());
         }
     }
 }

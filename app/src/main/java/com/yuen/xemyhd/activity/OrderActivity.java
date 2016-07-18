@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tencent.mm.sdk.modelpay.PayReq;
@@ -28,15 +27,19 @@ import com.yuen.xemyhd.bean.OrderBean;
 import com.yuen.xemyhd.bean.OrderBean2;
 import com.yuen.xemyhd.bean.WXBean;
 import com.yuen.xemyhd.utils.ContactURL;
+import com.yuen.xemyhd.utils.MyUtils;
 import com.yuen.xemyhd.utils.XUtils;
 
 import org.xutils.common.Callback;
+import org.xutils.x;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class OrderActivity extends AppCompatActivity {
 
+    public static String order_id;
+    public String orderid;
     private ImageView iv_btn_back;
     private TextView tv_title_dec;
     private ImageView iv_btn_add;
@@ -52,9 +55,7 @@ public class OrderActivity extends AppCompatActivity {
     private MyAdapter myAdapter;
     private List<OrderBean.DataBean> orderBeanData;
     private TextView tv_order_list_price;
-    private String order_id;
     private String order_listPrice;
-    private String orderid;
     private List<OrderBean2.DataBean> orderBeanData2;
     private IWXAPI wxapi;
     private MyAdapter2 myAdapter2;
@@ -114,8 +115,8 @@ public class OrderActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(String result) {
-              //  System.out.println(result);
-              //  Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+                System.out.println(result);
+                //    Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
                 Log.d("mafuhua", "result" + result);
                 Gson gson = new Gson();
                 WXBean wxBean = gson.fromJson(result, WXBean.class);
@@ -195,7 +196,7 @@ public class OrderActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             Intent intent = new Intent(context, AddressManagerActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            Toast.makeText(context, order_id, Toast.LENGTH_SHORT).show();
+                            //    Toast.makeText(context, order_id, Toast.LENGTH_SHORT).show();
                             intent.putExtra("orderid", order_id);
                             startActivity(intent);
                         }
@@ -313,7 +314,7 @@ public class OrderActivity extends AppCompatActivity {
             tvorderlistshopname.setText(data.getName());
             tvorderlistpresentprice.setText(data.getPrice());
             tvorderlistcount.setText(data.getNum());
-            //     x.image().bind(ivordershopimage,data.getImage(), MyApplication.options);
+            x.image().bind(ivordershopimage,data.getImage(), MyUtils.options);
         }
     }
 
@@ -347,7 +348,7 @@ public class OrderActivity extends AppCompatActivity {
             tvorderlistshopname.setText(data.getName());
             tvorderlistpresentprice.setText(data.getPrice());
             tvorderlistcount.setText(data.getNum());
-            //     x.image().bind(ivordershopimage,data.getImage(), MyApplication.options);
+            x.image().bind(ivordershopimage, data.getImage(), MyUtils.options);
         }
     }
 

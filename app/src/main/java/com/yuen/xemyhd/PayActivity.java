@@ -48,7 +48,7 @@ public class PayActivity extends Activity {
 					@Override
 					public void onSuccess(String result) {
 						System.out.println(result);
-						Toast.makeText(PayActivity.this, result, Toast.LENGTH_SHORT).show();
+					//	Toast.makeText(PayActivity.this, result, Toast.LENGTH_SHORT).show();
 						Log.d("mafuhua","result"+ result);
 						Gson gson = new Gson();
 						WXBean wxBean = gson.fromJson(result, WXBean.class);
@@ -98,7 +98,7 @@ public class PayActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				boolean isPaySupported = wxapi.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-				Toast.makeText(PayActivity.this, String.valueOf(isPaySupported), Toast.LENGTH_SHORT).show();
+			//	Toast.makeText(PayActivity.this, String.valueOf(isPaySupported), Toast.LENGTH_SHORT).show();
 			}
 		});
 	}

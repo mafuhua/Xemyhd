@@ -7,9 +7,12 @@ public class ContactURL {
     /**
      * BaseURL
      */
-    public static String BASE_URL = "http://192.168.0.117/xiaoermei/shopapi/";
-    public static String DOPAY_URL = "http://192.168.0.117/xiaoermei/OrderRmb/doPay";
-    public static String PAYMENT_DONE_URL = "http://192.168.0.117/xiaoermei/OrderRmb/payment_done";
+    public static String BASE_URL = "http://114.215.210.112/xiaoermei/shopapi/";
+    public static String BASEIMG_URL = "http://114.215.210.112/xiaoermei/upload/";
+    public static String BASE2_URL = "http://114.215.210.112/xiaoermei/";
+    public static String DOPAY_URL = BASE2_URL + "OrderRmb/doPay";
+    public static String JPUSH_URL = BASE2_URL + "Jpush/doadd";
+    public static String PAYMENT_DONE_URL = BASE2_URL + "OrderRmb/payment_done";
     /**
      * 登陆
      */
@@ -113,8 +116,10 @@ public class ContactURL {
     /**
      * 一起购
      */
-    public static String ORDER_READ_URL = BASE_URL + "order_read/"; /**
+    public static String ORDER_READ_URL = BASE_URL + "order_read/";
+    /**
      * 一起购
      */
     public static String XIU_CAR_ORDER_URL = BASE_URL + "xiu_car_order/";
+    public static String CHANGMAI_URL= BASE_URL + "changmai/user_id//";
 }

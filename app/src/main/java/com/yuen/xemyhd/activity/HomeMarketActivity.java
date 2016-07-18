@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
@@ -112,7 +111,7 @@ public class HomeMarketActivity extends FragmentActivity implements AdapterView.
             public void onItemClick(View view, int position) {
                 mRCPosition = position;
                // Log.d("mafuhua", "mrcPosition------:" + position);
-                MyUtils.toastShow(context, shopListBeanT2_data.get(position).getNav_name(), Toast.LENGTH_SHORT);
+              //  MyUtils.toastShow(context, shopListBeanT2_data.get(position).getNav_name(), Toast.LENGTH_SHORT);
                 getShopListContent(position);
                 myRCAdapter.notifyDataSetChanged();
 

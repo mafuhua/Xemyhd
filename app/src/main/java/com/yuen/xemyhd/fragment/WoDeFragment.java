@@ -173,7 +173,7 @@ public class WoDeFragment extends BaseFragment {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 //用intent启动拨打电话
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "15900655030"));
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "18662658567"));
                 startActivity(intent);
             }
         });

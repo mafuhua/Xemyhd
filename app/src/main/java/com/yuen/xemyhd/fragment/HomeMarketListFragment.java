@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.activity.CommodityDecActivity;
@@ -95,7 +94,7 @@ public class HomeMarketListFragment extends AppCompatActivity {
 
             @Override
             public void onRefresh() {
-                Toast.makeText(context, "正在刷新", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(context, "正在刷新", Toast.LENGTH_SHORT).show();
                 new Thread(new Runnable() {
                     @Override
 

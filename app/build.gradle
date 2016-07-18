@@ -24,19 +24,18 @@ android {
         release {
             minifyEnabled false
             debuggable true
-            /* minifyEnabled false
+            /*
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'*/
             signingConfig    signingConfigs.keystore
         }
-        debug {
-         /*    minifyEnabled false proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'*/
-            signingConfig    signingConfigs.keystore
-        }
-        /*release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }*/
 
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+
+        }
     }
     /* lintOptions {
          checkReleaseBuilds false
@@ -65,4 +64,5 @@ dependencies {
     compile files('libs/AMap_Location_V2.4.1_20160414.jar')
     compile project(':IMKit')
     compile project(':tablibrary')
+    compile files('libs/jpush-android-2.1.7.jar')
 }

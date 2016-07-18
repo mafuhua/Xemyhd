@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
 
 /**
@@ -45,6 +46,10 @@ public class MyApplication extends Application {
              */
             RongIM.init(this);
         }
+
+
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
     /**
      * 获得当前进程的名字

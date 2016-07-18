@@ -45,6 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:text="互联世界"
                 android:layout_toRightOf="@+id/iv_gouwuche_img_type"
                 android:padding="10dp"/>
         </RelativeLayout>

@@ -22,7 +22,6 @@ import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -43,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 
@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         usertel = sharedPreferences.getString("tel", "");
         icon = sharedPreferences.getString("icon", "");
         nickname = sharedPreferences.getString("nickname", "");
+        JPushInterface.setAlias(context, useruid, null);
         mRbHomeShouye = (RadioButton) findViewById(R.id.rb_home_shouye);
         mRgHome = (RadioGroup) findViewById(R.id.rg_home);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
@@ -375,8 +376,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "myReceiver receive", Toast.LENGTH_SHORT)
-                    .show();
+
         }
 
     };
