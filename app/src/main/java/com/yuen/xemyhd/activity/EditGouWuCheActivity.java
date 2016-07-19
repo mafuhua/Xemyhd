@@ -28,6 +28,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -131,7 +132,33 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
         mBtnGouWuCheJieSuan.setOnClickListener(this);
     }
 
+    public static void jiaOrjian(String url, String shopid) {
+        HashMap<String, String> map = new HashMap<>();
+        Log.d("GouWuCheFragment2", url + shopid);
+        map.put("user_id", MainActivity.useruid);
+        map.put("pro_id", shopid);
+        XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("GouWuCheFragment2", result);
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -301,7 +328,7 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
                         num += 1;
                         myproBeanList.get(position).setPro_num(num + "");
                         viewHolder.tvgouwucheitemshuliang.setText(num + "");
-
+                        jiaOrjian(ContactURL.XIUGAI_JIA_NUM_URL, myproBeanList.get(position).getPro_id() + "");
                     } else {
                         viewHolder.tvgouwucheitemshuliang.setText(num + "");
                     }
@@ -318,6 +345,7 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
                         num -= 1;
                         myproBeanList.get(position).setPro_num(num + "");
                         viewHolder.tvgouwucheitemshuliang.setText(num + "");
+                        jiaOrjian(ContactURL.XIUGAI_JIAN_NUM_URL, myproBeanList.get(position).getPro_id() + "");
                     } else {
                         viewHolder.tvgouwucheitemshuliang.setText(num + "");
                     }
