@@ -82,10 +82,12 @@ public class SettingActivity extends BaseActivity {
                         break;
                     case 3:
                         intent = new Intent(context, SettingOurActivity.class);
+                        intent.putExtra("type","帮助中心");
                         context.startActivity(intent);
                         break;
                     case 4:
                         intent = new Intent(context, SettingOurActivity.class);
+                        intent.putExtra("type","关于我们");
                         context.startActivity(intent);
                         break;
                     case 5:

@@ -31,14 +31,16 @@ public class SettingOurActivity extends BaseActivity {
 
     private void assignViews() {
         context = this;
+        String type = getIntent().getStringExtra("type");
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
         mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
         mTvShopNoticeTitle = (TextView) findViewById(R.id.tv_shop_notice_title);
         mTvShopNoticeContent = (TextView) findViewById(R.id.tv_shop_notice_content);
-        mTvTitleDec.setText("关于我们");
+        mTvTitleDec.setText(type);
         mTvTitleDec.setTextColor(Color.WHITE);
+        mTvShopNoticeContent.setText(type);
         mIvBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

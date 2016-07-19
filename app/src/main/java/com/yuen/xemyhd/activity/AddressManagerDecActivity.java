@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,12 +15,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.bean.AddresBean;
 import com.yuen.xemyhd.utils.ContactURL;
 import com.yuen.xemyhd.utils.GsonUtil;
-import com.yuen.xemyhd.utils.MyUtils;
 import com.yuen.xemyhd.utils.SysExitUtil;
 import com.yuen.xemyhd.utils.XUtils;
 
@@ -52,6 +54,9 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
     private String addshi;
     private String addqu;
     private String orderid;
+    private String mTvAddressDecAd;
+    private String mTvAddressDecUser;
+    private String phone;
 
     private void assignViews() {
         context = this;
@@ -72,7 +77,12 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
         mCbSettingAddress = (CheckBox) findViewById(R.id.cb_setting_address);
         mTvTitleDec.setText("收货地址管理");
         mTvTitleDec.setTextColor(Color.WHITE);
-
+        mIvBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         mBtnAddressSave.setTextColor(Color.WHITE);
         mTvAddressDecLocation.setTextColor(Color.BLACK);
         mBtnAddressDelete.setOnClickListener(this);
@@ -106,12 +116,33 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
 
                 break;
             case R.id.btn_address_save:
-                Log.d("mafuhua", addLoc
-                        + MyUtils.getInputString(context, mTvAddressDecAddress, "详细地址不能为空")
+                mTvAddressDecAd = mTvAddressDecAddress.getText().toString();
+                if (TextUtils.isEmpty(mTvAddressDecAd)) {
+                    Toast.makeText(context, "详细地址不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mTvAddressDecUser = mTvAddressDecUsername.getText().toString();
+                if (TextUtils.isEmpty(mTvAddressDecUser)) {
+                    Toast.makeText(context, "收件人姓名不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                phone = mTvAddressDecTelphone.getText().toString();
+                if (TextUtils.isEmpty(phone)) {
+                    Toast.makeText(context, "手机号码不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String telRegex = "[1][3587]\\d{9}";//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
+                if (!phone.matches(telRegex)) {
+                    Toast.makeText(context, "请检查输入的手机号", Toast.LENGTH_SHORT).show();
+                   return;
+                }
+
+                /*Log.d("mafuhua", addLoc
+                        + MyUtils.getInputString(context, mTvAddressDecAddress, )
                         + MyUtils.getInputString(context, mTvAddressDecUsername, "收件人姓名不能为空")
                         + MyUtils.getInputString(context, mTvAddressDecPostCode, "")
                         + MyUtils.getInputString(context, mTvAddressDecTelphone, "手机号码不能为空")
-                        + mCbSettingAddress.isChecked());
+                        + mCbSettingAddress.isChecked());*/
                 editAdd();
 
                 break;
@@ -174,13 +205,14 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
     }
 
     public void editAdd() {
+        Toast.makeText(context, "正在保存", Toast.LENGTH_SHORT).show();
         HashMap<String, String> map = new HashMap<>();
         map.put("sheng", sheng);
         map.put("shi", shi);
-        if (addsid==null) {
+        if (addsid == null) {
             map.put("id", "0");
         } else {
-            map.put("id",addsid);
+            map.put("id", addsid);
         }
         if (mCbSettingAddress.isChecked()) {
             map.put("moren", "1");
@@ -188,17 +220,17 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
             map.put("moren", "0");
         }
         map.put("uid", MainActivity.useruid);
-        map.put("order_id", orderid+"");
+        map.put("order_id", orderid + "");
         map.put("qu", qu);
-        map.put("adds", MyUtils.getInputString(context, mTvAddressDecAddress, "详细地址不能为空"));
-        map.put("name", MyUtils.getInputString(context, mTvAddressDecUsername, "收件人姓名不能为空"));
-        map.put("tel", MyUtils.getInputString(context, mTvAddressDecTelphone, "手机号码不能为空"));
-        map.put("code", MyUtils.getInputString(context, mTvAddressDecPostCode, ""));
-        map.put("adds", MyUtils.getInputString(context, mTvAddressDecAddress, "详细地址不能为空"));
+        map.put("adds", mTvAddressDecAd);
+        map.put("name", mTvAddressDecUser);
+        map.put("tel", phone);
+        map.put("code", mTvAddressDecPostCode.getText().toString().trim());
         XUtils.xUtilsPost(ContactURL.EditAdds_URL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "----EditAdds_URL-----" + result);
+                Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT).show();
                 finish();
             }
 
@@ -220,6 +252,7 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
     }
 
     public void delAdd() {
+        Toast.makeText(context, "正在删除", Toast.LENGTH_SHORT).show();
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", MainActivity.useruid);
         map.put("id", addsid);
@@ -228,6 +261,7 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "----DelAdds_URL---" + result);
+
 
             }
 
@@ -243,9 +277,12 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
 
             @Override
             public void onFinished() {
-                finish();
+
             }
         });
+
+        SystemClock.sleep(1000);
+        finish();
     }
 
 }

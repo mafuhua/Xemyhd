@@ -35,7 +35,7 @@ public class YifuKuanPager extends BasePager {
     private ListView mLvOftenGet;
     private MyAdapter myAdapter;
     private List<OrderListBean.DataBean.ProBean> orderList = new ArrayList<>();
-    private List<OrderListBean.DataBean> orderListBeanData;
+    private List<OrderListBean.DataBean> orderListBeanData = new ArrayList<>();
     private String[] stringArray;
     private Context context;
     private WoOftenGetHolder woOftenGetHolder;
@@ -64,6 +64,7 @@ public class YifuKuanPager extends BasePager {
             public void onSuccess(String result) {
                 Log.d("mafuhua", "------OrderList_URL-----" + result);
                 orderList.clear();
+                orderListBeanData.clear();
                 Gson gson = new Gson();
                 OrderListBean orderListBean = gson.fromJson(result, OrderListBean.class);
                 orderListBeanData = orderListBean.getData();

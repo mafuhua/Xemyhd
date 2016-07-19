@@ -58,7 +58,12 @@ public class AddressManagerActivity extends AppCompatActivity {
         mTvTitleDec.setText("收货地址管理");
         mTvTitleDec.setTextColor(Color.WHITE);
         mLvAddressManager = (ListView) findViewById(R.id.lv_address_manager);
-
+        mIvBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         mBtnAddressAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +153,14 @@ public class AddressManagerActivity extends AppCompatActivity {
         super.onResume();
         getAdds();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        addressBeanData.clear();
+        myAdapter.notifyDataSetChanged();
+    }
+
     public void getAdds() {
         XUtils.xUtilsGet(ContactURL.GetAdds_URL + MainActivity.useruid, new Callback.CommonCallback<String>() {
             @Override

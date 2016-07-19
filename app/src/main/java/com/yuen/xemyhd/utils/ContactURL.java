@@ -84,7 +84,7 @@ public class ContactURL {
     /**
      * 搜索互联世界商品
      */
-    public static String SearchWorld_URL = BASE_URL + "pro_product/pro_name/";
+    public static String SearchWorld_URL = BASE_URL + "pro_product/";
     /**
      * 购物车
      */
@@ -122,4 +122,6 @@ public class ContactURL {
      */
     public static String XIU_CAR_ORDER_URL = BASE_URL + "xiu_car_order/";
     public static String CHANGMAI_URL= BASE_URL + "changmai/user_id//";
+    public static String XIUGAI_JIA_NUM_URL= BASE_URL + "xiugai_jia_num";
+    public static String XIUGAI_JIAN_NUM_URL= BASE_URL + "xiugai_jian_num";
 }

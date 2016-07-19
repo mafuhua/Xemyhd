@@ -80,6 +80,7 @@
             android:id="@+id/tv_address_dec_telphone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="phone"
             android:background="@null"
             android:padding="5dp"/>
 

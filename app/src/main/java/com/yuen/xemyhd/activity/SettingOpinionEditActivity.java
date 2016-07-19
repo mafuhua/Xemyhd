@@ -27,6 +27,7 @@ public class SettingOpinionEditActivity extends BaseActivity {
     private ImageView mIvBtnBack;
     private TextView mTvTitleDec;
     private ImageView mIvBtnAdd;
+    private ImageView iv_btn_setting_opnion_tijiao;
 
     private void assignViews() {
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
@@ -50,6 +51,7 @@ public class SettingOpinionEditActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_opinion_edit);
+        initView();
         SysExitUtil.activityList.add(this);
         toNext();
         assignViews();
@@ -63,5 +65,15 @@ public class SettingOpinionEditActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void initView() {
+        iv_btn_setting_opnion_tijiao = (ImageView) findViewById(R.id.iv_btn_setting_opnion_tijiao);
+        iv_btn_setting_opnion_tijiao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

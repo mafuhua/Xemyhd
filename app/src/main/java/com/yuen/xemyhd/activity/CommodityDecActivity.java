@@ -287,7 +287,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 Log.d("mafuhua", "------AddGouWuChe_URL---------" + result);
                 Gson gson = new Gson();
                 BaseBean baseBean = gson.fromJson(result, BaseBean.class);
-                Toast.makeText(CommodityDecActivity.this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CommodityDecActivity.this, "加入购物车"+baseBean.getMsg(), Toast.LENGTH_SHORT).show();
 
             }
 

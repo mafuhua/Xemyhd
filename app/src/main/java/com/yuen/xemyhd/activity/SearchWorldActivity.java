@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
@@ -26,6 +27,7 @@ import com.yuen.xemyhd.utils.XUtils;
 import org.xutils.common.Callback;
 import org.xutils.x;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class SearchWorldActivity extends AppCompatActivity implements View.OnClickListener{
@@ -72,15 +74,24 @@ public class SearchWorldActivity extends AppCompatActivity implements View.OnCli
                 if (string.isEmpty()) {
                     break;
                 }
-                XUtils.xUtilsGet(ContactURL.SearchWorld_URL+ string, new Callback.CommonCallback<String>() {
+                        Log.d("mafuhua", "------SearchWorld_URL------" + ContactURL.SearchWorld_URL+ string);
+                HashMap<String, String> map = new HashMap<>();
+                map.put("pro_name",string);
+                XUtils.xUtilsPost(ContactURL.SearchWorld_URL,map, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
                         Log.d("mafuhua", "------SearchWorld_URL------" + result);
                         Gson gson = new Gson();
                         SearchWorldBean searchWorldBean = gson.fromJson(result, SearchWorldBean.class);
+                        if (searchWorldBean.getCode().equals("1")) {
+                            Toast.makeText(context, "没有搜索到该商品", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         searchWorldBeanData = searchWorldBean.getData();
+
                         mGvSearch.setAdapter(new MyAdapter(searchWorldBeanData));
                     }
+
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {

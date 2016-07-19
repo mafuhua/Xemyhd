@@ -334,7 +334,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void addFriend(String weight) {
         HashMap<String, String> map = new HashMap<>();
         map.put("tel", weight);
-        map.put("user_id", "1");
+        map.put("user_id", MainActivity.useruid);
         XUtils.xUtilsPost(ContactURL.AddFriend_URL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -348,8 +348,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     BaseBean baseBean = gson.fromJson(result, BaseBean.class);
                     Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
                 }
-
-
             }
 
             @Override
