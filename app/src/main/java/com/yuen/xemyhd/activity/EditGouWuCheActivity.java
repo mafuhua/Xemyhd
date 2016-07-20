@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.xemyhd.R;
@@ -20,6 +21,7 @@ import com.yuen.xemyhd.base.BaseHolder;
 import com.yuen.xemyhd.base.DefaultAdapter;
 import com.yuen.xemyhd.bean.TestGouwuche;
 import com.yuen.xemyhd.utils.ContactURL;
+import com.yuen.xemyhd.utils.MyUtils;
 import com.yuen.xemyhd.utils.SysExitUtil;
 import com.yuen.xemyhd.utils.XUtils;
 
@@ -189,7 +191,7 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
 
                 break;
             case R.id.cb_gouwuche_all:
-                checkalltype = !checkalltype;
+               /* checkalltype = !checkalltype;
                 mCbGouwuche.setChecked(checkalltype);
                 totalprice = 0;
                 Log.d("mafuhua", "checkalltype========:" + checkalltype);
@@ -218,6 +220,42 @@ public class EditGouWuCheActivity extends AppCompatActivity implements View.OnCl
                     if (myAdapter != null) {
                         myAdapter.notifyDataSetChanged();
                     }
+                }*/
+
+                checkalltype = !checkalltype;
+                mCbGouwuche.setChecked(checkalltype);
+                totalprice = 0;
+                Log.d("mafuhua", "checkalltype========:" + checkalltype);
+                if (checkalltype) {
+                    if (dataBeanList == null) {
+                        MyUtils.toastShow(context, "购物车没有商品", Toast.LENGTH_SHORT);
+                    } else {
+                        for (int i = 0; i < dataBeanList.size(); i++) {
+                            dataBeanList.get(i).setCheckTitle(checkalltype);
+                            Log.d("mafuhua", "全选" + dataBeanList.get(i).getShop_title() + checkalltype);
+                            for (int j = 0; j < dataBeanList.get(i).getPro().size(); j++) {
+                                dataBeanList.get(i).getPro().get(j).setCheckitem(checkalltype);
+                            }
+                        }
+
+                    }
+
+                } else {
+                    if (dataBeanList == null) {
+                        MyUtils.toastShow(context, "购物车没有商品", Toast.LENGTH_SHORT);
+                    } else {
+                        for (int i = 0; i < dataBeanList.size(); i++) {
+
+                            dataBeanList.get(i).setCheckTitle(checkalltype);
+                        }
+                        for (int i = 0; i < myproBeanList.size(); i++) {
+                            myproBeanList.get(i).setCheckitem(checkalltype);
+                            Log.d("mafuhua", "未全选" + myproBeanList.get(i).getPro_name() + myproBeanList.get(i).isCheckitem());
+                        }
+                    }
+                }
+                if (myAdapter != null) {
+                    myAdapter.notifyDataSetChanged();
                 }
                 break;
 
