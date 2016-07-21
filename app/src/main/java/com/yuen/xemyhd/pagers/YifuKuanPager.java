@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +28,7 @@ import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -39,6 +43,9 @@ public class YifuKuanPager extends BasePager {
     private String[] stringArray;
     private Context context;
     private WoOftenGetHolder woOftenGetHolder;
+    private NewAdapter newAdapter;
+    private ProgressBar progressBar;
+
     public YifuKuanPager(Context context) {
         super(context);
         this.context = context;
@@ -48,7 +55,12 @@ public class YifuKuanPager extends BasePager {
     public View initView() {
         View view = View.inflate(context, R.layout.pager_order_list, null);
         mLvOftenGet = (ListView) view.findViewById(R.id.lv_often_get);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         Log.d("mafuhua", "代付款:");
+        myAdapter = new MyAdapter(orderList);
+        newAdapter = new NewAdapter();
+        mLvOftenGet.setAdapter(newAdapter);
         return view;
     }
 
@@ -64,6 +76,7 @@ public class YifuKuanPager extends BasePager {
             public void onSuccess(String result) {
                 Log.d("mafuhua", "------OrderList_URL-----" + result);
                 orderList.clear();
+                typeposList.clear();
                 orderListBeanData.clear();
                 Gson gson = new Gson();
                 OrderListBean orderListBean = gson.fromJson(result, OrderListBean.class);
@@ -81,8 +94,8 @@ public class YifuKuanPager extends BasePager {
                     }
 
                 }
-                myAdapter = new MyAdapter(orderList);
-                mLvOftenGet.setAdapter(myAdapter);
+                progressBar.setVisibility(View.GONE);
+                newAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -97,7 +110,37 @@ public class YifuKuanPager extends BasePager {
 
             @Override
             public void onFinished() {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
 
+    public void shouhuo(String order_id) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("order_id", order_id);
+        XUtils.xUtilsPost(ContactURL.DEL_ORDER_URL, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                orderList.clear();
+                typeposList.clear();
+                orderListBeanData.clear();
+                newAdapter.notifyDataSetChanged();
+                getOrderList();
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -115,6 +158,119 @@ public class YifuKuanPager extends BasePager {
         }
     }
 
+    class NewAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return orderList == null ? 0 : orderList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = View.inflate(context, R.layout.layout_often_get_item, null);
+                viewHolder = new ViewHolder(convertView);
+                convertView.setTag(viewHolder);
+            }else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            viewHolder.tvoftenlistshopname.setText(orderList.get(position).getName());
+            viewHolder.tvoftenlistprice.setText(orderList.get(position).getPrice());
+            viewHolder.tvoftenlistcount.setText("X" + orderList.get(position).getNum());
+            x.image().bind(viewHolder.ivordershopimage, orderList.get(position).getImage());
+            Log.d("mafuhua", "typeposListoo:" + typeposList);
+            Log.d("mafuhua", "typeposList:" + position);
+            Log.d("mafuhua", "orderListBeanData:" + orderListBeanData.size());
+            if (typeposList.contains(position)) {
+
+                int i = typeposList.indexOf(position);
+                 OrderListBean.DataBean dataBean = orderListBeanData.get(i);
+                final String order_id = dataBean.getOrder_id();
+                String type = dataBean.getType();
+                if (type.equals("1")) {
+                    viewHolder.tvordertype.setText(stringArray[0]);
+                    viewHolder.tvorderdel.setText("删除");
+                    viewHolder.tvordertype.setTextColor(Color.parseColor("#FEBB24"));
+                    viewHolder.tvorderdel.setTextColor(Color.parseColor("#FEBB24"));
+                    viewHolder.tvorderdel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            progressBar.setVisibility(View.VISIBLE);
+                            shouhuo(order_id);
+                        }
+                    });
+                    viewHolder.tvordertype.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, OrderActivity.class);
+                            intent.putExtra("orderid", order_id);
+                            context.startActivity(intent);
+                        }
+                    });
+                } else if (type.equals("2")) {
+                    viewHolder.tvordertype.setText(stringArray[1]);
+                } else {
+                    viewHolder.tvordertype.setText(stringArray[2]);
+                }
+                viewHolder.tvorderlistype.setText(dataBean.getShop_title());
+                viewHolder.rltitile.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.rltitile.setVisibility(View.GONE);
+            }
+            viewHolder.ivordershopimage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, CommodityDecActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    intent.putExtra("id", orderList.get(position).getPro_id());
+                    context.startActivity(intent);
+                }
+            });
+
+            return convertView;
+        }
+
+
+    }
+    public  class ViewHolder {
+        public View rootView;
+        public View tt;
+        public ImageView ivoftenimgtype;
+        public TextView tvorderlistype;
+        public TextView tvordertype;
+        public TextView tvorderdel;
+        public RelativeLayout rltitile;
+        public ImageView ivordershopimage;
+        public TextView tvoftenlistshopname;
+        public TextView tvoftenlistprice;
+        public TextView tvoftenlistcount;
+
+        public ViewHolder(View rootView) {
+            this.rootView = rootView;
+            this.tt = (View) rootView.findViewById(R.id.tt);
+            this.ivoftenimgtype = (ImageView) rootView.findViewById(R.id.iv_often_img_type);
+            this.tvorderlistype = (TextView) rootView.findViewById(R.id.tv_order_list_type);
+            this.tvordertype = (TextView) rootView.findViewById(R.id.tv_order_type);
+            this.tvorderdel = (TextView) rootView.findViewById(R.id.tv_order_del);
+            this.rltitile = (RelativeLayout) rootView.findViewById(R.id.rl_titile);
+            this.ivordershopimage = (ImageView) rootView.findViewById(R.id.iv_order_shop_image);
+            this.tvoftenlistshopname = (TextView) rootView.findViewById(R.id.tv_often_list_shopname);
+            this.tvoftenlistprice = (TextView) rootView.findViewById(R.id.tv_often_list_price);
+            this.tvoftenlistcount = (TextView) rootView.findViewById(R.id.tv_often_list_count);
+        }
+
+    }
     class WoOftenGetHolder extends BaseHolder<OrderListBean.DataBean.ProBean> {
         public ImageView ivoftenimgtype;
         public TextView tvorderlisttype;
@@ -124,6 +280,7 @@ public class YifuKuanPager extends BasePager {
         public TextView tv_order_type;
         public TextView tv_often_list_count;
         private RelativeLayout rl_titile;
+        private TextView tv_order_del;
 
         @Override
         public View initView() {
@@ -132,6 +289,7 @@ public class YifuKuanPager extends BasePager {
             rl_titile = (RelativeLayout) root.findViewById(R.id.rl_titile);
             tvorderlisttype = (TextView) root.findViewById(R.id.tv_order_list_type);
             tv_order_type = (TextView) root.findViewById(R.id.tv_order_type);
+            tv_order_del = (TextView) root.findViewById(R.id.tv_order_del);
             ivordershopimage = (ImageView) root.findViewById(R.id.iv_order_shop_image);
             tvoftenlistshopname = (TextView) root.findViewById(R.id.tv_often_list_shopname);
             tvoftenlistprice = (TextView) root.findViewById(R.id.tv_often_list_price);
@@ -150,16 +308,26 @@ public class YifuKuanPager extends BasePager {
             if (typeposList.contains(position)) {
 
                 int i = typeposList.indexOf(position);
-                final OrderListBean.DataBean dataBean = orderListBeanData.get(i);
+                 OrderListBean.DataBean dataBean = orderListBeanData.get(i);
+                 final String order_id = dataBean.getOrder_id();
                 String type = dataBean.getType();
                 if (type.equals("1")) {
                     tv_order_type.setText(stringArray[0]);
+                    tv_order_del.setText("删除");
                     tv_order_type.setTextColor(Color.parseColor("#FEBB24"));
+                    tv_order_del.setTextColor(Color.parseColor("#FEBB24"));
+                    tv_order_del.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            progressBar.setVisibility(View.VISIBLE);
+                            shouhuo(order_id);
+                        }
+                    });
                     tv_order_type.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(context, OrderActivity.class);
-                            intent.putExtra("orderid",dataBean.getOrder_id());
+                            intent.putExtra("orderid", order_id);
                             context.startActivity(intent);
                         }
                     });
@@ -185,5 +353,4 @@ public class YifuKuanPager extends BasePager {
 
         }
     }
-
 }

@@ -2,10 +2,12 @@ package com.yuen.xemyhd.pagers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +25,7 @@ import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -34,6 +37,7 @@ public class YiFaHuoPager extends BasePager {
     private List<OrderListBean.DataBean> orderListBeanData= new ArrayList<>();
     private String[] stringArray;
     private Context context;
+    private ProgressBar progressBar;
 
     public YiFaHuoPager(Context context) {
         super(context);
@@ -44,7 +48,11 @@ public class YiFaHuoPager extends BasePager {
     public View initView() {
         View view = View.inflate(context, R.layout.pager_order_list, null);
         mLvOftenGet = (ListView) view.findViewById(R.id.lv_often_get);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         Log.d("mafuhua", "待收货:" );
+        myAdapter = new MyAdapter(orderList);
+        mLvOftenGet.setAdapter(myAdapter);
         return view;
     }
     private static int typepos = 0;
@@ -56,12 +64,14 @@ public class YiFaHuoPager extends BasePager {
     }
 
     private void getOrderList() {
+        Log.d("mafuhua", "------OrderList_URL-----" + ContactURL.OrderList_URL + MainActivity.useruid+"/type/3");
         XUtils.xUtilsGet(ContactURL.OrderList_URL + MainActivity.useruid+"/type/3", new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "------OrderList_URL-----" + result);
 
                 orderList.clear();
+                typeposList.clear();
                 orderListBeanData.clear();
                 Gson gson = new Gson();
                 OrderListBean orderListBean = gson.fromJson(result, OrderListBean.class);
@@ -79,8 +89,8 @@ public class YiFaHuoPager extends BasePager {
                     }
 
                 }
-                myAdapter = new MyAdapter(orderList);
-                mLvOftenGet.setAdapter(myAdapter);
+                progressBar.setVisibility(View.GONE);
+                myAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -95,7 +105,7 @@ public class YiFaHuoPager extends BasePager {
 
             @Override
             public void onFinished() {
-
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -143,6 +153,7 @@ public class YiFaHuoPager extends BasePager {
             x.image().bind(ivordershopimage, data.getImage());
             Log.d("mafuhua", "typeposListoo:" + typeposList);
             Log.d("mafuhua", "typeposList:" + position);
+            Log.d("mafuhua", "orderListBeanData:" + orderListBeanData.size());
             if (typeposList.contains(position)) {
 
                 int i = typeposList.indexOf(position);
@@ -153,13 +164,22 @@ public class YiFaHuoPager extends BasePager {
                 }else if (type.equals("2")){
                     tv_order_type.setText(stringArray[1]);
                 }else{
-                    tv_order_type.setText(stringArray[2]);
+                    tv_order_type.setTextColor(Color.parseColor("#FEBB24"));
+                    tv_order_type.setText("收货");
                 }
                 tvorderlisttype.setText(dataBean.getShop_title());
                 rl_titile.setVisibility(View.VISIBLE);
             } else {
                 rl_titile.setVisibility(View.GONE);
             }
+
+            tv_order_type.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    shouhuo(data.getOrder_id());
+                }
+            });
             ivordershopimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -171,6 +191,34 @@ public class YiFaHuoPager extends BasePager {
             });
         }
     }
+    public void shouhuo(String order_id){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("order_id",order_id);
+        XUtils.xUtilsPost(ContactURL.SHOUHUO_URL, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                orderList.clear();
+                typeposList.clear();
+                orderListBeanData.clear();
+                myAdapter.notifyDataSetChanged();
+                getOrderList();
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
 
 }

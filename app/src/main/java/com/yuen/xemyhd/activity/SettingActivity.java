@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.base.BaseActivity;
@@ -42,6 +43,7 @@ public class SettingActivity extends BaseActivity {
     private Context context;
     private MyAdapter myAdapter;
     private SharedPreferences sharedPreferences;
+    private ProgressDialog mypDialog;
 
     private void assignViews() {
         context = this;
@@ -75,7 +77,10 @@ public class SettingActivity extends BaseActivity {
                         context.startActivity(intent);
                         break;
                     case 1:
-                        checkUpdateAPK();
+                       // checkUpdateAPK();
+                        //SystemClock.sleep(1000);
+                        Toast.makeText(context, "已经是最新版本了", Toast.LENGTH_SHORT).show();
+                      //  mypDialog.dismiss();
                         break;
                     case 2:
                         clearDialog();
@@ -100,7 +105,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void checkUpdateAPK() {
-        ProgressDialog mypDialog = new ProgressDialog(context);
+        mypDialog = new ProgressDialog(context);
         //实例化
         mypDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         //设置进度条风格，风格为圆形，旋转的
@@ -113,6 +118,7 @@ public class SettingActivity extends BaseActivity {
         //设置ProgressDialog 是否可以按退回按键取消
         mypDialog.show();
         //让ProgressDialog显示
+
 
     }
 
@@ -143,6 +149,7 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                Toast.makeText(context, "清除成功", Toast.LENGTH_SHORT).show();
 
             }
         });

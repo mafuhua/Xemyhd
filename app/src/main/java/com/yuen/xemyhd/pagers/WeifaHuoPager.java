@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class WeifaHuoPager extends BasePager {
     private List<OrderListBean.DataBean> orderListBeanData = new ArrayList<>();
     private String[] stringArray;
     private Context context;
+    private ProgressBar progressBar;
 
     public WeifaHuoPager(Context context) {
         super(context);
@@ -45,6 +47,8 @@ public class WeifaHuoPager extends BasePager {
     public View initView() {
         View view = View.inflate(context, R.layout.pager_order_list, null);
         mLvOftenGet = (ListView) view.findViewById(R.id.lv_often_get);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         Log.d("mafuhua", "代发货:" );
         return view;
     }
@@ -57,11 +61,13 @@ public class WeifaHuoPager extends BasePager {
     }
 
     private void getOrderList() {
+        Log.d("mafuhua", "------OrderList_URL-----" + ContactURL.OrderList_URL + MainActivity.useruid+"/type/2");
         XUtils.xUtilsGet(ContactURL.OrderList_URL + MainActivity.useruid+"/type/2", new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "------OrderList_URL-----" + result);
                 orderList.clear();
+                typeposList.clear();
                 orderListBeanData.clear();
                 Gson gson = new Gson();
                 OrderListBean orderListBean = gson.fromJson(result, OrderListBean.class);
@@ -79,6 +85,7 @@ public class WeifaHuoPager extends BasePager {
                     }
 
                 }
+                progressBar.setVisibility(View.GONE);
                 myAdapter = new MyAdapter(orderList);
                 mLvOftenGet.setAdapter(myAdapter);
             }
@@ -95,7 +102,7 @@ public class WeifaHuoPager extends BasePager {
 
             @Override
             public void onFinished() {
-
+                progressBar.setVisibility(View.GONE);
             }
         });
     }

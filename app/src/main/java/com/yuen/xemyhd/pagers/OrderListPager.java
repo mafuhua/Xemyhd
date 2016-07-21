@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,6 +38,8 @@ public class OrderListPager extends BasePager {
     private List<OrderListBean.DataBean> orderListBeanData= new ArrayList<>();
     private String[] stringArray;
     private Context context;
+    private NewAdapter newAdapter;
+    private ProgressBar progressBar;
 
     public OrderListPager(Context context) {
         super(context);
@@ -46,7 +51,11 @@ public class OrderListPager extends BasePager {
         View view = View.inflate(context, R.layout.pager_order_list, null);
         Log.d("mafuhua", "全部:");
         mLvOftenGet = (ListView) view.findViewById(R.id.lv_often_get);
-
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+        myAdapter = new MyAdapter(orderList);
+        newAdapter = new NewAdapter();
+        mLvOftenGet.setAdapter(newAdapter);
         return view;
     }
 
@@ -57,12 +66,14 @@ public class OrderListPager extends BasePager {
     }
 
     private void getOrderList() {
+      //  Log.d("mafuhua", "------OrderList_URL-----" + ContactURL.OrderList_URL + MainActivity.useruid+"/type/2");
         XUtils.xUtilsGet(ContactURL.OrderList_URL + MainActivity.useruid, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "------OrderList_URL-----" + result);
                 orderList.clear();
                 orderListBeanData.clear();
+                typeposList.clear();
                 Gson gson = new Gson();
                 OrderListBean orderListBean = gson.fromJson(result, OrderListBean.class);
                 orderListBeanData = orderListBean.getData();
@@ -79,8 +90,8 @@ public class OrderListPager extends BasePager {
                     }
 
                 }
-                myAdapter = new MyAdapter(orderList);
-                mLvOftenGet.setAdapter(myAdapter);
+                progressBar.setVisibility(View.GONE);
+                newAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -95,7 +106,7 @@ public class OrderListPager extends BasePager {
 
             @Override
             public void onFinished() {
-
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -109,6 +120,105 @@ public class OrderListPager extends BasePager {
         public BaseHolder getHolder() {
             return new WoOftenGetHolder();
         }
+    }
+    class  NewAdapter extends BaseAdapter{
+
+        @Override
+        public int getCount() {
+            return orderList==null?0:orderList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = View.inflate(context, R.layout.layout_often_get_item, null);
+                viewHolder = new ViewHolder(convertView);
+                convertView.setTag(viewHolder);
+            }else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+           viewHolder.tvoftenlistshopname.setText(orderList.get(position).getName());
+            viewHolder.tvoftenlistprice.setText(orderList.get(position).getPrice());
+            viewHolder.tvoftenlistcount.setText("X" + orderList.get(position).getNum());
+            x.image().bind(viewHolder.ivordershopimage, orderList.get(position).getImage());
+            Log.d("mafuhua", "typeposListoo:" + typeposList);
+            Log.d("mafuhua", "typeposList:" + position);
+            Log.d("mafuhua", "orderListBeanData:" + orderListBeanData.size());
+            if (typeposList.contains(position)) {
+
+                int i = typeposList.indexOf(position);
+                final OrderListBean.DataBean dataBean = orderListBeanData.get(i);
+                String type = dataBean.getType();
+                if (type.equals("1")) {
+                    viewHolder.tvordertype.setText(stringArray[0]);
+
+                } else if (type.equals("2")) {
+                    viewHolder.tvordertype.setText(stringArray[1]);
+                } else if (type.equals("3")){
+                    viewHolder.tvordertype.setText(stringArray[2]);
+                } else {
+                    viewHolder.tvordertype.setText(stringArray[3]);
+                }
+
+                viewHolder.tvorderlistype.setText(dataBean.getShop_title());
+                viewHolder.rltitile.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.rltitile.setVisibility(View.GONE);
+            }
+            viewHolder.ivordershopimage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, CommodityDecActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    intent.putExtra("id", orderList.get(position).getPro_id());
+
+                    Log.d("mafuhua", "commodityi----d" + orderList.get(position).getPro_id());
+                    context.startActivity(intent);
+                }
+            });
+
+
+            return convertView;
+        }
+    }
+    public  class ViewHolder {
+        public View rootView;
+        public View tt;
+        public ImageView ivoftenimgtype;
+        public TextView tvorderlistype;
+        public TextView tvordertype;
+        public TextView tvorderdel;
+        public RelativeLayout rltitile;
+        public ImageView ivordershopimage;
+        public TextView tvoftenlistshopname;
+        public TextView tvoftenlistprice;
+        public TextView tvoftenlistcount;
+
+        public ViewHolder(View rootView) {
+            this.rootView = rootView;
+            this.tt = (View) rootView.findViewById(R.id.tt);
+            this.ivoftenimgtype = (ImageView) rootView.findViewById(R.id.iv_often_img_type);
+            this.tvorderlistype = (TextView) rootView.findViewById(R.id.tv_order_list_type);
+            this.tvordertype = (TextView) rootView.findViewById(R.id.tv_order_type);
+            this.tvorderdel = (TextView) rootView.findViewById(R.id.tv_order_del);
+            this.rltitile = (RelativeLayout) rootView.findViewById(R.id.rl_titile);
+            this.ivordershopimage = (ImageView) rootView.findViewById(R.id.iv_order_shop_image);
+            this.tvoftenlistshopname = (TextView) rootView.findViewById(R.id.tv_often_list_shopname);
+            this.tvoftenlistprice = (TextView) rootView.findViewById(R.id.tv_often_list_price);
+            this.tvoftenlistcount = (TextView) rootView.findViewById(R.id.tv_often_list_count);
+        }
+
     }
 
     class WoOftenGetHolder extends BaseHolder<OrderListBean.DataBean.ProBean> {

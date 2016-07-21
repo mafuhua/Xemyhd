@@ -2,6 +2,7 @@ package com.yuen.xemyhd.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.base.BaseActivity;
@@ -72,6 +74,8 @@ public class SettingOpinionEditActivity extends BaseActivity {
         iv_btn_setting_opnion_tijiao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SystemClock.sleep(1000);
+                Toast.makeText(SettingOpinionEditActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

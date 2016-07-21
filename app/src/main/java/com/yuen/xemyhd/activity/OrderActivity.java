@@ -97,7 +97,12 @@ public class OrderActivity extends AppCompatActivity {
         tv_order_list_peopleaddress = (TextView) footview.findViewById(R.id.tv_order_list_peopleaddress);
         btn_send = (Button) footview.findViewById(R.id.btn_send);
         lv_order.addFooterView(footview);
-
+        iv_btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 

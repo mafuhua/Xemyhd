@@ -10,7 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
         android:textSize="22sp"/>
 
     <ScrollView
@@ -21,9 +20,9 @@
             android:id="@+id/tv_shop_notice_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:padding="10dp"
-            android:textSize="22sp"/>
+            android:text="    江苏小而美便利店有限公司成立于2016年1月6日，总部设立在江苏省昆山市，注册资金为1200万元（实际到账），全国设立四大运营中心，负责全国业务的开展，（成都分公司、合肥分公司、山东分公司、北京分公司）；公司以“服务于民、便利于民”为主要方针，为进一步扩宽消费者市场开辟新的合作伙伴。公司计划以“特约授权”方式开展全国市场业务。便利店的主力商品为食品、日用品、饮料、乳制品、快食等。本公司将充分利用网络优势，推行线上线下的经营模式，商品采取手机网上预购与到店实物购物方式相结合，使消费者更放心，安心的购物而提供"
+            android:textSize="16sp"/>
 
 
     </ScrollView>

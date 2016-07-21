@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +16,6 @@ import android.widget.TextView;
 import com.gigamole.library.navigationtabstrip.NavigationTabStrip;
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.pagers.BasePager;
-import com.yuen.xemyhd.pagers.LazyViewPager;
 import com.yuen.xemyhd.pagers.OrderListPager;
 import com.yuen.xemyhd.pagers.WeifaHuoPager;
 import com.yuen.xemyhd.pagers.YiFaHuoPager;
@@ -34,7 +34,7 @@ public class OrderListActivity extends AppCompatActivity implements View.OnClick
     private NavigationTabStrip mTopNavigationTabStrip;
     private Context context;
 
-    private LazyViewPager viewpager;
+    private ViewPager viewpager;
     private List<BasePager> pagers = new ArrayList<BasePager>();
    // private FragAdapter adapter;
 
@@ -43,7 +43,7 @@ public class OrderListActivity extends AppCompatActivity implements View.OnClick
         mTopNavigationTabStrip = (NavigationTabStrip) findViewById(R.id.nts_top);
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
         mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
-        viewpager = (LazyViewPager) findViewById(R.id.viewpager);
+        viewpager = (ViewPager) findViewById(R.id.viewpager);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
         mTvTitleDec.setText("我的订单");
@@ -59,7 +59,7 @@ public class OrderListActivity extends AppCompatActivity implements View.OnClick
 
         viewpager.setAdapter(new MyViewPagerAdapter());
         mTopNavigationTabStrip.setTabIndex(0, true);
-        viewpager.setOnPageChangeListener(new LazyViewPager.SimpleOnPageChangeListener() {
+        viewpager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);

@@ -124,4 +124,6 @@ public class ContactURL {
     public static String CHANGMAI_URL= BASE_URL + "changmai/user_id//";
     public static String XIUGAI_JIA_NUM_URL= BASE_URL + "xiugai_jia_num";
     public static String XIUGAI_JIAN_NUM_URL= BASE_URL + "xiugai_jian_num";
+    public static String DEL_ORDER_URL= BASE_URL + "del_order";
+    public static String SHOUHUO_URL= BASE_URL + "shouhuo";
 }

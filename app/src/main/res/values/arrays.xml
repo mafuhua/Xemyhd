@@ -11,6 +11,7 @@
         <item>待付款</item>
         <item>待发货</item>
         <item>待收货</item>
+        <item>已收货</item>
     </string-array>
 
 </resources>

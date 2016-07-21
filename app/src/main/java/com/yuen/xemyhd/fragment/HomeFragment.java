@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private Button mBtnHomeAddIcon;
     private MyPagerAdapter myPagerAdapter;
     private Context context;
+    private boolean dioashow = true;
     /**
      * 页面改变时，上一个页面的下标
      */
@@ -80,6 +82,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         ;
     };
+    private AlertDialog dialog;
 
     private void assignViews(View view) {
         context = getActivity();
@@ -261,7 +264,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         if (baseBean.getCode().equals("1")) {
                             Toast.makeText(context, "不能一起购", Toast.LENGTH_SHORT).show();
                         } else {
-                            settingShopManger();
+                            Log.d("HomeFragment", "dioashow:" + dioashow);
+                            if (dioashow) {
+                                dioashow = false;
+                                settingShopManger();
+                            }
                         }
 
                     }
@@ -315,8 +322,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String weight = editText.getText().toString().trim();
-                addFriend(weight);
-
+                if (!TextUtils.isEmpty(weight)) {
+                    addFriend(weight);
+                }
+                dioashow = true;
             }
 
 
@@ -324,10 +333,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                dioashow = true;
             }
         });
-        AlertDialog dialog = builder.create();
+
+        dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 

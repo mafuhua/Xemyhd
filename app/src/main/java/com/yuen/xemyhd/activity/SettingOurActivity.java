@@ -40,7 +40,7 @@ public class SettingOurActivity extends BaseActivity {
         mTvShopNoticeContent = (TextView) findViewById(R.id.tv_shop_notice_content);
         mTvTitleDec.setText(type);
         mTvTitleDec.setTextColor(Color.WHITE);
-        mTvShopNoticeContent.setText(type);
+      //  mTvShopNoticeContent.setText(type);
         mIvBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

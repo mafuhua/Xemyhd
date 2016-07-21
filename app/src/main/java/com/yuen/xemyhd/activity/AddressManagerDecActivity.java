@@ -112,6 +112,7 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_address_delete:
+                Toast.makeText(context, "正在删除", Toast.LENGTH_SHORT).show();
                 delAdd();
 
                 break;
@@ -252,7 +253,7 @@ public class AddressManagerDecActivity extends AppCompatActivity implements View
     }
 
     public void delAdd() {
-        Toast.makeText(context, "正在删除", Toast.LENGTH_SHORT).show();
+
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", MainActivity.useruid);
         map.put("id", addsid);
