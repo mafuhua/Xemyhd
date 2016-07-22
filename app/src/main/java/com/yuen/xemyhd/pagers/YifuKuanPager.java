@@ -1,8 +1,10 @@
 package com.yuen.xemyhd.pagers;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,6 +118,7 @@ public class YifuKuanPager extends BasePager {
     }
 
     public void shouhuo(String order_id) {
+        progressBar.setVisibility(View.VISIBLE);
         HashMap<String, String> map = new HashMap<>();
         map.put("order_id", order_id);
         XUtils.xUtilsPost(ContactURL.DEL_ORDER_URL, map, new Callback.CommonCallback<String>() {
@@ -199,15 +202,15 @@ public class YifuKuanPager extends BasePager {
                 final String order_id = dataBean.getOrder_id();
                 String type = dataBean.getType();
                 if (type.equals("1")) {
-                    viewHolder.tvordertype.setText(stringArray[0]);
+                    viewHolder.tvordertype.setText("付款");
                     viewHolder.tvorderdel.setText("删除");
                     viewHolder.tvordertype.setTextColor(Color.parseColor("#FEBB24"));
                     viewHolder.tvorderdel.setTextColor(Color.parseColor("#FEBB24"));
                     viewHolder.tvorderdel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            progressBar.setVisibility(View.VISIBLE);
-                            shouhuo(order_id);
+
+                            shanchu(order_id);
                         }
                     });
                     viewHolder.tvordertype.setOnClickListener(new View.OnClickListener() {
@@ -242,6 +245,26 @@ public class YifuKuanPager extends BasePager {
         }
 
 
+    }
+
+    protected void shanchu(final String order_id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("确认删除吗？");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                shouhuo(order_id);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+        builder.create().show();
     }
     public  class ViewHolder {
         public View rootView;

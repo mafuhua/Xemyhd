@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.yuen.xemyhd.R;
 import com.yuen.xemyhd.utils.Friend;
@@ -30,14 +34,20 @@ import io.rong.imlib.model.UserInfo;
 public class ConversationActivity extends ActionBarActivity implements RongIM.UserInfoProvider {
     private static final String TAG = ConversationActivity.class.getSimpleName();
     private List<Friend> userIdList;
+    private ImageView iv_btn_back;
+    private TextView tv_title_dec;
+    private ImageView iv_btn_add;
+    private TextView tv_tixian;
+    private LinearLayout layout_title_bar;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        //唯一有用的代码，加载一个 layout  
+        //唯一有用的代码，加载一个 layout
         setContentView(R.layout.conversation);
+        initView();
         userIdList = new ArrayList<Friend>();
         userIdList.add(new Friend(MainActivity.useruid, MainActivity.nickname, MainActivity.icon));
         userIdList.add(new Friend(HomeMarketActivity.shop_user_id, HomeMarketActivity.shop_title, HomeMarketActivity.img));
@@ -56,10 +66,10 @@ public class ConversationActivity extends ActionBarActivity implements RongIM.Us
         };
 
         RongIM.resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
-        //继承的是ActionBarActivity，直接调用 自带的 Actionbar，下面是Actionbar 的配置，如果不用可忽略…  
+        //继承的是ActionBarActivity，直接调用 自带的 Actionbar，下面是Actionbar 的配置，如果不用可忽略…
       /*  getSupportActionBar().setTitle(“聊天”);
         getSupportActionBar().setLogo(R.drawable.de_bar_logo);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);  
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);  */
     }
 
@@ -72,11 +82,27 @@ public class ConversationActivity extends ActionBarActivity implements RongIM.Us
     @Override
     public UserInfo getUserInfo(String userId) {
         for (Friend i : userIdList) {
+            if (i.getUserId() == null) break;
             if (i.getUserId().equals(userId)) {
                 Log.e("mafuhua", i.getPortraitUri());
                 return new UserInfo(i.getUserId(), i.getUserName(), Uri.parse(i.getPortraitUri()));
             }
         }
         return null;
+    }
+
+    private void initView() {
+        iv_btn_back = (ImageView) findViewById(R.id.iv_btn_back);
+        tv_title_dec = (TextView) findViewById(R.id.tv_title_dec);
+        iv_btn_add = (ImageView) findViewById(R.id.iv_btn_add);
+        layout_title_bar = (LinearLayout) findViewById(R.id.layout_title_bar);
+        iv_btn_add.setVisibility(View.GONE);
+        tv_title_dec.setText("小而美");
+        iv_btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 } 

@@ -150,7 +150,8 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent"/>
-        <activity android:name=".activity.ConversationActivity">
+        <activity android:name=".activity.ConversationActivity"
+                  android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 

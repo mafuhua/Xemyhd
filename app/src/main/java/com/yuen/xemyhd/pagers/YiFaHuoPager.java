@@ -1,8 +1,10 @@
 package com.yuen.xemyhd.pagers;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -177,7 +179,7 @@ public class YiFaHuoPager extends BasePager {
                 @Override
                 public void onClick(View v) {
                     progressBar.setVisibility(View.VISIBLE);
-                    shouhuo(data.getOrder_id());
+                    shanchu(data.getOrder_id());
                 }
             });
             ivordershopimage.setOnClickListener(new View.OnClickListener() {
@@ -190,6 +192,26 @@ public class YiFaHuoPager extends BasePager {
                 }
             });
         }
+    }
+
+    protected void shanchu(final String order_id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("确认收货吗？");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                shouhuo(order_id);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+        builder.create().show();
     }
     public void shouhuo(String order_id){
         HashMap<String, String> map = new HashMap<>();

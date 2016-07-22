@@ -213,7 +213,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.iv_btn_home_love:
                 if (mDatas.size() > 0) {
-                    String uids = "";
+                    if (onButtonClick != null) {
+                        onButtonClick.onClick(mIvBtnHomeLove);
+                    }
+                   /* String uids = "";
                     for (int i = 0; i < mDatas.size(); i++) {
                         uids = mDatas.get(i).getUid() + ",";
                     }
@@ -224,13 +227,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         @Override
                         public void onSuccess(String result) {
                             Log.d("HomeFragment", "---JPUSH_URL------" + result);
-                         /*   Gson gson = new Gson();
+                         *//*   Gson gson = new Gson();
                             BaseBean baseBean = gson.fromJson(result, BaseBean.class);
                             Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
-*/
-                            if (onButtonClick != null) {
-                                onButtonClick.onClick(mIvBtnHomeLove);
-                            }
+*//*
+
 
                         }
 
@@ -248,10 +249,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         public void onFinished() {
 
                         }
-                    });
+                    });*/
 
 
                     // getActivity().sendBroadcast(new Intent("com.yuen.xemyhd.fragment.HomeFragment"));
+                }else {
+                    Toast.makeText(context, "快去邀请好友一起购", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.btn_home_addicon:
@@ -355,6 +358,34 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     FriendBean friendBean = gson.fromJson(result, FriendBean.class);
                     FriendBean.DataBean data = friendBean.getData();
                     addData(data);
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("user_id", data.getUid());
+                    XUtils.xUtilsPost(ContactURL.JPUSH_URL, map, new Callback.CommonCallback<String>() {
+                        @Override
+                        public void onSuccess(String result) {
+                            Log.d("HomeFragment", "---JPUSH_URL------" + result);
+                         /*   Gson gson = new Gson();
+                            BaseBean baseBean = gson.fromJson(result, BaseBean.class);
+                            Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+*/
+                        }
+
+                        @Override
+                        public void onError(Throwable ex, boolean isOnCallback) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(CancelledException cex) {
+
+                        }
+
+                        @Override
+                        public void onFinished() {
+
+                        }
+                    });
+
                 } else {
                     BaseBean baseBean = gson.fromJson(result, BaseBean.class);
                     Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();

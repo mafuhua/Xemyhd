@@ -84,7 +84,7 @@ public class RigesterPswActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 DuanXinBean duanXinBean = gson.fromJson(result, DuanXinBean.class);
                 if (duanXinBean.code.equals("0")) {
-                    Toast.makeText(context, duanXinBean.msg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "注册成功，请重新登录", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RigesterPswActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
