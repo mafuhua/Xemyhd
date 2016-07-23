@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mTvTitleEdit.setTextColor(Color.WHITE);
                 switchContent(homeFragment, gouWuCheFragment, "购物车", View.VISIBLE);
                 GouWuCheFragment2.getdata();
-
+                mRgHome.check(R.id.rb_home_gouwuche);
             }
         });
 

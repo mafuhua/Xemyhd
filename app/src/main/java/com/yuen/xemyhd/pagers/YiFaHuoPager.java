@@ -178,7 +178,7 @@ public class YiFaHuoPager extends BasePager {
             tv_order_type.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    progressBar.setVisibility(View.VISIBLE);
+
                     shanchu(data.getOrder_id());
                 }
             });
@@ -201,6 +201,7 @@ public class YiFaHuoPager extends BasePager {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                progressBar.setVisibility(View.VISIBLE);
                 shouhuo(order_id);
             }
         });

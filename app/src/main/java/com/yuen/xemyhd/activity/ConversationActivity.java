@@ -84,7 +84,7 @@ public class ConversationActivity extends ActionBarActivity implements RongIM.Us
         for (Friend i : userIdList) {
             if (i.getUserId() == null) break;
             if (i.getUserId().equals(userId)) {
-                Log.e("mafuhua", i.getPortraitUri());
+                Log.e("mafuhua", i.getPortraitUri()+i.getUserName()+Uri.parse(i.getPortraitUri()));
                 return new UserInfo(i.getUserId(), i.getUserName(), Uri.parse(i.getPortraitUri()));
             }
         }
