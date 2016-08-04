@@ -6,3 +6,8 @@
 .DS_Store
 /build
 /captures
+app-release.apk
+src/keystore.jks
+src/main/java/com/yuen/xemyhd/fragment/GouWuCheFragment2.java
+src/main/res/drawable/tongcheng_all_bg01.9.png
+src/main/res/drawable/tuoyuan3x.png
